@@ -1,0 +1,48 @@
+body{
+    background-color: $backgroud;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    text-align: center;
+    display: grid; /* contexte sur le parent */
+    place-items: center; /* alignement vertical et horizontal des enfants dans leur cellule */
+    min-height: 100vh;
+    margin:0;
+    font-size: 20px !important;
+}
+.container {
+    background: $card-background;
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    color: $text-color;
+    width: fit-content;
+    padding: 30px;
+}
+h2{
+    font-size: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+p{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+a {
+    color: $primary-color;
+    text-decoration: none;
+    cursor: pointer;
+}
+.btn-outline {
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px !important;
+    padding: 10px 15px;
+    border: 3px solid $primary-color;
+    background-color: transparent;
+    color: $primary-color;
+    box-sizing: border-box;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.btn-outline:hover {
+    border: 3px solid $text-color;
+    color: $text-color;
+}

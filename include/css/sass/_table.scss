@@ -1,0 +1,108 @@
+.table {
+    border-spacing: 10px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-rows: 1fr;
+}
+.row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin:10px;
+    justify-content: space-between;
+}
+label{
+    text-align: right;
+}
+input{
+    margin-left: auto;
+	width: 85%; 
+    padding: 5px;
+    font-size: 20px !important;
+    font-family: 'Roboto', sans-serif;
+    background-color: #565656;
+    border-radius: 10px;
+    border-width: 0;
+    color: #C4C4C4;
+}
+.table-center {
+    border-spacing: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    
+    .row{
+        display: grid;
+        grid-template-columns: 1fr;
+        margin:10px;
+        justify-content: center;
+    }
+    input{
+        margin: auto;
+        width: 85%; 
+        padding: 5px;
+        font-size: 20px !important;
+        font-family: 'Roboto', sans-serif;
+        background-color: #565656;
+        border-radius: 30px;
+        border-width: 0;
+        color: #C4C4C4;
+    }
+}
+select {
+    margin-left: auto;
+	width: 88%; 
+	padding: 5px;
+	appearance: none;
+	overflow: hidden;
+	text-overflow: ellipsis;
+    background-color: #565656;
+    border-radius: 10px;
+    border-width: 0;
+    color: #C4C4C4;
+    font-size: 20px !important;
+    font-family: 'Roboto', sans-serif;
+}
+.select-container{
+	position: relative;
+
+    &::after { 
+        /* Le pointeur du select */
+        content: '';
+        position: absolute;
+        top: 50%; 
+        margin-top: -3px;
+        right: .75em;  
+        display: block; 
+        width: 0; height: 0;
+        border-color: transparent;
+        border-top-color: #C4C4C4; 
+        border-width: 6px;
+        border-style: solid;
+        pointer-events: none;
+    }
+}
+.number-wrapper {
+    position: relative;
+    &:after, &:before {
+        position: absolute;
+        right: 5px;
+        width: 1.6em;
+        height: 1.1em;
+        font-size: 10px;
+        pointer-events: none;
+        background-color: #565656;
+    }
+    &:after {
+        color: #C4C4C4;
+        content: "\25B2";
+        margin-top: 5px;
+        padding-bottom: 2px;
+    }
+    &:before {
+        color: #C4C4C4;
+        content: "\25BC";
+        margin-bottom: 5px;
+        bottom: 0;
+        padding-top: 2px;
+    }
+}
