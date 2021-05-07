@@ -10,7 +10,7 @@ class Page {
         }
         include("./include/connect.php");
         if(!$isConnect && $name != "connect"){
-            header("Location: ./connection.php");
+            header("Location: ./connection");
             die();
         }
 

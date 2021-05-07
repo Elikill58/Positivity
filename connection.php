@@ -43,14 +43,14 @@
         }
     }
 
-    $page->show_header();
+    // $page->show_header();
     ?>
     <br>
     <div class="container">
         <?php
         if($message != ""){
             ?>
-            <div class="negativity-index negativity-index-sub" <?php if($wrongResult) echo 'style="color: red;"'; ?>><h1><?php echo $message; ?></h1></div>
+            <div class="negativity-index negativity-index-sub" <?php if($wrongResult) echo 'style="color: red;"'; ?>><h2><?php echo $message; ?></h2></div>
             <?php
         }
         if($isConnect){
