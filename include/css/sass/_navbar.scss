@@ -1,0 +1,30 @@
+.sidebar {
+    position: fixed;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+    background-color: $card-background;
+    font-size: 24px;
+    .nav-item {
+        text-align: left;
+        a {
+            display: inline-block;
+            width: 100%;
+            padding: 20px;
+        }
+        .nav-link{
+            color: $text-color;
+        }
+        &.active{
+            background-color: rgba(red($backgroud), green($backgroud), blue($backgroud), 0.5);
+            .nav-link{
+                color: $primary-color;
+            }
+
+        }
+    }
+}
+.topbar {
+
+}

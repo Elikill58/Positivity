@@ -171,4 +171,31 @@ select {
   padding-top: 2px;
 }
 
+.sidebar {
+  position: fixed;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+  background-color: #292929;
+  font-size: 24px;
+}
+.sidebar .nav-item {
+  text-align: left;
+}
+.sidebar .nav-item a {
+  display: inline-block;
+  width: 100%;
+  padding: 20px;
+}
+.sidebar .nav-item .nav-link {
+  color: #C4C4C4;
+}
+.sidebar .nav-item.active {
+  background-color: rgba(18, 18, 18, 0.5);
+}
+.sidebar .nav-item.active .nav-link {
+  color: #BB86FC;
+}
+
 /*# sourceMappingURL=main.css.map */

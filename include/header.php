@@ -16,67 +16,61 @@ function show($page) {
     $settings = $page->settings;
     ?>
     <header role="banner">
-        <div class="navbar navbar-expand-lg fixed-top" style="background-color: #272B30;">
-            <a class="navbar-brand" href="<?php echo $settings['link']; ?>">
-                <?php echo $settings["server_name"]; ?>
-            </a>
-            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#negativity-navbar"
-                    aria-controls="negativity-navbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="negativity-navbar">
-                <ul class="navbar-nav mr-auto">
-                <?php
-                if(isset($_SESSION["name"])){
-                    foreach ($page->getNavbar() as $key => $value) {
-                        echo '<li class="nav-item' . ($page->info == $value ? ' active' : '') . '">
-                                <a class="nav-link" href="' . ($value->getLink()) . '">' . $page->msg("title." . $key) . '
-                                    <span class="badge badge-secondary">' . ($value->getNumber()) . '</span>
-                                </a>
-                            </li>';
-                    }
-                }
-                if(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]){
-                    echo '<li class="nav-item">';
-                    echo '<a class="nav-link' . ($page->info->getLink() == "admin" ? " active" : "") . '" href="./admin">' . $page->msg("title.admin") . '</a>';
-                    echo '</li>';
-                }
-                ?>
-                </ul>
-                <ul class="nav navbar-nav my-2 my-lg-0">
-                    <?php
-                    if(isset($_SESSION["name"])){
-                        ?>
-                        <li class="nav-item">
-                            <div class="nav-link">
-                                <form action="./check" method="GET">
-                                <div class="input-group input-group-sm">
-                                    <input class="form-control" type="text" name="name">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-light"><?php echo $page->msg("title.search"); ?></button>
-                                    </div>
-                                </div>
-                                </form>
-                            </div>
-                        </li>
-                        <li class="nav-item" style="margin-right: 5px;">
-                            <div class="nav-link">
-                                <div class="input-group input-group-sm">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-dark text-white border-0"><?php echo str_replace("%name%", $_SESSION["name"], $page->msg("connection.login_as")); ?></span>
-                                    </div>
-                                    <a href="./deconnection">
-                                        <button class="btn btn-light btn-sm"><?php echo $page->msg("connection.disconnect"); ?></button>
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                    <?php
-                    }
-                    ?>
-                </ul>
+        <div class="sidebar">
+            <div class="nav-item">
+                <a class="logo" href="<?php echo $settings['link']; ?>">
+                    <?php echo $settings["server_name"]; ?>
+                </a>
             </div>
+            <?php
+                echo '<div class="nav-item' . ($page->info->getLink() == "checks" ? " active" : "") .'">';
+                echo '<a class="nav-link" href="./">' . $page->msg("title.index") . '</a>';
+                echo '</div>';
+            ?>
+            <!-- <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#negativity-navbar"
+                    aria-controls="negativity-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            </button> -->
+            <?php
+            if(isset($_SESSION["name"])){
+                foreach ($page->getNavbar() as $key => $value) {
+                    echo '<div class="nav-item' . ($page->info == $value ? ' active' : '') . '">
+                            <a class="nav-link" href="' . ($value->getLink()) . '">' . $page->msg("title." . $key) . '
+                                <span class="number">' . ($value->getNumber()) . '</span>
+                            </a>
+                        </div>';
+                }
+            }
+            if(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]){
+                echo '<div class="nav-item' . ($page->info->getLink() == "admin" ? " active" : "") .'">';
+                echo '<a class="nav-link" href="./admin">' . $page->msg("title.admin") . '</a>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+        <div class="topbar">
+            <?php
+            if(isset($_SESSION["name"])){
+                ?>
+                <div class="nav-item">
+                    <form action="./check" method="GET">
+                        <div class="search-input">
+                            <input class="form-control" type="text" name="search">
+                            <button class="btn-outline btn-small"><?php echo $page->msg("title.search"); ?></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="nav-item">
+                    <span class="input-group-text bg-dark text-white border-0"><?php echo str_replace("%name%", $_SESSION["name"], $page->msg("connection.login_as")); ?></span>
+                </div>
+                <div class="nav-item">
+                    <a href="./deconnection">
+                        <button class="btn-outline btn-small"><?php echo $page->msg("connection.disconnect"); ?></button>
+                    </a>
+                </div>
+            <?php
+            }
+            ?>
+        </div>
     </header>
 <?php
 }
