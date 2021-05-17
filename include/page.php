@@ -58,7 +58,8 @@ class Page {
             $st->closeCursor();
             return $rows;
         } catch (PDOException $ex) {
-            die ('Erreur : ' . $ex->getMessage());
+            return header("Location: ./error/no-negativity.php");
+            // die ('Erreur : ' . $ex->getMessage());
         }
     }
 
@@ -298,7 +299,8 @@ abstract class Info {
             $st->closeCursor();
             return $rows[0]["nb"];
         } catch (PDOException $ex) {
-            die ('Erreur : ' . $ex->getMessage());
+            return header("Location: ./error/no-negativity.php");
+            // die ('Erreur : ' . $ex->getMessage());
         }
     }
 
