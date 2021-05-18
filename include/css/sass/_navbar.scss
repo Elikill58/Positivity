@@ -9,6 +9,7 @@
     box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
     z-index: 111;
     .nav-item {
+        position: relative;
         text-align: left;
         a {
             display: inline-block;
@@ -25,6 +26,16 @@
             }
 
         }
+        span.number{
+            position: absolute;
+            top: 10px;
+            color: $primary-color;
+            border-radius: 10px;
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
     }
 }
 .topbar {
@@ -40,6 +51,7 @@
     align-items: center;
     box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
     color: $text-color;
+    z-index: 110;
     .nav-item {
         padding: 15px 10px;
         text-align: left;
@@ -59,7 +71,7 @@
                 border-radius: 10px 0 0 10px;
             }
             .btn-outline{
-                border-radius: 0 15px 15px 0;
+                border-radius: 0 10px 10px 0;
             }
         }
     }
