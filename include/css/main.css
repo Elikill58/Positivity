@@ -15,9 +15,8 @@ body {
 
 footer {
   position: fixed;
-  left: 14rem;
   bottom: 5px;
-  width: calc(100% - 16rem);
+  width: 100%;
 }
 
 .container {
@@ -33,8 +32,14 @@ footer {
 }
 .page-wrapper .content-wrapper {
   position: fixed;
-  top: 7rem;
+  top: 6.8rem;
   left: 14rem;
+  width: calc(100% - 16rem);
+}
+.page-wrapper footer {
+  position: fixed;
+  left: 14rem;
+  bottom: 5px;
   width: calc(100% - 16rem);
 }
 
