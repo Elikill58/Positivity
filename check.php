@@ -37,21 +37,18 @@ if($uuid != null && $name == null){
     <link href="./include/css/main.css" rel="stylesheet">
 </head>
 <body>
+	<div class="page-wrapper">
+    <?php $page->show_header(); ?>
     <?php
-    $page->show_header();
-    echo "</table>";
 
     if($uuid == null || $name == null){
         ?>
         <div class="container">
-            <div class="jumbotron">
-                <h1><?php echo $page->msg("error.not_found.player"); ?></h1>
-            </div>
+            <h1><?php echo $page->msg("error.not_found.player"); ?></h1>
         </div>
         <?php
     } else {
         ?>
-        <br>
         <?php
 
         $stAccount = $page->conn->prepare("SELECT * FROM negativity_accounts WHERE id = ?;");
@@ -70,21 +67,23 @@ if($uuid != null && $name == null){
         $minerateArray = array_merge($minerateArray, array($page->msg("minerate.all") => $rowAcc["minerate_full_mined"]));
         ?>
 
-        <table class="table table-striped table-bordered table-condensed text-white">
-            <thead>
-                <tr>
-                    <th><?php echo str_replace("%name%", $name, $page->msg("generic.name")); ?></th>
-                    <th><?php echo str_replace("%lang%", $rowAcc["language"], $page->msg("generic.lang")); ?></th>
-                    <th><?php echo str_replace("%time%", $rowAcc["creation_time"], $page->msg("generic.creation_time")); ?></th>
-                    <th><?php echo str_replace("%uuid%", $uuid, $page->msg("generic.uuid")); ?></th>
-                </tr>
-            </thead>
-        </table>
-        <br>
-        <div class="row">
-            <div class="col-lg-8">
-                <h2><?php echo str_replace("%name%", $name, $page->msg("check.violations")); ?></h2>
-                <br>
+        <div class="content-wrapper">
+            <div class="container items">
+                <div class="item">
+                    <?php echo str_replace("%name%", $name, $page->msg("generic.name")); ?>
+                </div>
+                <div class="item">
+                    <?php echo str_replace("%lang%", $rowAcc["language"], $page->msg("generic.lang")); ?>
+                </div>
+                <div class="item">
+                    <?php echo str_replace("%time%", $rowAcc["creation_time"], $page->msg("generic.creation_time")); ?>
+                </div>
+                <div class="item">
+                    <?php echo str_replace("%uuid%", $uuid, $page->msg("generic.uuid")); ?>
+                </div>
+            </div>
+            <h2><?php echo str_replace("%name%", $name, $page->msg("check.violations")); ?></h2>
+            <div class="container">
                 <table class="table table-striped table-bordered table-condensed text-white">
                     <?php
                     $allViolationsSplitted = explode(";", $rowAcc["violations_by_cheat"]);
@@ -144,10 +143,9 @@ if($uuid != null && $name == null){
                     </tbody>
                 </table>
             </div>
-            <div class="col-lg-4">
-                <h2><?php echo str_replace("%name%", $name, $page->msg("check.minerate")); ?></h2>
-                <br>
-                <table class="table table-striped table-bordered table-condensed text-white">
+            <h2><?php echo str_replace("%name%", $name, $page->msg("check.minerate")); ?></h2>
+            <div class="container">
+                <table>
                     <thead>
                         <tr>
                             <th><?php echo $page->msg("minerate.name"); ?></th>
@@ -171,86 +169,81 @@ if($uuid != null && $name == null){
                     </tbody>
                 </table>
             </div>
-        </div>
+            <?php
 
-        <br>
-        <?php
+            $stBan = $page->conn->prepare("SELECT * FROM negativity_bans_active WHERE id = ?;");
+            $stBan->execute(array($uuid));
+            $allRowBan = $stBan->fetchAll(PDO::FETCH_ASSOC);
+            $stBan->closeCursor();
 
-        $stBan = $page->conn->prepare("SELECT * FROM negativity_bans_active WHERE id = ?;");
-        $stBan->execute(array($uuid));
-        $allRowBan = $stBan->fetchAll(PDO::FETCH_ASSOC);
-        $stBan->closeCursor();
+            $nbBan = count($allRowBan);
+            if($nbBan > 0){
+                echo '<h2>' . str_replace("%nb%", $nbBan, str_replace("%name%", $name, $page->msg("check.bans"))) . '</h2><br>';
 
-        $nbBan = count($allRowBan);
-        if($nbBan > 0){
-            echo "<h2>" . str_replace("%nb%", $nbBan, str_replace("%name%", $name, $page->msg("check.bans"))) . "</h2><br>";
-
-            echo '<table class="table table-striped table-bordered table-condensed text-white">';
-            $isLocalFirstRow = true;
-            foreach ($allRowBan as $rowBan) {
-                $showedRowBan = (new BanInfo($page))->getInfos($rowBan);
-                if($isLocalFirstRow){
-                    echo "<thead><tr>";
-                    foreach ($showedRowBan as $key => $value) {
-                        echo "<th>" . $page->msg("column." . $key) . "</th>";
-                    }
-                    echo "</th></thead><tbody>\n";
-                }
-                echo "<tr>";
-                foreach ($showedRowBan as $key => $value) {
-                    echo "<td>$value</td>";
-                }
-                echo "</tr>\n";
-                $isLocalFirstRow = false;
-            }
-            echo '</table>';
-        }
-        ?>
-        <br>
-        <?php
-
-        $stVerif = $page->conn->prepare("SELECT * FROM negativity_verifications WHERE uuid = ?;");
-        $stVerif->execute(array($uuid));
-        $allRowVerif = $stVerif->fetchAll(PDO::FETCH_ASSOC);
-        $stVerif->closeCursor();
-
-        $nbVerif = count($allRowVerif);
-        if($nbVerif > 0){
-            echo "<h2>" . str_replace("%nb%", $nbVerif, str_replace("%name%", $name, $page->msg("check.verifications"))) . "</h2><br>";
-
-            echo '<table class="table table-striped table-bordered table-condensed text-white">';
-            $isLocalFirstRow = true;
-            foreach ($allRowVerif as $rowVerif) {
-                $showedRowVerif = (new VerificationInfo($page))->getInfos($rowVerif);
-                if($isLocalFirstRow){
-                    echo "<thead><tr>";
-                    foreach ($showedRowVerif as $key => $value) {
-                        if($page->endsWith($key, "_double")){
-                            if($page->endsWith($key, "_1_double")){
-                                echo "<th colspan=2>" . $page->msg("column." . str_replace("_1_double", "", $key)) . "</th>";
-                            } else {
-                                // ignore because it's empty column
-                            }
-                        } else
+                echo '<div class="container"><table>';
+                $isLocalFirstRow = true;
+                foreach ($allRowBan as $rowBan) {
+                    $showedRowBan = (new BanInfo($page))->getInfos($rowBan);
+                    if($isLocalFirstRow){
+                        echo "<thead><tr>";
+                        foreach ($showedRowBan as $key => $value) {
                             echo "<th>" . $page->msg("column." . $key) . "</th>";
+                        }
+                        echo "</th></thead><tbody>\n";
                     }
-                    echo "</th></thead><tbody>\n";
+                    echo "<tr>";
+                    foreach ($showedRowBan as $key => $value) {
+                        echo "<td>$value</td>";
+                    }
+                    echo "</tr>\n";
+                    $isLocalFirstRow = false;
                 }
-                echo "<tr>";
-                foreach ($showedRowVerif as $key => $value) {
-                    echo "<td>$value</td>";
-                }
-                echo "</tr>\n";
-                $isLocalFirstRow = false;
+                echo '</table></div>';
             }
-            echo '</table>';
-        }
-    }
-    
+            ?>
+            <?php
 
-    echo '<table>';
+            $stVerif = $page->conn->prepare("SELECT * FROM negativity_verifications WHERE uuid = ?;");
+            $stVerif->execute(array($uuid));
+            $allRowVerif = $stVerif->fetchAll(PDO::FETCH_ASSOC);
+            $stVerif->closeCursor();
 
-    $page->show_footer();
-    ?>
+            $nbVerif = count($allRowVerif);
+            if($nbVerif > 0){
+                echo '<h2>' . str_replace("%nb%", $nbVerif, str_replace("%name%", $name, $page->msg("check.verifications"))) . '</h2><br>';
+                
+                echo '<div class="container"><table>';
+                $isLocalFirstRow = true;
+                foreach ($allRowVerif as $rowVerif) {
+                    $showedRowVerif = (new VerificationInfo($page))->getInfos($rowVerif);
+                    if($isLocalFirstRow){
+                        echo "<thead><tr>";
+                        foreach ($showedRowVerif as $key => $value) {
+                            if($page->endsWith($key, "_double")){
+                                if($page->endsWith($key, "_1_double")){
+                                    echo "<th colspan=2>" . $page->msg("column." . str_replace("_1_double", "", $key)) . "</th>";
+                                } else {
+                                    // ignore because it's empty column
+                                }
+                            } else
+                                echo "<th>" . $page->msg("column." . $key) . "</th>";
+                        }
+                        echo "</th></thead><tbody>\n";
+                    }
+                    echo "<tr>";
+                    foreach ($showedRowVerif as $key => $value) {
+                        echo "<td>$value</td>";
+                    }
+                    echo "</tr>\n";
+                    $isLocalFirstRow = false;
+                }
+                echo '</table></div>';
+            }
+            ?>
+            <?php } ?>
+    <?php $page->show_footer(); ?>
+        </div>
+    </div>
+
 </body>
 </html>
