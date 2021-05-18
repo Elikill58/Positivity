@@ -10,6 +10,9 @@ html, body{
 }
 footer {
     padding: 18px;
+    position: absolute;
+    bottom: -60px;
+    width: calc(100% - 2rem);
 }
 .container {
     position: relative;
@@ -39,7 +42,8 @@ footer {
         top: 6rem;
         left: 12rem;
         width: calc(100% - 14rem);
-        height: calc(100% - 12rem);
+        min-height: calc(100% - 9rem);
+        margin-bottom: 50px;
     }
 }
 h2{
