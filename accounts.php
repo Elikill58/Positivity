@@ -19,6 +19,7 @@ require_once './include/page.php';
         ?>
 		<div class="content-wrapper">
 			<div class="container">
+                <table>
                 <?php
                     $rows = $page->run_query();
                     foreach ($rows as $row) {
@@ -28,6 +29,7 @@ require_once './include/page.php';
                         $page->print_row($row);
                     }
                 ?>
+                </table>
             </div>
             <?php $page->show_footer(); ?>
         </div>

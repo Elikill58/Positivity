@@ -48,7 +48,7 @@ if(file_exists("./include/settings.txt")) {
         <h2>Configuration</h2>
         <p>Welcome to the Negativity web interface!</p><br>
         <form id="config" method="POST" action="./config">
-            <div class="table">
+            <div class="table-config">
                 <div class="table-left">
                     <div class="row">
                         <label for="host">The database IP: </label>
