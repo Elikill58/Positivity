@@ -129,17 +129,15 @@ class Page {
         $prev = $cur - 1;
         $next = $cur + 1;
 
-        $pager_prev = ($prev_active ? "<a href=\"$page?page={$prev}\" class=\"negativity-pager-active\" style=\"font-size: 20px;\">«</a>" : "");
-        $pager_next = ($next_active ? "<a href=\"$page?page={$next}\" class=\"negativity-pager-active\" style=\"font-size: 20px;\">»</a>" : "");
+        $pager_prev = ($prev_active ? "<a href=\"$page?page={$prev}\" class=\"pager-active\" style=\"font-size: 20px;\">«</a>" : "");
+        $pager_next = ($next_active ? "<a href=\"$page?page={$next}\" class=\"pager-active\" style=\"font-size: 20px;\">»</a>" : "");
 
-        echo '<div>
-                <div class="negativity-pager-full">
-                    ' . $pager_prev . '
-                    <a class="negativity-pager-number">
-                        ' . $this->msg("table.pager.number") . ' ' . $cur . '/' . $pages . '
-                    </a>
-                    ' . $pager_next . '
-                </div>
+        echo '<div class="pager-full">
+                ' . $pager_prev . '
+                <a class="pager-number">
+                    ' . $this->msg("table.pager.number") . ' ' . $cur . '/' . $pages . '
+                </a>
+                ' . $pager_next . '
             </div>';
 
         /*
