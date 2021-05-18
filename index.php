@@ -13,20 +13,19 @@ require_once './include/page.php';
     <link href="./include/css/main.css" rel="stylesheet">
 </head>
 <body>
-
-	<?php
-	$page = new Page("index");
-	$page->show_header();
-	?>
-	<br>
-	<div class="container">
-	    <div class="jumbotron">
-	        <div class="negativity-index negativity-index-main">
-	            <h2><?php echo str_replace("%server%", $page->settings["server_name"], $page->msg("index.main")); ?></h2>
-	        </div>
-	        <div class="negativity-index negativity-index-sub"><p><?php echo $page->msg("index.sub"); ?></p></div>
-	    </div>
+	<div class="page-wrapper">
+		<?php
+		$page = new Page("index");
+		$page->show_header();
+		?>
+		<br>
+		<div class="content-wrapper">
+			<div class="container">
+				<h2><?php echo str_replace("%server%", $page->settings["server_name"], $page->msg("index.main")); ?></h2>
+				<p><?php echo $page->msg("index.sub"); ?></p>
+			</div>
+		</div>
+		<?php $page->show_footer(); ?>
 	</div>
-	<?php $page->show_footer(); ?>
 </body>
 </html>
