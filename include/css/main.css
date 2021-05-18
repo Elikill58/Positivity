@@ -20,8 +20,16 @@ footer {
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
   border-radius: 30px;
   color: #C4C4C4;
-  padding: 30px;
-  min-height: 100%;
+  padding: 0;
+  height: fit-content;
+}
+.container.items {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+.container.items .item {
+  padding: 30px 20px;
 }
 
 .page-wrapper {
@@ -37,6 +45,8 @@ footer {
 }
 
 h2 {
+  color: #C4C4C4;
+  display: inline-block;
   font-size: 30px;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -74,7 +84,7 @@ a {
   font-size: 16px !important;
 }
 
-.table {
+.table-config {
   border-spacing: 10px;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -191,9 +201,32 @@ select {
 
 .pager-full {
   position: absolute;
-  width: calc(100% - 5rem);
+  width: calc(100% - 2rem);
   bottom: 0;
   padding: 20px;
+}
+
+table {
+  border-spacing: 0;
+  border-radius: 20px;
+  width: 100%;
+  padding-bottom: 63px;
+}
+table thead th {
+  background: rgba(86, 86, 86, 0.5);
+  padding: 20px;
+}
+table thead th:first-of-type {
+  border-top-left-radius: 30px;
+}
+table thead th:last-of-type {
+  border-top-right-radius: 30px;
+}
+table td {
+  padding: 10px 20px;
+}
+table tr td {
+  border-bottom: 3px solid #404040;
 }
 
 .sidebar {

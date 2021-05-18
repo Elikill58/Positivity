@@ -18,8 +18,18 @@ footer {
     border-radius: 30px;
     color: $text-color;
     // width: fit-content;
-    padding: 30px;
-    min-height: 100%;
+    padding: 0;
+    height: fit-content;
+    // min-height: 100%;
+    &.items{
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        .item{
+            // display:inline-block;
+            padding:30px 20px;
+        }
+    }
 }
 .page-wrapper{
     position: relative;
@@ -33,6 +43,8 @@ footer {
     }
 }
 h2{
+    color: $text-color;
+    display: inline-block;
     font-size: 30px;
     margin-top: 15px;
     margin-bottom: 15px;

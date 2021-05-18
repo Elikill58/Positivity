@@ -20,8 +20,10 @@ require_once './include/page.php';
 		?>
 		<div class="content-wrapper">
 			<div class="container">
+				<br/>
 				<h2><?php echo str_replace("%server%", $page->settings["server_name"], $page->msg("index.main")); ?></h2>
 				<p><?php echo $page->msg("index.sub"); ?></p>
+				<br/>
 			</div>
 			<?php $page->show_footer(); ?>
 		</div>

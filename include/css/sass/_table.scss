@@ -1,4 +1,4 @@
-.table {
+.table-config {
     border-spacing: 10px;
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
@@ -108,7 +108,30 @@ select {
 }
 .pager-full{
     position: absolute;
-    width: calc(100% - 5rem);
+    width: calc(100% - 2rem);
     bottom: 0;
     padding: 20px;
+}
+table {
+    border-spacing: 0;
+    border-radius: 20px;
+    width: 100%;
+    padding-bottom: 63px;
+    thead th {
+        background: rgba(86, 86, 86, 0.5);
+        padding: 20px;
+    }
+    thead th:first-of-type{
+        border-top-left-radius: 30px; 
+    }
+    
+    thead th:last-of-type{
+        border-top-right-radius: 30px; 
+    }
+    td {
+        padding: 10px 20px;
+    }
+    tr td{
+        border-bottom: 3px solid #404040;
+    }
 }
