@@ -45,7 +45,6 @@
 
     // $page->show_header();
     ?>
-    <br>
     <div class="container">
         <?php
         if($message != ""){

@@ -18,7 +18,6 @@ require_once './include/page.php';
 		$page = new Page("index");
 		$page->show_header();
 		?>
-		<br>
 		<div class="content-wrapper">
 			<div class="container">
 				<h2><?php echo str_replace("%server%", $page->settings["server_name"], $page->msg("index.main")); ?></h2>
