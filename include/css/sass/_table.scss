@@ -106,3 +106,9 @@ select {
         padding-top: 2px;
     }
 }
+.pager-full{
+    position: absolute;
+    width: calc(100% - 5rem);
+    bottom: 0;
+    padding: 20px;
+}
