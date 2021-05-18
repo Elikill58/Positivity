@@ -31,8 +31,8 @@ require_once './include/page.php';
                     $page->show_page_mover();
                 ?>
             </div>
+            <?php $page->show_footer(); ?>
         </div>
-        <?php $page->show_footer(); ?>
     </div>
 </body>
 </html>

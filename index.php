@@ -23,8 +23,8 @@ require_once './include/page.php';
 				<h2><?php echo str_replace("%server%", $page->settings["server_name"], $page->msg("index.main")); ?></h2>
 				<p><?php echo $page->msg("index.sub"); ?></p>
 			</div>
+			<?php $page->show_footer(); ?>
 		</div>
-		<?php $page->show_footer(); ?>
 	</div>
 </body>
 </html>
