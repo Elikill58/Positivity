@@ -34,6 +34,14 @@ footer {
 .container.items .item {
   padding: 30px 20px;
 }
+.container.solo {
+  width: fit-content;
+  padding: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 .page-wrapper {
   position: relative;
@@ -77,6 +85,7 @@ a {
   box-sizing: border-box;
   border-radius: 15px;
   cursor: pointer;
+  display: inline-block;
 }
 
 .btn-outline:hover {

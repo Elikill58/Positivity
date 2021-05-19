@@ -8,7 +8,7 @@
     <link href="../include/css/main.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="container solo">
         <h2>Unconfigured</h2>
         <p>
             Welcome to the Negativity web interface!

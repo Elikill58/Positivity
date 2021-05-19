@@ -44,7 +44,7 @@ if(file_exists("./include/settings.txt")) {
     <link href="./include/css/main.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="container solo">
         <h2>Configuration</h2>
         <p>Welcome to the Negativity web interface!</p><br>
         <form id="config" method="POST" action="./config">
