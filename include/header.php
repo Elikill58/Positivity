@@ -33,7 +33,7 @@ function show($page) {
         if(isset($_SESSION["name"])){
             foreach ($page->getNavbar() as $key => $value) {
                 echo '<div class="nav-item' . ($page->info == $value ? ' active' : '') . '">
-                        <a class="nav-link" href="' . ($value->getLink()) . '">' . $page->msg("title." . $key) . '
+                        <a class="nav-link" href="' . ($value->getLink()) . '.php">' . $page->msg("title." . $key) . '
                             <span class="number">' . ($value->getNumber()) . '</span>
                         </a>
                     </div>';
@@ -51,7 +51,7 @@ function show($page) {
         if(isset($_SESSION["name"])){
             ?>
             <div class="nav-item">
-                <form action="./check" method="GET">
+                <form action="./check.php" method="GET">
                     <div class="search-input">
                         <input class="form-control" type="text" name="search">
                         <button class="btn-outline btn-small"><?php echo $page->msg("title.search"); ?></button>

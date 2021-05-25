@@ -25,7 +25,7 @@ if(isset($_POST["id"])){
 		<?php
 		$page = new Page("admin");
 		if(!(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"])){
-			header("Location: ./error/access-denied");
+			header("Location: ./error/access-denied.php");
 			die();
 		}
 		$page->show_header();

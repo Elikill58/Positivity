@@ -65,7 +65,7 @@
             <div class="negativity-index negativity-index-main">
                 <h1><?php echo $page->msg("connection.name"); ?></h1>
             </div>
-            <form action="./connection" method="post" id="connection" class="text-center">
+            <form action="./connection.php" method="post" id="connection" class="text-center">
                 
                 <div class="table-center">
                     <div class="row">
