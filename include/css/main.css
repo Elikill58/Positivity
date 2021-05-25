@@ -4,7 +4,7 @@ html, body {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   text-align: center;
-  font-size: 20px !important;
+  font-size: 16px !important;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -14,7 +14,7 @@ footer {
   padding: 18px;
   position: absolute;
   bottom: -60px;
-  width: calc(100% - 2rem);
+  width: calc(100% - 2em);
 }
 
 .container {
@@ -49,17 +49,17 @@ footer {
 }
 .page-wrapper .content-wrapper {
   position: absolute;
-  top: 6rem;
-  left: 12rem;
-  width: calc(100% - 14rem);
-  min-height: calc(100% - 9rem);
+  top: 5em;
+  left: 12em;
+  width: calc(100% - 14em);
+  min-height: calc(100% - 9em);
   margin-bottom: 50px;
 }
 
 h2 {
   color: #C4C4C4;
   display: inline-block;
-  font-size: 30px;
+  font-size: 24px;
   margin-top: 15px;
   margin-bottom: 15px;
 }
@@ -94,6 +94,7 @@ a {
 }
 
 .btn-small {
+  padding: 5px 10px;
   font-size: 16px !important;
 }
 
@@ -236,7 +237,7 @@ table thead th:last-of-type {
   border-top-right-radius: 30px;
 }
 table td {
-  padding: 10px 20px;
+  padding: 10px 10px;
 }
 table tr td {
   border-bottom: 3px solid #404040;
@@ -249,7 +250,7 @@ table tr td {
   top: 0px;
   overflow: hidden;
   background-color: #292929;
-  font-size: 24px;
+  font-size: 20px;
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
   z-index: 111;
 }
@@ -260,7 +261,7 @@ table tr td {
 .sidebar .nav-item a {
   display: inline-block;
   width: 100%;
-  padding: 20px;
+  padding: 18px;
 }
 .sidebar .nav-item .nav-link {
   color: #C4C4C4;
@@ -269,6 +270,12 @@ table tr td {
   background-color: rgba(18, 18, 18, 0.5);
 }
 .sidebar .nav-item.active .nav-link {
+  color: #BB86FC;
+}
+.sidebar .nav-item:hover {
+  background-color: rgba(18, 18, 18, 0.3);
+}
+.sidebar .nav-item:hover .nav-link {
   color: #BB86FC;
 }
 .sidebar .nav-item span.number {
@@ -289,7 +296,7 @@ table tr td {
   top: 0px;
   overflow: hidden;
   background-color: #292929;
-  font-size: 24px;
+  font-size: 20px;
   display: inline-flex;
   justify-content: flex-end;
   align-items: center;
@@ -298,7 +305,7 @@ table tr td {
   z-index: 110;
 }
 .topbar .nav-item {
-  padding: 15px 10px;
+  padding: 10px 10px;
   text-align: left;
 }
 .topbar .nav-item .nav-link {
