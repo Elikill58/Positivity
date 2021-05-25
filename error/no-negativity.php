@@ -16,7 +16,7 @@
             Please, before using the web interface, install and configure Negativity plugin while going <a href="https://www.spigotmc.org/resources/86874/">here</a>.
         </p>
         <br>
-        <a href="../" class="btn-outline">Continue</a>
+        <a href="../" class="btn-outline"><div class="text">Continue</div></a>
     </div>
 </body>
 </html>

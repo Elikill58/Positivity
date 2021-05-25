@@ -54,7 +54,7 @@ function show($page) {
                 <form action="./check.php" method="GET">
                     <div class="search-input">
                         <input class="form-control" type="text" name="search">
-                        <button class="btn-outline btn-small"><?php echo $page->msg("title.search"); ?></button>
+                        <button class="btn-outline btn-small"><div class="text"><?php echo $page->msg("title.search"); ?></div></button>
                     </div>
                 </form>
             </div>
@@ -63,7 +63,7 @@ function show($page) {
             </div>
             <div class="nav-item">
                 <a href="./deconnection.php">
-                    <button class="btn-outline btn-small"><?php echo $page->msg("connection.disconnect"); ?></button>
+                    <button class="btn-outline btn-small"><div class="text"><?php echo $page->msg("connection.disconnect"); ?></div></button>
                 </a>
             </div>
         <?php

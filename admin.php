@@ -116,7 +116,7 @@ if(isset($_POST["id"])){
 						</td>
 					</tr>
 				</table>
-				<button class="btn-outline"><?php echo $page->msg("admin.button.create"); ?></button>
+				<button class="btn-outline"><div class="text"><?php echo $page->msg("admin.button.create"); ?></div></button>
 			</form>
 			<?php $page->show_footer(); ?>
 		</div>

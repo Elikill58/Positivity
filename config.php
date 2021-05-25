@@ -108,7 +108,7 @@ if(file_exists("./include/settings.txt")) {
                 </div>
             </div>
             <br/>
-            <button style="width:40%;" class="btn-outline" type="submit" form="config" value="Submit">Save config</button>
+            <button style="width:40%;" class="btn-outline" type="submit" form="config" value="Submit"><div class="text">Save config</div></button>
         </form>
     </div>
 </body>

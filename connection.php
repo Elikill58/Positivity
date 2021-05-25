@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <br/>
-                <button type="Submit" value="Submit" name="" id="formsend" class="btn-outline"><?php echo $page->msg("connection.form.confirm"); ?></button>
+                <button type="Submit" value="Submit" name="" id="formsend" class="btn-outline"><div class="text"><?php echo $page->msg("connection.form.confirm"); ?></div></button>
             </form>
             <?php
         }
