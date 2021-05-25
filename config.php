@@ -21,14 +21,14 @@ if(isset($_POST["host"]) && isset($_POST["port"]) && isset($_POST["database"]) &
                 "limit_per_page" => $limit_per_page));
     file_put_contents("./include/settings.txt", $content);
     file_put_contents("./include/user.txt", json_encode(array($webUsername => json_encode(array("password" => hash("sha256", $webPassword), "admin" => true, "special" => "un_removable")))));
-    header("Location: ./index");
+    header("Location: ./index.php");
     exit();
 }
 
 if(file_exists("./include/settings.txt")) {
     $tempSettings = json_decode(file_get_contents("./include/settings.txt"), true);
     if(isset($tempSettings["init"]) && $tempSettings["init"] == "true"){
-        header("Location: ./error/already-config");
+        header("Location: ./error/already-config.php");
         die();
     }
 }

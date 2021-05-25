@@ -19,8 +19,8 @@
         </div>
         <br>
         <a href="../" class="btn btn-default">Index</a>
-        <a href="../deconnection" class="btn btn-default">Deconnection</a>
-        <a href="../connection" class="btn btn-default">Change account</a>
+        <a href="../deconnection.php" class="btn btn-default">Deconnection</a>
+        <a href="../connection.php" class="btn btn-default">Change account</a>
     </div>
 </div>
 </body>

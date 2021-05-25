@@ -5,12 +5,12 @@ class Page {
         $settings = json_decode(file_get_contents("./include/settings.txt"), true);
         $this->settings = $settings;
         if(!(isset($settings["init"]) && $settings["init"] == "true")){
-            header("Location: ./error/no-config");
+            header("Location: ./error/no-config.php");
             return;
         }
         include("./include/connect.php");
         if(!$isConnect && $name != "connect"){
-            header("Location: ./connection");
+            header("Location: ./connection.php");
             die();
         }
 
@@ -19,7 +19,7 @@ class Page {
 
         $this->info = Info::create($this, $name);
         if($this->info == null){
-            header("Location: ./error/404");
+            header("Location: ./error/404.php");
             return;
         }
 

@@ -41,7 +41,7 @@ function show($page) {
         }
         if(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]){
             echo '<div class="nav-item' . ($page->info->getLink() == "admin" ? " active" : "") .'">';
-            echo '<a class="nav-link" href="./admin">' . $page->msg("title.admin") . '</a>';
+            echo '<a class="nav-link" href="./admin.php">' . $page->msg("title.admin") . '</a>';
             echo '</div>';
         }
         ?>
@@ -62,7 +62,7 @@ function show($page) {
                 <span class=""><?php echo str_replace("%name%", $_SESSION["name"], $page->msg("connection.login_as")); ?></span>
             </div>
             <div class="nav-item">
-                <a href="./deconnection">
+                <a href="./deconnection.php">
                     <button class="btn-outline btn-small"><?php echo $page->msg("connection.disconnect"); ?></button>
                 </a>
             </div>

@@ -13,7 +13,7 @@
         <p>
             Welcome to the Negativity web interface!
             <br>
-            Please, before using web interface, configure database while going <a href="../config">here</a>.
+            Please, before using web interface, configure database while going <a href="../config.php">here</a>.
         </p>
         <br>
         <a href="../" class="btn-outline">Continue</a>
