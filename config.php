@@ -47,7 +47,7 @@ if(file_exists("./include/settings.txt")) {
     <div class="container solo">
         <h2>Configuration</h2>
         <p>Welcome to the Negativity web interface!</p><br>
-        <form id="config" method="POST" action="./config">
+        <form id="config" method="POST" action="./config.php">
             <div class="table-config">
                 <div class="table-left">
                     <div class="row">

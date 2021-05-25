@@ -51,7 +51,7 @@ if(isset($_POST["id"])){
 						echo "<td>" . $page->msg(isset($content["special"]) ? "admin.special." . $content["special"] : "admin.special.nothing") . "</td>";
 						if($content["special"] != "un_removable"){
 							echo '<td>
-								<form action="./admin" method="POST">
+								<form action="./admin.php" method="POST">
 									<input type="hidden" name="id" value="' . $key . '">
 									<button  class="btn btn-light btn-sm" >Delete</button>
 								</form>
@@ -65,7 +65,7 @@ if(isset($_POST["id"])){
 				</table>
 			</div>
 			<br/>
-			<form class="container" action="./admin" method="POST">
+			<form class="container" action="./admin.php" method="POST">
 				<h2><?php echo $page->msg("admin.create_user"); ?></h2>
 				<br>
 				<table class="table table-striped table-bordered table-condensed text-white">
