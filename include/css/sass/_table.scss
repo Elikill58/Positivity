@@ -43,7 +43,7 @@ input{
         font-size: 20px !important;
         font-family: 'Roboto', sans-serif;
         background-color: #565656;
-        border-radius: 30px;
+        border-radius: 10px;
         border-width: 0;
         color: #C4C4C4;
     }
@@ -108,25 +108,27 @@ select {
 }
 .pager-full{
     position: absolute;
-    width: calc(100% - 2rem);
     bottom: 0;
-    padding: 20px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 10px;
 }
 table {
     border-spacing: 0;
     border-radius: 20px;
     width: 100%;
-    padding-bottom: 63px;
+    padding-bottom: 20px;
     thead th {
         background: rgba(86, 86, 86, 0.5);
         padding: 20px;
     }
     thead th:first-of-type{
-        border-top-left-radius: 30px; 
+        border-top-left-radius: 15px; 
     }
     
     thead th:last-of-type{
-        border-top-right-radius: 30px; 
+        border-top-right-radius: 15px; 
     }
     td {
         padding: 10px 10px;

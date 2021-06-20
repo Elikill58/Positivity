@@ -10,21 +10,22 @@ html, body {
 }
 
 body {
+  --page-background: #fff;
   font-size: 0.9vw !important;
 }
 
 footer {
-  padding: 18px;
-  position: absolute;
-  bottom: -60px;
-  width: calc(100% - 2em);
+  grid-area: footer;
+  padding: 15px;
+  width: fit-content;
+  margin: auto;
 }
 
 .container {
   position: relative;
   background: #292929;
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
-  border-radius: 30px;
+  border-radius: 15px;
   color: #C4C4C4;
   padding: 0;
   height: fit-content;
@@ -47,16 +48,24 @@ footer {
 }
 
 .page-wrapper {
-  position: relative;
   min-height: 100%;
 }
 .page-wrapper .content-wrapper {
+  display: grid;
+  grid-template-rows: "";
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr min-content;
+  gap: 0px 0px;
+  grid-template-areas: "." "footer";
   position: absolute;
-  top: 5rem;
-  left: 12rem;
-  width: calc(100% - 14rem);
-  min-height: calc(100% - 9rem);
-  margin-bottom: 50px;
+  width: calc(100% - 10.2rem);
+  height: calc(100% - 3.4rem);
+  top: 3.4rem;
+  left: 10.2rem;
+}
+.page-wrapper .content-wrapper .container {
+  margin: 20px 20px 0 20px;
+  padding: 20px;
 }
 
 h2 {
@@ -177,7 +186,7 @@ input {
   font-size: 20px !important;
   font-family: "Roboto", sans-serif;
   background-color: #565656;
-  border-radius: 30px;
+  border-radius: 10px;
   border-width: 0;
   color: #C4C4C4;
 }
@@ -245,26 +254,28 @@ select {
 
 .pager-full {
   position: absolute;
-  width: calc(100% - 2rem);
   bottom: 0;
-  padding: 20px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 10px;
 }
 
 table {
   border-spacing: 0;
   border-radius: 20px;
   width: 100%;
-  padding-bottom: 63px;
+  padding-bottom: 20px;
 }
 table thead th {
   background: rgba(86, 86, 86, 0.5);
   padding: 20px;
 }
 table thead th:first-of-type {
-  border-top-left-radius: 30px;
+  border-top-left-radius: 15px;
 }
 table thead th:last-of-type {
-  border-top-right-radius: 30px;
+  border-top-right-radius: 15px;
 }
 table td {
   padding: 10px 10px;
@@ -310,10 +321,10 @@ table tr td {
 }
 .sidebar .nav-item span.number {
   position: absolute;
-  top: 10px;
+  top: 6px;
   color: #BB86FC;
   border-radius: 10px;
-  padding: 5px;
+  padding: 2px;
   text-align: center;
   font-weight: bold;
   font-size: 20px;
@@ -352,6 +363,53 @@ table tr td {
 }
 .topbar .nav-item .search-input input {
   border-radius: 10px 0 0 10px;
+}
+
+/* Page load animation */
+.admin-once {
+  opacity: 0;
+}
+
+.admin-once-active {
+  transition: all 1s linear 0.3s;
+}
+
+.admin-once-to {
+  opacity: 1;
+}
+
+/* Slide to home */
+.admin-leave {
+  transform: translateX(0);
+}
+
+.admin-leave-active,
+.admin-leave-active .content-wrapper {
+  transition: all 0.7s var(--easing);
+}
+
+.admin-leave-to .content-wrapper {
+  transform: translateX(-50%);
+}
+
+.admin-leave-to {
+  transform: translateX(100%);
+}
+
+.home-enter {
+  transform: translateX(-100%);
+}
+
+.admin-enter-active,
+.admin-enter-active .content-wrapper {
+  transition: all 0.7s var(--easing);
+}
+
+.admin-enter-to {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(0);
 }
 
 /*# sourceMappingURL=main.css.map */

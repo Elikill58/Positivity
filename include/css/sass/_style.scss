@@ -8,20 +8,23 @@ html, body{
     height: 100%;
 }
 body{
+    --page-background: #fff;
     font-size: 0.9vw !important;
 
 }
 footer {
-    padding: 18px;
-    position: absolute;
-    bottom: -60px;
-    width: calc(100% - 2em);
+    grid-area: footer;
+    padding: 15px;
+    // position: absolute;
+    // bottom: 0;
+    width: fit-content;
+    margin: auto;
 }
 .container {
     position: relative;
     background: $card-background;
     box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
-    border-radius: 30px;
+    border-radius: 15px;
     color: $text-color;
     // width: fit-content;
     padding: 0;
@@ -46,15 +49,27 @@ footer {
     }
 }
 .page-wrapper{
-    position: relative;
     min-height: 100%;
     .content-wrapper{
+        display: grid;
+        grid-template-rows: "";
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr min-content;
+        gap: 0px 0px;
+        grid-template-areas:
+            "."
+            "footer";
         position: absolute;
-        top: 5rem;
-        left: 12rem;
-        width: calc(100% - 14rem);
-        min-height: calc(100% - 9rem);
-        margin-bottom: 50px;
+        width: calc(100% - 10.2rem);
+        height: calc(100% - 3.4rem);
+        // margin-bottom: 50px;
+        top: 3.4rem;
+        left: 10.2rem;
+        .container {
+            margin: 20px 20px 0 20px;
+            padding: 20px;
+            
+        }
     }
 }
 h2{

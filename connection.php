@@ -82,7 +82,6 @@
         }
         ?>
     </div>
-    <?php $page->show_footer(); ?>
 
 </body>
 </html>

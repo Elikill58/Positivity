@@ -129,8 +129,8 @@ class Page {
         $prev = $cur - 1;
         $next = $cur + 1;
 
-        $pager_prev = ($prev_active ? "<a href=\"$page?page={$prev}\" class=\"pager-active\" style=\"font-size: 20px;\">«</a>" : "");
-        $pager_next = ($next_active ? "<a href=\"$page?page={$next}\" class=\"pager-active\" style=\"font-size: 20px;\">»</a>" : "");
+        $pager_prev = ($prev_active ? "<a href=\"$page.php?page={$prev}\" class=\"pager-active\" style=\"font-size: 20px;\">«</a>" : "");
+        $pager_next = ($next_active ? "<a href=\"$page.php?page={$next}\" class=\"pager-active\" style=\"font-size: 20px;\">»</a>" : "");
 
         echo '<div class="pager-full">
                 ' . $pager_prev . '
