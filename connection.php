@@ -72,7 +72,7 @@
                         <input class="" type="text" name="pseudo" id="pseudo" placeholder="<?php echo $page->msg("connection.form.login"); ?>" required></input>
                     </div>
                     <div class="row">
-                        <input class="" type="text" name="password" id="password" placeholder="<?php echo $page->msg("connection.form.password"); ?>" required></input>
+                        <input class="" type="password" name="password" id="password" placeholder="<?php echo $page->msg("connection.form.password"); ?>" required></input>
                     </div>
                 </div>
                 <br/>
