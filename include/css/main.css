@@ -36,7 +36,7 @@ footer {
   justify-content: space-between;
 }
 .container.items .item {
-  padding: 30px 20px;
+  padding: 10px 10px;
 }
 .container.solo {
   width: fit-content;
@@ -73,7 +73,7 @@ h2 {
   display: inline-block;
   font-size: 24px;
   margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 0;
 }
 
 p {

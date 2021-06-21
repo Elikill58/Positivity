@@ -68,6 +68,7 @@ if($uuid != null && $name == null){
         ?>
 
         <div class="content-wrapper">
+        <div class="content">
             <div class="container items">
                 <div class="item">
                     <?php echo str_replace("%name%", $name, $page->msg("generic.name")); ?>
@@ -241,6 +242,7 @@ if($uuid != null && $name == null){
             }
             ?>
             <?php } ?>
+        </div>
     <?php $page->show_footer(); ?>
         </div>
     </div>
