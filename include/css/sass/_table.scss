@@ -42,10 +42,23 @@ input{
         padding: 5px 10px;
         font-size: 20px !important;
         font-family: 'Roboto', sans-serif;
-        background-color: #565656;
+        background-color: #565656 !important;
         border-radius: 10px;
         border-width: 0;
         color: #C4C4C4;
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus,
+    select:-webkit-autofill,
+    select:-webkit-autofill:hover,
+    select:-webkit-autofill:focus {
+        -webkit-text-fill-color: #C4C4C4;
+        -webkit-box-shadow: 0 0 0px 1000px #565656 inset;
+        transition: background-color 5000s ease-in-out 0s;
     }
 }
 select {

@@ -185,10 +185,23 @@ input {
   padding: 5px 10px;
   font-size: 20px !important;
   font-family: "Roboto", sans-serif;
-  background-color: #565656;
+  background-color: #565656 !important;
   border-radius: 10px;
   border-width: 0;
   color: #C4C4C4;
+}
+.table-center input:-webkit-autofill,
+.table-center input:-webkit-autofill:hover,
+.table-center input:-webkit-autofill:focus,
+.table-center textarea:-webkit-autofill,
+.table-center textarea:-webkit-autofill:hover,
+.table-center textarea:-webkit-autofill:focus,
+.table-center select:-webkit-autofill,
+.table-center select:-webkit-autofill:hover,
+.table-center select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #C4C4C4;
+  -webkit-box-shadow: 0 0 0px 1000px #565656 inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 select {
