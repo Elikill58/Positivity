@@ -16,7 +16,7 @@
             Please, before using web interface, configure database while going <a href="../config.php">here</a>.
         </p>
         <br>
-        <a href="../" class="btn-outline"><div class="text">Continue</div></a>
+        <a href="../config.php" class="btn-outline"><div class="text">Continue</div></a>
     </div>
 </body>
 </html>

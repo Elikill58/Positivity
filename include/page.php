@@ -33,6 +33,24 @@ class Page {
         $this->te = $this;
         $this->conn = new PDO('mysql:host=' . $settings["host"] . ':' . $settings["port"] . ';dbname=' . $settings["database"], $settings["username"], $settings["password"]);
         $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+        // Load history before everything
+        try {
+            $st = $this->conn->prepare("SELECT version FROM negativity_migrations_history WHERE subsystem = 'positivity_user' ORDER BY version DESC LIMIT 1");
+            $st->execute();
+            $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+            if(count($rows) == 0) { // not found, so we have to create table
+                return header("Location: ./error/no-config.php");
+            } else {
+                // here we have to add all change according to the result
+            }
+            $st->closeCursor();
+        } catch (PDOException $ex) {
+            return header("Location: ./error/no-negativity.php");
+            // die ('Erreur : ' . $ex->getMessage());
+        }
+
+        // Now load table informations
         if($this->info->getTableName() != ""){
             $sh = $this->conn->prepare("DESCRIBE `" . $this->info->getTableName() . "`");
             $this->valid_table = $sh->execute();
@@ -40,6 +58,7 @@ class Page {
         }
 
         $this->uuid_name_cache = array();
+
     }
 
     function run_query() {
@@ -344,7 +363,7 @@ class AccountInfo extends Info {
 class AdminInfo extends Info {
 
     function getTableName(){
-        return "";
+        return "positivity_user";
     }
 
     function getLink(){
@@ -352,7 +371,11 @@ class AdminInfo extends Info {
     }
 
     function getInfos($row) {
-        return array();
+        return array("id" => $row["id"],
+            "username" => $row["username"],
+            "admin" => $row["admin"],
+            "special" => $row["special"],
+            "options" => $row["options"]);
     }
 }
 

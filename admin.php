@@ -1,16 +1,18 @@
 <?php
 require_once './include/page.php';
+$page = new Page("admin");
+
 if(isset($_POST["id"])){
-	$nextUser = json_decode(file_get_contents("./include/user.txt"), true);
-	unset($nextUser[$_POST["id"]]);
-	file_put_contents("./include/user.txt", json_encode($nextUser));
+    $userDel = $page->conn->prepare("DELETE FROM positivity_user WHERE id = ?;");
+    $userDel->execute(array($_POST["id"]));
+    $userDel->closeCursor();
 } else if(isset($_POST["name"]) && isset($_POST["special"]) && isset($_POST["password"])){
-	$nextUser = json_decode(file_get_contents("./include/user.txt"), true);
-	$nextUser[$_POST["name"]] = json_encode(array("password" => hash("sha256", $_POST["password"]), "admin" => isset($_POST["is_admin"]), "special" => $_POST["special"]));
-	file_put_contents("./include/user.txt", json_encode($nextUser));
+    $userDel = $page->conn->prepare("INSERT INTO positivity_user (username, password, admin, special) VALUES (?,?,?,?);");
+    $isAdmin = isset($_POST["is_admin"]) && $_POST["is_admin"] ? 1 : 0;
+    $userDel->execute(array($_POST["name"], hash("sha256", $_POST["password"]), $isAdmin, $_POST["special"]));
+    $userDel->closeCursor();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,13 +25,12 @@ if(isset($_POST["id"])){
 <body>
 	<div class="page-wrapper">
 		<?php
-		$page = new Page("admin");
 		if(!(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"])){
 			header("Location: ./error/access-denied.php");
 			die();
 		}
 		$page->show_header();
-		$allUsers = json_decode(file_get_contents("./include/user.txt"), true);
+		$allUsers = $page->run_query();
 		?>
 		<div class="content-wrapper">
 			<div class="content">
@@ -44,16 +45,15 @@ if(isset($_POST["id"])){
 							</tr>
 						</thead>
 						<?php
-						foreach ($allUsers as $key => $value) {
+						foreach ($allUsers as $content) {
 							echo "<tr>";
-							echo "<td>" . $key . "</td>";
-							$content = json_decode($value, true);
+							echo "<td>" . $content["username"] . "</td>";
 							echo "<td>" . $page->msg($content["admin"] ? "yes" : "no") . "</td>";
 							echo "<td>" . $page->msg(isset($content["special"]) ? "admin.special." . $content["special"] : "admin.special.nothing") . "</td>";
 							if($content["special"] != "un_removable"){
 								echo '<td>
 									<form action="./admin.php" method="POST">
-										<input type="hidden" name="id" value="' . $key . '">
+										<input type="hidden" name="id" value="' . $content["id"] . '">
 										<button  class="btn btn-light btn-sm" >Delete</button>
 									</form>
 									</td>';
