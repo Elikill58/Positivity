@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <title>Negativity - Access denied</title>
-    <link href="../include/css/custom.css" rel="stylesheet">
+    <link href="../include/css/main.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
