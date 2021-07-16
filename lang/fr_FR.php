@@ -85,5 +85,6 @@ class Lang {
         $array["error.not_found.verifications"] = "Vérifications introuvable.";
 
         $array["server_crash"] = "Server Crash";
+        $array["world_downloader"] = "Téléchargement de monde";
     }
 }

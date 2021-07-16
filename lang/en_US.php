@@ -85,5 +85,6 @@ class Lang {
         $array["error.not_found.verifications"] = "Verifications not found.";
 
         $array["server_crash"] = "Server Crash";
+        $array["world_downloader"] = "World Downloader";
     }
 }
