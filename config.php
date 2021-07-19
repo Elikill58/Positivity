@@ -16,11 +16,30 @@ if(isset($_POST["host"]) && isset($_POST["port"]) && isset($_POST["database"]) &
 
     $limit_per_page = $_POST["limit_per_page"];
 
+    $conn = new PDO('mysql:host=' . $host . ':' . $port . ';dbname=' . $database, $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
     $content = json_encode(array("init" => true, "host" => $host, "port" => $port, "database" => $database,
                 "link" => $link, "username" => $username, "password" => $password, "lang" => $lang, "server_name" => $serverName,
                 "limit_per_page" => $limit_per_page));
     file_put_contents("./include/settings.txt", $content);
-    file_put_contents("./include/user.txt", json_encode(array($webUsername => json_encode(array("password" => hash("sha256", $webPassword), "admin" => true, "special" => "un_removable")))));
+
+    $hisCreate = $conn->prepare("INSERT INTO negativity_migrations_history (version, subsystem) VALUES (0, 'positivity_user')");
+    $hisCreate->execute();
+
+    $hisCreate = $conn->prepare("CREATE TABLE IF NOT EXISTS positivity_user (
+        id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(16) NOT NULL,
+        password TEXT NOT NULL,
+        admin BOOLEAN NOT NULL,
+        special VARCHAR(256) NOT NULL
+    );");
+    $hisCreate->execute();
+
+    $userDel = $conn->prepare("INSERT INTO positivity_user (username, password, admin, special) VALUES (?,?,?,?);");
+    $userDel->execute(array($webUsername, hash("sha256", $webPassword), true, "un_removable"));
+    $userDel->closeCursor();
+
     header("Location: ./index.php");
     exit();
 }
