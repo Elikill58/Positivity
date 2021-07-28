@@ -22,24 +22,26 @@
     if(isset($_POST["pseudo"]) AND isset($_POST["password"])){
         $pseudo = $_POST["pseudo"];
         $password = $_POST["password"];
-        $allUser = json_decode(file_get_contents("./include/user.txt"), true);
-        if (!isset($allUser[$pseudo])) {
+        $allUser = $page->run_query();
+        foreach ($allUser as $userContent) {
+            if ($userContent["username"] == $pseudo) {
+                if (hash('sha256', $password) == $userContent["password"]) {
+                    if(session_status() == PHP_SESSION_NONE)
+                        session_start();
+                    
+                    $_SESSION = array();
+                    $_SESSION["name"] = $pseudo;
+                    $_SESSION["is_admin"] = $userContent["admin"];
+                    $isConnect = true;
+                    $message = $page->msg("connection.well");
+                } else {
+                    $message = $page->msg("connection.wrong_pass");
+                }
+            }
+        }
+        if($message == "") {
             $message = $page->msg("connection.wrong_name");
             $wrongResult = true;
-        } else {
-            $userContent = json_decode($allUser[$pseudo], true);
-            if (hash('sha256', $password) == $userContent["password"]) {
-                if(session_status() == PHP_SESSION_NONE)
-                    session_start();
-                
-                $_SESSION = array();
-                $_SESSION["name"] = $pseudo;
-                $_SESSION["is_admin"] = $userContent["admin"];
-                $isConnect = true;
-                $message = $page->msg("connection.well");
-            } else {
-                $message = $page->msg("connection.wrong_pass");
-            }
         }
     }
 

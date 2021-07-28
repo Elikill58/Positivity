@@ -419,7 +419,7 @@ class CheckInfo extends Info {
 class ConnectInfo extends Info {
 
     function getTableName(){
-        return "";
+        return "positivity_user";
     }
 
     function getLink(){
@@ -427,8 +427,11 @@ class ConnectInfo extends Info {
     }
 
     function getInfos($row) {
-        $page = $this->page;
-        return array();
+        return array("id" => $row["id"],
+            "username" => $row["username"],
+            "admin" => $row["admin"],
+            "special" => $row["special"],
+            "options" => $row["options"]);
     }
 }
 
