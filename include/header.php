@@ -9,7 +9,8 @@ function show($page) {
             'bans.php'     => $row[0],
         );
     } catch (PDOException $ex) {
-        return header("Location: ./error/no-negativity.php");
+        header("Location: ./error/no-negativity.php");
+        die();
         // die ('Erreur : ' . $ex->getMessage());
     }
 

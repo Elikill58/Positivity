@@ -6,7 +6,7 @@ class Page {
         $this->settings = $settings;
         if(!(isset($settings["init"]) && $settings["init"] == "true")){
             header("Location: ./error/no-config.php");
-            return;
+            die();
         }
         include("./include/connect.php");
         if(!$isConnect && $name != "connect"){
@@ -20,7 +20,7 @@ class Page {
         $this->info = Info::create($this, $name);
         if($this->info == null){
             header("Location: ./error/404.php");
-            return;
+            die();
         }
 
         $this->page = 1;
@@ -32,7 +32,7 @@ class Page {
         }
         $this->te = $this;
         $this->conn = new PDO('mysql:host=' . $settings["host"] . ':' . $settings["port"] . ';dbname=' . $settings["database"], $settings["username"], $settings["password"]);
-        $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Load history before everything
         try {

@@ -22,7 +22,9 @@ if(isset($_POST["host"]) && isset($_POST["port"]) && isset($_POST["database"]) &
     $content = json_encode(array("init" => true, "host" => $host, "port" => $port, "database" => $database,
                 "link" => $link, "username" => $username, "password" => $password, "lang" => $lang, "server_name" => $serverName,
                 "limit_per_page" => $limit_per_page));
+    exec("chmod -R 0777 ./include");
     file_put_contents("./include/settings.txt", $content);
+    chmod("./include/settings.txt", 0755);
 
     $hisCreate = $conn->prepare("INSERT INTO negativity_migrations_history (version, subsystem) VALUES (0, 'positivity_user')");
     $hisCreate->execute();
