@@ -1,6 +1,8 @@
 <?php
 require_once './include/page.php';
 
+$page = new Page("index");
+
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +17,6 @@ require_once './include/page.php';
 <body>
 	<div class="page-wrapper">
 		<?php
-		$page = new Page("index");
 		$page->show_header();
 		?>
 		<div class="content-wrapper">

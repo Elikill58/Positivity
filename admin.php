@@ -2,6 +2,11 @@
 require_once './include/page.php';
 $page = new Page("admin");
 
+if(!(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"])){
+	header("Location: ./error/access-denied.php");
+	die();
+}
+
 if(isset($_POST["id"])){
     $userDel = $page->conn->prepare("DELETE FROM positivity_user WHERE id = ?;");
     $userDel->execute(array($_POST["id"]));
@@ -25,10 +30,6 @@ if(isset($_POST["id"])){
 <body>
 	<div class="page-wrapper">
 		<?php
-		if(!(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"])){
-			header("Location: ./error/access-denied.php");
-			die();
-		}
 		$page->show_header();
 		$allUsers = $page->run_query();
 		?>

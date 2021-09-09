@@ -1,4 +1,9 @@
+<?php
+$isConnect = false;
+require_once('./include/page.php');
 
+$page = new Page("connect");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,12 +15,7 @@
 </head>
 <body>
     <?php
-
-    $isConnect = false;
-    require_once('./include/page.php');
-
-    $page = new Page("connect");
-
+    
     $message = "";
     $wrongResult = false;
 

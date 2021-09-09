@@ -38,8 +38,8 @@ if($uuid != null && $name == null){
 </head>
 <body>
 	<div class="page-wrapper">
-    <?php $page->show_header(); ?>
     <?php
+    $page->show_header();
 
     if($uuid == null || $name == null){
         ?>

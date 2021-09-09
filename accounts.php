@@ -1,5 +1,6 @@
 <?php
 require_once './include/page.php';
+$page = new Page("account");
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,6 @@ require_once './include/page.php';
 <body>
 	<div class="page-wrapper">
         <?php
-            $page = new Page("account");
             $page->show_header();
         ?>
 		<div class="content-wrapper">
