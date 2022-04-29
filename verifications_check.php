@@ -75,7 +75,7 @@ if($uuid != null){
                         <tr>
                             <td rowspan=1><?php echo $page->get_avatar($page->get_name($rowVerif["uuid"]), $rowVerif["uuid"]); ?></td>
                             <td rowspan=1><?php echo $page->get_avatar($rowVerif["startedBy"], $page->get_uuid($rowVerif["startedBy"])); ?></td>
-                            <td rowspan=2><?php echo str_replace("\n", "<br>", $rowVerif["result"]); ?></td>
+                            <td rowspan=2><?php echo str_replace("\n", "<br>", $page->addColorFromResult($rowVerif["result"])); ?></td>
                         </tr>
                         <tr>
                             <td><?php echo $page->parse_version_name($rowVerif["player_version"]); ?></td>

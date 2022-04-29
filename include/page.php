@@ -31,7 +31,7 @@ class Page {
             }
         }
         $this->te = $this;
-        $this->conn = new PDO('mysql:host=' . $settings["host"] . ':' . $settings["port"] . ';dbname=' . $settings["database"], $settings["username"], $settings["password"]);
+        $this->conn = new PDO('mysql:host=' . $settings["host"] . ':' . $settings["port"] . ';dbname=' . $settings["database"], $settings["username"], $settings["password"], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Load history before everything
@@ -275,6 +275,49 @@ class Page {
             }
         }
         return $nb;
+    }
+
+    function addColorFromResult($str) {
+        $str = "<span>" . $str;
+        $codes = array(
+            "§0" => "#000000",
+            "§1" => "#0000AA",
+            "§2" => "#00AA00",
+            "§3" => "#00AAAA",
+            "§4" => "#AA0000",
+            "§5" => "#AA00AA",
+            "§6" => "#FFAA00",
+            "§7" => "#AAAAAA",
+            "§8" => "#555555",
+            "§9" => "#5555FF",
+            "§a" => "#55FF55",
+            "§b" => "#55FFFF",
+            "§c" => "#FF5555",
+            "§d" => "#FF55FF",
+            "§e" => "#FFFF55",
+            "§f" => "#FFFFFF",
+
+            "&0" => "#000000",
+            "&1" => "#0000AA",
+            "&2" => "#00AA00",
+            "&3" => "#00AAAA",
+            "&4" => "#AA0000",
+            "&5" => "#AA00AA",
+            "&6" => "#FFAA00",
+            "&7" => "#AAAAAA",
+            "&8" => "#555555",
+            "&9" => "#5555FF",
+            "&a" => "#55FF55",
+            "&b" => "#55FFFF",
+            "&c" => "#FF5555",
+            "&d" => "#FF55FF",
+            "&e" => "#FFFF55",
+            "&f" => "#FFFFFF"
+        );
+        foreach ($codes as $key => $value){
+            $str = str_replace($key, '</span><span style="color: ' . $value . '">', $str);
+        }
+        return $str . "</span>";
     }
 }
 
