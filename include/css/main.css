@@ -65,7 +65,6 @@ footer {
 }
 .page-wrapper .content-wrapper .container {
   margin: 20px 20px 0 20px;
-  padding: 20px;
 }
 
 h2 {
@@ -271,7 +270,6 @@ select {
 }
 
 .pager-full {
-  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
@@ -283,7 +281,6 @@ table {
   border-spacing: 0;
   border-radius: 20px;
   width: 100%;
-  padding-bottom: 20px;
 }
 table thead th {
   background: rgba(86, 86, 86, 0.5);
@@ -294,9 +291,6 @@ table thead th:first-of-type {
 }
 table thead th:last-of-type {
   border-top-right-radius: 15px;
-}
-table td {
-  padding: 10px 10px;
 }
 table tr td {
   border-bottom: 3px solid #404040;

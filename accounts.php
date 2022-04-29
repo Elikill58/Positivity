@@ -28,6 +28,7 @@ $page = new Page("account");
 
                         $page->print_row($row);
                     }
+                    $page->show_page_mover();
                 ?>
                 </table>
             </div>
