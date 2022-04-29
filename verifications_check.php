@@ -63,31 +63,34 @@ if($uuid != null){
                 </div>
                 <?php
             } else {
+                echo '<div class="container"><table>';
+                ?>
+                <thead>
+                    <tr>
+                        <th style="width: 10%"><?php echo $page->msg("column.name"); ?></th>
+                        <th style="width: 10%"><?php echo $page->msg("column.started_by"); ?></th>
+                        <th style="width: 50%"><?php echo $page->msg("verif.result"); ?></th>
+                    </tr>
+                </thead>
+                <?php
                 foreach ($allRowVerif as $rowVerif) {
-                    echo '<div class="container"><table>';
-                    ?>  <thead>
-                            <tr>
-                                <th style="width: 10%"><?php echo $page->msg("column.name"); ?></th>
-                                <th style="width: 10%"><?php echo $page->msg("column.started_by"); ?></th>
-                                <th style="width: 50%"><?php echo $page->msg("verif.result"); ?></th>
-                            </tr>
-                        </thead>
-                        <tr>
-                            <td rowspan=1><?php echo $page->get_avatar($page->get_name($rowVerif["uuid"]), $rowVerif["uuid"]); ?></td>
-                            <td rowspan=1><?php echo $page->get_avatar($rowVerif["startedBy"], $page->get_uuid($rowVerif["startedBy"])); ?></td>
-                            <td rowspan=2><?php echo str_replace("\n", "<br>", $page->addColorFromResult($rowVerif["result"])); ?></td>
-                        </tr>
-                        <tr>
-                            <td><?php echo $page->parse_version_name($rowVerif["player_version"]); ?></td>
-                            <td><?php echo strtolower($rowVerif["creation_time"]); ?></td>
-                        </tr>
+                    ?>
+                    <tr>
+                        <td rowspan=1><?php echo $page->get_avatar($page->get_name($rowVerif["uuid"]), $rowVerif["uuid"]); ?></td>
+                        <td rowspan=1><?php echo $page->get_avatar($rowVerif["startedBy"], $page->get_uuid($rowVerif["startedBy"])); ?></td>
+                        <td rowspan=2><?php echo str_replace("\n", "<br>", $page->addColorFromResult($rowVerif["result"])); ?></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $page->parse_version_name($rowVerif["player_version"]); ?></td>
+                        <td><?php echo strtolower($rowVerif["creation_time"]); ?></td>
+                    </tr>
                     <?php
-                    echo '</table></div><br/>';
                 }
+                echo '</table></div><br/>';
+                $page->show_footer(); 
             }
         }
         ?>
-        <?php $page->show_footer(); ?>
         </div>
     </div>
 </body>
