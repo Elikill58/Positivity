@@ -12,6 +12,17 @@ $page = new Page("connect");
     <meta name="description" content="">
     <title>Negativity - Connection</title>
     <link href="./include/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script>
+    function togglePasswordVisibility() {
+      var x = document.getElementById("password");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    }
+    </script>
 </head>
 <body>
     <?php
@@ -68,13 +79,19 @@ $page = new Page("connect");
                 <h1><?php echo $page->msg("connection.name"); ?></h1>
             </div>
             <form action="./connection.php" method="post" id="connection" class="text-center">
-                
                 <div class="table-center">
                     <div class="row">
-                        <input class="" type="text" name="pseudo" id="pseudo" placeholder="<?php echo $page->msg("connection.form.login"); ?>" required></input>
+                        <div class="input" style="display: flex; width: 100%;">
+                            <i class="material-icons">person</i>
+                            <input style="border: none;" type="text" name="pseudo" id="pseudo" placeholder="<?php echo $page->msg("connection.form.login"); ?>" required />
+                        </div>
                     </div>
                     <div class="row">
-                        <input class="" type="password" name="password" id="password" placeholder="<?php echo $page->msg("connection.form.password"); ?>" required></input>
+                        <div class="input" style="display: flex; width: 100%;">
+                            <i class="material-icons">lock</i>
+                            <input style="border: none;" type="password" name="password" id="password" placeholder="<?php echo $page->msg("connection.form.password"); ?>" required />
+                            <i class="material-icons" onclick="togglePasswordVisibility()" style="cursor: pointer;">visibility</i>
+                        </div>
                     </div>
                 </div>
                 <br/>
@@ -84,6 +101,5 @@ $page = new Page("connect");
         }
         ?>
     </div>
-
 </body>
 </html>
