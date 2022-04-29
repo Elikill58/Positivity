@@ -329,7 +329,7 @@ table tr td {
 }
 .sidebar .nav-item a {
   display: inline-block;
-  width: 100%;
+  width: 85%;
   padding: 18px;
 }
 .sidebar .nav-item .nav-link {
@@ -348,14 +348,12 @@ table tr td {
   color: #BB86FC;
 }
 .sidebar .nav-item span.number {
-  position: absolute;
-  top: 6px;
   color: #BB86FC;
   border-radius: 10px;
-  padding: 2px;
   text-align: center;
   font-weight: bold;
   font-size: 20px;
+  float: right;
 }
 
 .topbar {
