@@ -11,7 +11,13 @@ html, body {
 
 body {
   --page-background: #fff;
-  font-size: 0.9vw !important;
+  font-size: 0.9vw;
+}
+
+@media screen and (min-width: 1500px) {
+  body {
+     font-size: 16px !important;
+  }
 }
 
 footer {
@@ -445,6 +451,10 @@ table tr td {
 }
 .col-12 {
   width: 100%;
+}
+
+tr {
+  height: 40px;
 }
 
 /*# sourceMappingURL=main.css.map */

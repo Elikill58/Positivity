@@ -86,7 +86,7 @@ if(isset($_POST["id"])){
 						</thead>
 						<?php
 						foreach ($allUsers as $content) {
-							echo '<tr style="height: 40px;">';
+							echo '<tr>';
 							echo "<td>" . $content["username"] . "</td>";
 							echo "<td>" . $page->msg($content["admin"] ? "yes" : "no") . "</td>";
 							echo "<td>" . $page->msg(isset($content["special"]) ? "admin.special." . $content["special"] : "admin.special.nothing") . "</td>";
