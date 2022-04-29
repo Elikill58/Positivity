@@ -1,4 +1,6 @@
-# Negativity-Interface
+# Positivity
+
+Welcome to the Positivity wiki!
 
 ## What is it ?
 
@@ -8,23 +10,13 @@ It have been made for [Negativity v2](https://www.spigotmc.org/resources/86874/)
 
 ## How to install ?
 
-Pre-requis:
-- Website server (apache/nginx/...)
-- PhP
-- PDO extension enabled in PhP config
-
-1) Clone the git (or download the data)
-2) Put all content in your website folder (in `/var/www/html` by default, on linux).
-3) Now, go at http://your-website.com/config and config your server.
-4) Everything done !
+You can find a complete install and first configuration wiki [here](https://github.com/Elikill58/Positivity/wiki/How-to-install-and-configure-%3F).
 
 ## How to use ?
 
-You can connect to the website, and see informations.
+To know how to use Positivity and see some example of content, you can find a wiki [here](https://github.com/Elikill58/Positivity/wiki/How-to-use-%3F).
 
-If you have moderator, you can create users.
-
-## Build Setup
+## For developers: Build Setup
 
 ``` bash
 # install dependencies
