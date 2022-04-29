@@ -24,6 +24,15 @@ input{
     border-width: 0;
     color: #C4C4C4;
 }
+.input {
+    padding: 5px;
+    font-size: 20px !important;
+    font-family: "Roboto", sans-serif;
+    background-color: #565656;
+    border-radius: 10px;
+    border-width: 0;
+    color: #C4C4C4;
+}
 .table-center {
     border-spacing: 10px;
     display: grid;
@@ -36,7 +45,7 @@ input{
         margin:10px;
         justify-content: center;
     }
-    input{
+    input, .input {
         margin: auto;
         width: 85%; 
         padding: 5px 10px;
@@ -120,7 +129,6 @@ select {
     }
 }
 .pager-full{
-    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
@@ -131,7 +139,6 @@ table {
     border-spacing: 0;
     border-radius: 20px;
     width: 100%;
-    padding-bottom: 20px;
     thead th {
         background: rgba(86, 86, 86, 0.5);
         padding: 20px;
@@ -143,10 +150,25 @@ table {
     thead th:last-of-type{
         border-top-right-radius: 15px; 
     }
-    td {
-        padding: 10px 10px;
+    tr {
+        height: 40px;
     }
     tr td{
         border-bottom: 3px solid #404040;
     }
+    tr:nth-of-type(even) {
+        background-color: #323232;
+    }
+}
+.col-2 {
+    width: 16%;
+}
+.col-3 {
+    width: 25%;
+}
+.col-6 {
+    width: 50%;
+}
+.col-12 {
+    width: 100%;
 }

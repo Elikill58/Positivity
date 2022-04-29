@@ -1,6 +1,7 @@
 .sidebar {
     position: fixed;
     height: 100%;
+    width: 10.2rem;
     left: 0px;
     top: 0px;
     overflow: hidden;
@@ -11,10 +12,11 @@
     .nav-item {
         position: relative;
         text-align: left;
+        display: flex;
         a {
             display: inline-block;
             width: 100%;
-            padding: 18px;
+            padding: 18px 14px;
         }
         .nav-link{
             color: $text-color;
@@ -32,14 +34,12 @@
             }
         }
         span.number{
-            position: absolute;
-            top: 6px;
             color: $primary-color;
             border-radius: 10px;
-            padding: 2px;
             text-align: center;
             font-weight: bold;
             font-size: 20px;
+            float: right;
         }
     }
 }
