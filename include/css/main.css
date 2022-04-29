@@ -455,4 +455,7 @@ tr {
   height: 40px;
 }
 
+tr:nth-of-type(even) {
+  background-color: #323232;
+}
 /*# sourceMappingURL=main.css.map */
