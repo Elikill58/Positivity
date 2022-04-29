@@ -26,6 +26,17 @@ if(isset($_POST["id"])){
     <meta name="description" content="">
     <title>Negativity - Index</title>
     <link href="./include/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script>
+    function togglePasswordVisibility() {
+      var x = document.getElementById("password");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    }
+    </script>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -35,6 +46,34 @@ if(isset($_POST["id"])){
 		?>
 		<div class="content-wrapper">
 			<div class="content">
+				<form class="container" action="./admin.php" method="POST">
+					<h2><?php echo $page->msg("admin.create_user"); ?></h2>
+					<br>
+					<div class="row" style="display: flex; padding-bottom: 10px; justify-content: normal;">
+	                    <div class="input col-3" style="margin: 0 10px;">
+	                        <i class="material-icons">person</i>
+	                        <input style="border: none;" type="text" name="name" placeholder="<?php echo $page->msg("admin.column.name"); ?>" required />
+	                    </div>
+	                    <div class="input col-3" style="display: flex; margin: 0 10px;">
+	                        <i class="material-icons">lock</i>
+	                        <input style="border: none; height: fit-content;" type="password" name="password" id="password" placeholder="<?php echo $page->msg("admin.column.password"); ?>" required />
+	                        <i class="material-icons" onclick="togglePasswordVisibility()" style="cursor: pointer;">visibility</i>
+	                    </div>
+	                    <div class="input col-2" style="margin: 0 10px; padding-top: 10px;">
+							<span class="text-white"><?php echo $page->msg("admin.column.is_admin"); ?></span>
+							<input type="checkbox" id="customCheck" name="is_admin" style="width: fit-content;">
+						</div>
+	                    <div class="input col-2" style="margin: 0 10px;">
+							<select name="special" class="custom-select custom-select-sm" style="width:150px;">
+								<option value="nothing" selected="selected"><?php echo $page->msg("admin.special.nothing"); ?></option>
+								<option value="un_removable"><?php echo $page->msg("admin.special.un_removable"); ?></option>
+							</select>
+						</div>
+	                    <div class="col-2">
+							<button class="btn-outline"><div class="text"><?php echo $page->msg("admin.button.create"); ?></div></button>
+						</div>
+					</div>
+				</form>
 				<div class="container">
 					<table>
 						<thead>
@@ -47,7 +86,7 @@ if(isset($_POST["id"])){
 						</thead>
 						<?php
 						foreach ($allUsers as $content) {
-							echo "<tr>";
+							echo '<tr style="height: 40px;">';
 							echo "<td>" . $content["username"] . "</td>";
 							echo "<td>" . $page->msg($content["admin"] ? "yes" : "no") . "</td>";
 							echo "<td>" . $page->msg(isset($content["special"]) ? "admin.special." . $content["special"] : "admin.special.nothing") . "</td>";
@@ -63,62 +102,10 @@ if(isset($_POST["id"])){
 							}
 							echo "</tr>";
 						}
+                    	$page->show_page_mover();
 						?>
 					</table>
 				</div>
-				<form class="container" action="./admin.php" method="POST">
-					<h2><?php echo $page->msg("admin.create_user"); ?></h2>
-					<br>
-					<table class="table table-striped table-bordered table-condensed text-white">
-						<div class="form-row justify-content-center">
-							<div class="form-group col-md-3">
-								<div class="input-group mx-auto mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text bg-dark font-weight-bold text-white"><?php echo $page->msg("admin.column.name"); ?></span>
-									</div>
-									<input class="form-control" type="text" name="name" required></input>
-								</div>
-							</div>
-						</div>
-						<div class="form-row justify-content-center">
-							<div class="form-group col-md-3">
-								<div class="input-group mx-auto mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text bg-dark font-weight-bold text-white"><?php echo $page->msg("admin.column.password"); ?></span>
-									</div>
-									<input class="form-control" type="text" name="password" required></input>
-								</div>
-							</div>
-						</div>
-						<div class="form-row justify-content-center">
-							<div class="form-group col-md-3">
-								<div class="input-group mx-auto mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text bg-dark font-weight-bold text-white"><?php echo $page->msg("admin.column.is_admin"); ?></span>
-									</div>
-									<div class="input-group-append">
-										<div class="input-group-text bg-dark font-weight-bold text-white">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input" id="customCheck" name="is_admin">
-												<label class="custom-control-label" for="customCheck"></label>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<tr>
-							<td style="text-align: right;"><label><?php echo $page->msg("admin.column.special"); ?></label> : </td>
-							<td style="text-align: left;">
-								<select name="special" class="custom-select custom-select-sm" style="width:150px;">
-									<option value="nothing" selected="selected"><?php echo $page->msg("admin.special.nothing"); ?></option>
-									<option value="un_removable"><?php echo $page->msg("admin.special.un_removable"); ?></option>
-								</select>
-							</td>
-						</tr>
-					</table>
-					<button class="btn-outline"><div class="text"><?php echo $page->msg("admin.button.create"); ?></div></button>
-				</form>
 			</div>
 			<?php $page->show_footer(); ?>
 		</div>

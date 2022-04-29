@@ -154,9 +154,19 @@ label {
   text-align: right;
 }
 
-input, .input {
+input {
   margin-left: auto;
   width: 85%;
+  padding: 5px;
+  font-size: 20px !important;
+  font-family: "Roboto", sans-serif;
+  background-color: #565656;
+  border-radius: 10px;
+  border-width: 0;
+  color: #C4C4C4;
+}
+
+.input {
   padding: 5px;
   font-size: 20px !important;
   font-family: "Roboto", sans-serif;
@@ -422,6 +432,19 @@ table tr td {
   top: 0;
   left: 0;
   transform: translateX(0);
+}
+
+.col-2 {
+  width: 16%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-12 {
+  width: 100%;
 }
 
 /*# sourceMappingURL=main.css.map */
