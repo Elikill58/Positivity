@@ -109,6 +109,7 @@ a {
   display: inline-block;
   position: relative;
   transition: color 0.1s ease-in;
+  overflow: hidden;
 }
 .btn-outline::before {
   content: "";
