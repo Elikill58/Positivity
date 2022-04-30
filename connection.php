@@ -3,6 +3,37 @@ $isConnect = false;
 require_once('./include/page.php');
 
 $page = new Page("connect");
+    
+$message = "";
+$wrongResult = false;
+
+if(isset($_POST["pseudo"]) AND isset($_POST["password"])){
+    $pseudo = $_POST["pseudo"];
+    $password = $_POST["password"];
+    $allUser = $page->run_query();
+    foreach ($allUser as $userContent) {
+        if ($userContent["username"] == $pseudo) {
+            if (hash('sha256', $password) == $userContent["password"]) {
+                if(session_status() == PHP_SESSION_NONE)
+                    session_start();
+                
+                $_SESSION = array();
+                $_SESSION["name"] = $pseudo;
+                $_SESSION["is_admin"] = $userContent["admin"];
+                $isConnect = true;
+                header('Location: ./');
+                exit();
+                //$message = $page->msg("connection.well");
+            } else {
+                $message = $page->msg("connection.wrong_pass");
+            }
+        }
+    }
+    if($message == "") {
+        $message = $page->msg("connection.wrong_name");
+        $wrongResult = true;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,39 +56,6 @@ $page = new Page("connect");
     </script>
 </head>
 <body>
-    <?php
-    
-    $message = "";
-    $wrongResult = false;
-
-    if(isset($_POST["pseudo"]) AND isset($_POST["password"])){
-        $pseudo = $_POST["pseudo"];
-        $password = $_POST["password"];
-        $allUser = $page->run_query();
-        foreach ($allUser as $userContent) {
-            if ($userContent["username"] == $pseudo) {
-                if (hash('sha256', $password) == $userContent["password"]) {
-                    if(session_status() == PHP_SESSION_NONE)
-                        session_start();
-                    
-                    $_SESSION = array();
-                    $_SESSION["name"] = $pseudo;
-                    $_SESSION["is_admin"] = $userContent["admin"];
-                    $isConnect = true;
-                    $message = $page->msg("connection.well");
-                } else {
-                    $message = $page->msg("connection.wrong_pass");
-                }
-            }
-        }
-        if($message == "") {
-            $message = $page->msg("connection.wrong_name");
-            $wrongResult = true;
-        }
-    }
-
-    // $page->show_header();
-    ?>
     <div class="container solo">
         <?php
         if($message != ""){
