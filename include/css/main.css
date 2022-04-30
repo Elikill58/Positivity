@@ -108,7 +108,7 @@ a {
   cursor: pointer;
   display: inline-block;
   position: relative;
-  transition: 0.12s ease-in;
+  transition: color 0.1s ease-in;
 }
 .btn-outline::before {
   content: "";
@@ -117,10 +117,8 @@ a {
   right: 100%;
   bottom: -1px;
   top: -1px;
-  border-radius: 10px;
-  border: 8px solid #BB86FC;
   background-color: #BB86FC;
-  transition: all 0.12s ease-in;
+  transition: right 0.1s ease-in;
 }
 .btn-outline:hover {
   color: #292929;
