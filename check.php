@@ -1,28 +1,52 @@
 <?php
 require_once './include/page.php';
-
 $page = new Page("check");
+
+$search = (isset($_GET["search"]) ? $_GET["search"] : null);
 
 $uuid = (isset($_GET["uuid"]) ? $_GET["uuid"] : null);
 $name = (isset($_GET["name"]) ? $_GET["name"] : null);
 
-if($uuid == null && $name != null)
-    $uuid = $page->get_uuid($name);
-
-if($uuid != null && $name == null){
-    if(!(preg_match("/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i", $uuid))){
-        $nextUUID = "";
+if($search != null AND ($name == null AND $uuid == null)){ // if search
+    if(preg_match("/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i", $search)) { // search with UUID
+        $uuid = $search;
+        $name = $page->get_name($uuid);
+    } else if(preg_match("/^[0-9A-F]{8}[0-9A-F]{4}[0-9A-F]{3}[89AB][0-9A-F]{3}[0-9A-F]{12}$/i", $search)) { // search with UUID that don't have '-'
+        $search = "";
         $i = 1;
-        foreach (str_split($uuid) as $char) {
-            $nextUUID .= $char;
+        foreach (str_split($search) as $char) {
+            $search .= $char;
             if($i == 8 || $i == 12 || $i == 16 || $i == 20)
-                $nextUUID .= "-";
+                $search .= "-";
             $i++;
         }
-        $uuid = $nextUUID;
+        $name = $page->get_name($uuid);
+    } else { // give name
+        $name = $search;
+        $uuid = $page->get_uuid($name);
+        if($uuid == null) { // failed to find UUID
+            $name = null;
+        }
     }
+} else { // directly give a value
+    if($uuid == null && $name != null)
+        $uuid = $page->get_uuid($name);
 
-    $name = $page->get_name($uuid);
+    if($uuid != null && $name == null){
+        if(!(preg_match("/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i", $uuid))){
+            $nextUUID = "";
+            $i = 1;
+            foreach (str_split($uuid) as $char) {
+                $nextUUID .= $char;
+                if($i == 8 || $i == 12 || $i == 16 || $i == 20)
+                    $nextUUID .= "-";
+                $i++;
+            }
+            $uuid = $nextUUID;
+        }
+
+        $name = $page->get_name($uuid);
+    }
 }
 
 ?>
@@ -240,11 +264,11 @@ if($uuid != null && $name == null){
                 }
                 echo '</table></div>';
             }
-            ?>
-            <?php } ?>
+        }
+        ?>
         </div>
     <?php $page->show_footer(); ?>
-        </div>
+    </div>
     </div>
 
 </body>
