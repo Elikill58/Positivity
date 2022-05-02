@@ -8,6 +8,9 @@ html, body {
   padding: 0;
   height: 100%;
 }
+tr:last-child td {
+    border-bottom: 0px;
+}
 
 .material-icons {
   vertical-align: middle;
