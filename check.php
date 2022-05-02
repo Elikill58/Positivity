@@ -80,13 +80,19 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
                 <?php
                 // now let's trying to find possible players
                 if($search != null) { // but only if it's search
-                    echo '<div class="container"><table>';
+
                     $st = $page->conn->prepare("SELECT * FROM negativity_accounts WHERE UPPER(playername) LIKE UPPER(?);");
-                    if ($st->execute(array('%' . $search . '%')) && $row = $st->fetch()) {
-                        $page->print_row($row);
-                    }
+                    $st->execute(array('%' . $search . '%'));
+                    $allRowSearch = $st->fetchAll(PDO::FETCH_ASSOC);
                     $st->closeCursor();
-                    echo '</table></div>';
+                    $nbSearch = count($allRowSearch);
+                    if($nbSearch > 0) {
+                        echo '<div class="container"><table>';
+                        foreach ($allRowSearch as $rowSearch) {
+                            $page->print_row($rowSearch);
+                        }
+                        echo '</table></div>';
+                    }
                 }
                 $page->show_footer();
                 ?>
