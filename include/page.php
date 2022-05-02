@@ -455,7 +455,26 @@ class CheckInfo extends Info {
     }
 
     function getInfos($row) {
-        return array();
+        return array("id" => $row["id"],
+                    "name" => $this->page->get_avatar($row["playername"], $row["id"]),
+                    "lang" => $row["language"],
+                    "minerate_full" => $row["minerate_full_mined"],
+                    //"minerate" => $row["minerate"], CANNOT SHOW ON LIST ACCOUNT INFO
+                    "most_clicks" => $row["most_clicks_per_second"],
+                    "violations" => $this->page->countAllViolation($row["violations_by_cheat"]),
+                    "verifications" => $this->getVerifNumber($row["id"]),
+                    "creation_time" => $row["creation_time"]
+        );
+    }
+
+    function getVerifNumber($uuid){
+        $result = 0;
+        $st = $this->page->conn->prepare("SELECT COUNT(*) as nb FROM negativity_verifications WHERE uuid = ?;");
+        if ($st->execute(array($uuid)) && $row = $st->fetch()) {
+            $result = $row['nb'];
+        }
+        $st->closeCursor();
+        return $result;
     }
 }
 

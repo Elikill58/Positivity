@@ -60,6 +60,7 @@ class Lang {
         $array["check.minerate"] = "Minerate";
         $array["check.bans"] = "Bans (%nb%)";
         $array["check.verifications"] = "Vérifications (%nb%)";
+        $array["check.propositions"] = "Voici quelques joueurs qui peuvent répondre à votre demande";
 
         $array["minerate.name"] = "Minerate";
         $array["minerate.diamond_ore"] = "Minerais de diamant";
