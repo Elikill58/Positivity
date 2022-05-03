@@ -43,20 +43,28 @@ class Page {
                 return header("Location: ./error/no-config.php");
             } else {
                 // here we have to add all change according to the result
+                $checkBanSt = $this->conn->prepare("SELECT version FROM negativity_migrations_history WHERE subsystem LIKE 'bans/%' ORDER BY version DESC");
+                $checkBanSt->execute();
+                $checkBansRows = $checkBanSt->fetchAll(PDO::FETCH_ASSOC);
+                $this->has_bans = count($checkBansRows) > 0;
             }
             $st->closeCursor();
         } catch (PDOException $ex) {
             return header("Location: ./error/no-negativity.php");
-            // die ('Erreur : ' . $ex->getMessage());
+            //die ('Erreur : ' . $ex->getMessage());
         }
 
+        if($name == "ban" && !$this->has_bans) {
+            header("Location: ./error/feature-disabled.php");
+            exit();
+        }
         // Now load table informations
         if($this->info->getTableName() != ""){
             $sh = $this->conn->prepare("DESCRIBE `" . $this->info->getTableName() . "`");
             $this->valid_table = $sh->execute();
+            print_r($this->valid_table);
             $sh->closeCursor();
         }
-
         $this->uuid_name_cache = array();
 
     }
@@ -425,7 +433,7 @@ class AdminInfo extends Info {
 class BanInfo extends Info {
 
     function getTableName(){
-        return "negativity_bans_active";
+        return $this->page->has_bans ? "negativity_bans_active" : "";
     }
 
     function getLink(){

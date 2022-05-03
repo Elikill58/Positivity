@@ -1,7 +1,7 @@
 <?php
 
 function show($page) {
-    try {
+    /*try {
         $st = $page->conn->query("SELECT (SELECT COUNT(*) FROM negativity_bans_active)");
         ($row = $st->fetch(PDO::FETCH_NUM)) or die('Failed to fetch row counts.');
         $st->closeCursor();
@@ -12,7 +12,7 @@ function show($page) {
         header("Location: ./error/no-negativity.php");
         die();
         // die ('Erreur : ' . $ex->getMessage());
-    }
+    }*/
 
     $settings = $page->settings;
     ?>
@@ -33,6 +33,8 @@ function show($page) {
         <?php
         if(isset($_SESSION["name"])){
             foreach ($page->getNavbar() as $key => $value) {
+                if($key == "bans" && !$page->has_bans)
+                    continue;
                 echo '<div class="nav-item' . ($page->info == $value ? ' active' : '') . '">
                         <a class="nav-link" href="' . ($value->getLink()) . '.php">' . $page->msg("title." . $key) . '
                             <span class="number">' . ($value->getNumber()) . '</span>
