@@ -1,5 +1,5 @@
 Deny from all
-<FilesMatch "\.(jpg|gif|png|php|css|scss)$">
+<FilesMatch "\.(jpg|gif|png|php|css|scss|css.map)$">
 	Order Deny,Allow
     Allow from all
 </FilesMatch>

@@ -172,3 +172,6 @@ table {
 .col-12 {
     width: 100%;
 }
+tr:last-child td {
+    border-bottom: 0px;
+}
