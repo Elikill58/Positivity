@@ -20,7 +20,7 @@ To know how to use Positivity and see some example of content, you can find a wi
 
 ``` bash
 # install dependencies
-$ npm install # Or yarn install
+$ npm install -g sass # Or yarn install
 
 # watch and auto-compiles Sass every time it changes.
 $ sass --watch include/css/sass/main.scss:include/css/main.css
