@@ -28,6 +28,6 @@ body:
 - type: textarea
   id: reasons
   attributes:
-    label: "Why this feature should be added ?"
-    description: "Explain all step to reproduce, with some element that can be particular to your setup and help us to fix it"
-    placeholder: "To reproduce, I do ... then ..."
+    label: "Why this feature should be added ? How it can be usefull ?"
+    description: "This question is optionel. It's mainly for big change or for people to explain why they think it's important"
+    placeholder: "It should be added because ..."
