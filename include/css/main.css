@@ -331,7 +331,7 @@ table tr:nth-of-type(even) {
   width: 100%;
 }
 
-tr:last-child td {
+.content .container table tr:last-child td {
   border-bottom: 0px;
 }
 
