@@ -58,11 +58,8 @@ if(file_exists("./include/settings.txt")) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <?php $page->print_common_head(); ?>
     <title>Negativity - Configuration</title>
-    <link href="./include/css/main.css" rel="stylesheet">
     <script type="text/javascript">
         function checkDbConnection(argument) {
             var host = document.getElementById("host").value;

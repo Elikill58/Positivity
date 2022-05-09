@@ -68,6 +68,16 @@ class Page {
 
     }
 
+    function print_common_head() {
+        ?>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <link href="./include/css/main.css" rel="stylesheet">
+        <link rel="icon" type="image/png" href="./include/img/favicon.png"/>
+        <?php
+    }
+
     function run_query() {
         if($this->info->getTableName() == ""){
             return null;

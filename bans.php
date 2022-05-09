@@ -7,12 +7,8 @@ $page = new Page("ban");
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <?php $page->print_common_head(); ?>
     <title>Negativity - Bans</title>
-    <link href="./include/css/main.css" rel="stylesheet">
-    <link rel="icon" href="./include/img/favicon.png">
 </head>
 <body>
 	<div class="page-wrapper">
