@@ -9,6 +9,10 @@ class Lang {
 
         $array["index.main"] = "Bienvenue sur l'interface web de Negativity pour %server% !";
         $array["index.sub"] = "Ici, tout les bans, comptes Negativity et verifications sont listés.";
+        $array["index.empty"] = "Utilisez plus Negativity pour obtenir des informations.";
+
+        $array["account.empty"] = "Aucun compte créé pour le moment.";
+        $array["bans.empty"] = "Aucun banissement effectué pour le moment.";
         
         $array["connection.name"] = "Connexion";
         $array["connection.form.login"] = "Identifiant";
@@ -69,8 +73,8 @@ class Lang {
         $array["minerate.coal_ore"] = "Minerais de charbon";
         $array["minerate.all"] = "Tout les blocks";
 
-        $array["verif.infos"] = "Informations principales";
-        $array["verif.result"] = "Résultat de la vérification";
+        $array["verifications.result"] = "Résultat de la vérification";
+        $array["verifications.empty"] = "Aucun vérification effectué pour le moment.";
 
         $array["admin.create_user"] = "Créer un utilisateur";
         $array["admin.button.create"] = "Créer l'utilisateur";

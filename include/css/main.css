@@ -8,9 +8,6 @@ html, body {
   padding: 0;
   height: 100%;
 }
-tr:last-child td {
-    border-bottom: 0px;
-}
 
 .material-icons {
   vertical-align: middle;
@@ -293,8 +290,9 @@ select {
 }
 
 table {
-  border-spacing: 0;
-  border-radius: 20px;
+  color: #C4C4C4 !important;
+  border-spacing: 0 !important;
+  border-radius: 20px !important;
   width: 100%;
 }
 table thead th {
@@ -331,6 +329,10 @@ table tr:nth-of-type(even) {
 
 .col-12 {
   width: 100%;
+}
+
+tr:last-child td {
+  border-bottom: 0px;
 }
 
 .sidebar {

@@ -24,16 +24,20 @@ $page = new Page("verification");
                     <table>
                     <?php
                         $rows = $page->run_query();
-                        foreach ($rows as $row) {
-                            $player_name = $page->get_name($row["uuid"]);
-                            if ($player_name === null)
-                                continue;
-                            $page->print_row($row);
+                        if(count($rows) == 0) {
+                            $page->print_no_row();
+                        } else {
+                            foreach ($rows as $row) {
+                                $player_name = $page->get_name($row["uuid"]);
+                                if ($player_name === null)
+                                    continue;
+                                $page->print_row($row);
+                            }
+                            $page->show_page_mover();
                         }
                     ?>
                     </table>
                 </div>
-                <?php  $page->show_page_mover(); ?>
             </div>
             <?php $page->show_footer(); ?>
         </div>

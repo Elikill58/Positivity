@@ -102,6 +102,13 @@ class Page {
         return $text;
     }
 
+    function print_no_row() {
+        echo "<br>";
+        echo "<h2>" . $this->msg($this->info->getLink() . ".empty") . "</h2>";
+        echo "<p>" . $this->msg("index.empty") . "</p>";
+        echo "<br>";
+    }
+
     function print_row($row){
         if(!isset($this->isFirstRow)){
             $this->isFirstRow = true;

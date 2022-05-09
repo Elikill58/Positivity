@@ -9,6 +9,10 @@ class Lang {
 
         $array["index.main"] = "Welcome to %server%'s Negativity web interface.";
         $array["index.sub"] = "Here, all bans, negativity account and verifications are listed";
+        $array["index.empty"] = "More use Negativity to fill data.";
+
+        $array["account.empty"] = "No account found yet";
+        $array["bans.empty"] = "No bans found yet";
         
         $array["connection.name"] = "Connection";
         $array["connection.form.login"] = "Your login";
@@ -69,8 +73,8 @@ class Lang {
         $array["minerate.coal_ore"] = "Coal Ore";
         $array["minerate.all"] = "All blocks";
 
-        $array["verif.infos"] = "Main infos";
-        $array["verif.result"] = "Verifications result";
+        $array["verifications.result"] = "Verifications result";
+        $array["verifications.empty"] = "No verifications made yet";
 
         $array["admin.create_user"] = "Create a new user";
         $array["admin.button.create"] = "Create User";

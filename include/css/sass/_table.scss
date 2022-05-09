@@ -136,8 +136,9 @@ select {
     padding: 10px;
 }
 table {
-    border-spacing: 0;
-    border-radius: 20px;
+    color: $text-color !important;
+    border-spacing: 0 !important;
+    border-radius: 20px !important;
     width: 100%;
     thead th {
         background: rgba(86, 86, 86, 0.5);

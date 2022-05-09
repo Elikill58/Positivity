@@ -69,7 +69,7 @@ if($uuid != null){
                     <tr>
                         <th style="width: 10%"><?php echo $page->msg("column.name"); ?></th>
                         <th style="width: 10%"><?php echo $page->msg("column.started_by"); ?></th>
-                        <th style="width: 50%"><?php echo $page->msg("verif.result"); ?></th>
+                        <th style="width: 50%"><?php echo $page->msg("verifications.result"); ?></th>
                     </tr>
                 </thead>
                 <?php

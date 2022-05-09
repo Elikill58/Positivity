@@ -12,6 +12,7 @@ $page = new Page("ban");
     <meta name="description" content="">
     <title>Negativity - Bans</title>
     <link href="./include/css/main.css" rel="stylesheet">
+    <link rel="icon" href="./include/img/favicon.png">
 </head>
 <body>
 	<div class="page-wrapper">
@@ -23,14 +24,18 @@ $page = new Page("ban");
                 <table>
                 <?php
                     $rows = $page->run_query();
-                    foreach ($rows as $row) {
-                        $player_name = $page->get_name($row["id"]);
-                        if ($player_name === null)
-                            continue;
-                        $page->print_row($row);
+                    if(count($rows) == 0) {
+                        $page->print_no_row();
+                    } else {
+                        foreach ($rows as $row) {
+                            $player_name = $page->get_name($row["id"]);
+                            if ($player_name === null)
+                                continue;
+                            $page->print_row($row);
+                        }
+                        $page->show_page_mover();
                     }
 
-                    $page->show_page_mover();
                 ?>
                 </table>
             </div>
