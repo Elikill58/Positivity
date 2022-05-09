@@ -55,7 +55,7 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Negativity - <?php echo ($name == null ? "Not found" : $name); ?></title>
+    <title>Positivity - <?php echo ($name == null ? "Not found" : $name); ?></title>
 </head>
 <body>
 	<div class="page-wrapper">

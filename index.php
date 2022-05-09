@@ -9,7 +9,7 @@ $page = new Page("index");
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Negativity - Index</title>
+    <title>Positivity - Index</title>
 </head>
 <body>
 	<div class="page-wrapper">

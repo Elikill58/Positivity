@@ -7,7 +7,7 @@ $page = new Page("account");
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Negativity - Accounts</title>
+    <title>Positivity - Accounts</title>
 </head>
 <body>
 	<div class="page-wrapper">

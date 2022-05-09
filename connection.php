@@ -39,7 +39,7 @@ if(isset($_POST["pseudo"]) AND isset($_POST["password"])){
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Negativity - Connection</title>
+    <title>Positivity - Connection</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script>
     function togglePasswordVisibility() {

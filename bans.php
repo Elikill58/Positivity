@@ -8,7 +8,7 @@ $page = new Page("ban");
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Negativity - Bans</title>
+    <title>Positivity - Bans</title>
 </head>
 <body>
 	<div class="page-wrapper">

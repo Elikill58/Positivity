@@ -22,7 +22,7 @@ if(isset($_POST["id"])){
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Negativity - Index</title>
+    <title>Positivity - Index</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script>
     function togglePasswordVisibility() {
