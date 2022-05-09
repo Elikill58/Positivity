@@ -404,8 +404,7 @@ class AccountInfo extends Info {
     }
 
     function getInfos($row) {
-        return array("id" => $row["id"],
-                    "name" => $this->page->get_avatar($row["playername"], $row["id"]),
+        return array("name" => $this->page->get_avatar($row["playername"], $row["id"]),
                     "lang" => $row["language"],
                     "minerate_full" => $row["minerate_full_mined"],
                     //"minerate" => $row["minerate"], CANNOT SHOW ON LIST ACCOUNT INFO
@@ -438,8 +437,7 @@ class AdminInfo extends Info {
     }
 
     function getInfos($row) {
-        return array("id" => $row["id"],
-            "username" => $row["username"],
+        return array("username" => $row["username"],
             "admin" => $row["admin"],
             "special" => $row["special"],
             "options" => $row["options"]);
@@ -458,8 +456,7 @@ class BanInfo extends Info {
 
     function getInfos($row) {
         $page = $this->page;
-        return array("id" => $row["id"],
-                    "name" => $page->get_avatar($page->get_name($row["id"]), $row["id"]),
+        return array("name" => $page->get_avatar($page->get_name($row["id"]), $row["id"]),
                     "reason" => $row["reason"],
                     "banned_by" => $page->get_avatar($page->get_name($row["banned_by"]), $row["banned_by"]),
                     "expiration_time" => $page->getDateFromMillis($row["expiration_time"]),
@@ -479,8 +476,7 @@ class CheckInfo extends Info {
     }
 
     function getInfos($row) {
-        return array("id" => $row["id"],
-                    "name" => $this->page->get_avatar($row["playername"], $row["id"]),
+        return array("name" => $this->page->get_avatar($row["playername"], $row["id"]),
                     "lang" => $row["language"],
                     "minerate_full" => $row["minerate_full_mined"],
                     //"minerate" => $row["minerate"], CANNOT SHOW ON LIST ACCOUNT INFO
@@ -513,8 +509,7 @@ class ConnectInfo extends Info {
     }
 
     function getInfos($row) {
-        return array("id" => $row["id"],
-            "username" => $row["username"],
+        return array("username" => $row["username"],
             "admin" => $row["admin"],
             "special" => $row["special"],
             "options" => $row["options"]);
@@ -549,8 +544,7 @@ class VerificationInfo extends Info {
     function getInfos($row) {
         $page = $this->page;
         $uuid = $row["uuid"];
-        return array("id" => $uuid,
-                    "name" => $page->get_avatar($page->get_name($uuid), $uuid),
+        return array("name" => $page->get_avatar($page->get_name($uuid), $uuid),
                     "started_by" => $page->get_avatar($row["startedBy"], $page->get_uuid($row["startedBy"])),
                     "player_version" => $page->parse_version_name($row["player_version"]),
                     "amount" => $this->getVerifNumber($uuid),
