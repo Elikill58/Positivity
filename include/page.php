@@ -62,7 +62,6 @@ class Page {
         if($this->info->getTableName() != ""){
             $sh = $this->conn->prepare("DESCRIBE `" . $this->info->getTableName() . "`");
             $this->valid_table = $sh->execute();
-            print_r($this->valid_table);
             $sh->closeCursor();
         }
         $this->uuid_name_cache = array();
