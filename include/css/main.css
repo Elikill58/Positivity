@@ -16,12 +16,6 @@ html, body {
 
 body {
   --page-background: #fff;
-  font-size: 0.9vw;
-}
-@media screen and (min-width: 1500px) {
-  body {
-    font-size: 16px !important;
-  }
 }
 
 footer {
