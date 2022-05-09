@@ -1,0 +1,33 @@
+name: "Feature request"
+description: "Ask for new feature"
+title: "[Feature] "
+labels: ["enhancement"]
+assignees: []
+body:
+- type: markdown
+  attributes:
+    value: "Use this template only to ask new feature on Positivity (and not Negativity, the plugin)."
+- type: dropdown
+  id: feature-type
+  attributes:
+    label: "The feature is about ?"
+    multiple: true
+    options:
+    - New option
+    - Editing design
+    - Translation
+    - New plateform/plugin support
+    - Other
+- type: textarea
+  id: explaination
+  attributes:
+    label: "Can you explain this feature ?"
+    placeholder: "My feature is to add button to ..."
+  validations:
+    required: true
+- type: textarea
+  id: reasons
+  attributes:
+    label: "Why this feature should be added ?"
+    description: "Explain all step to reproduce, with some element that can be particular to your setup and help us to fix it"
+    placeholder: "To reproduce, I do ... then ..."

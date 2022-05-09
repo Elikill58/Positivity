@@ -1,0 +1,41 @@
+name: "Bug report"
+description: "Report a bug from Positivity website"
+title: "[Bug] "
+labels: ["bug"]
+assignees: []
+body:
+- type: markdown
+  attributes:
+    value: "Use this template if you have a feature that is not working as expected with Positivity (and not Negativity, the plugin)."
+- type: dropdown
+  id: web-server
+  attributes:
+    label: "Which web server are you using ?"
+    multiple: true
+    options:
+    - I don't know
+    - Apache
+    - NGINX
+    - Other
+- type: textarea
+  id: versions
+  attributes:
+    label: "Versions of what you are using"
+    placeholder: "PhP 7.1 ..."
+    value: "PhP: ?, Positivity: ?"
+  validations:
+    required: true
+- type: textarea
+  id: reproduce-step
+  attributes:
+    label: "Step to reproduce"
+    description: "Explain all step to reproduce, with some element that can be particular to your setup and help us to fix it"
+    placeholder: "To reproduce, I do ... then ..."
+  validations:
+    required: true
+- type: textarea
+  id: error-logs
+  attributes:
+    label: "Errors / Logs"
+    description: "If applicable, add logs of error (copy/paste on pastebin/hastebin). By default, on linux with apache, they are on `/var/log/apache2/error.log`"
+    placeholder: "Here is my link to error:"
