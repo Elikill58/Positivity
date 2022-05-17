@@ -16,7 +16,7 @@ You can go [here](https://negativity.fr/positivity) and use `root` / `root` pass
 
 Maybe a day we will propose:
 - A host for all v2-buyers to make us able to manage their informations.
-- Plugin is website such as Azurium.
+- Plugin for website such as Azurium.
 
 Tell us if you would like one of them.
 
