@@ -6,16 +6,24 @@ if(!(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"])){
 	header("Location: ./error/access-denied.php");
 	die();
 }
-
+$userCreatingFailed = false;
 if(isset($_POST["id"])){
-    $userDel = $page->conn->prepare("DELETE FROM positivity_user WHERE id = ?;");
-    $userDel->execute(array($_POST["id"]));
-    $userDel->closeCursor();
+  $userDel = $page->conn->prepare("DELETE FROM positivity_user WHERE id = ?;");
+  $userDel->execute(array($_POST["id"]));
+  $userDel->closeCursor();
 } else if(isset($_POST["name"]) && isset($_POST["special"]) && isset($_POST["password"])){
-    $userDel = $page->conn->prepare("INSERT INTO positivity_user (username, password, admin, special) VALUES (?,?,?,?);");
-    $isAdmin = isset($_POST["is_admin"]) && $_POST["is_admin"] ? 1 : 0;
-    $userDel->execute(array($_POST["name"], hash("sha256", $_POST["password"]), $isAdmin, $_POST["special"]));
-    $userDel->closeCursor();
+	$name = $_POST["name"];
+  $st = $page->conn->prepare("SELECT * FROM positivity_user WHERE username = ?");
+  $st->execute(array($name));
+  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+  if(count($rows) == 0) { // don't exist
+	  $userCreate = $page->conn->prepare("INSERT INTO positivity_user (username, password, admin, special) VALUES (?,?,?,?);");
+	  $userCreate->execute(array($name, hash("sha256", $_POST["password"]), (isset($_POST["is_admin"]) && $_POST["is_admin"] ? 1 : 0), $_POST["special"]));
+	  $userCreate->closeCursor();
+  } else {
+  	$userCreatingFailed = true;
+  }
+  $st->closeCursor();
 }
 ?>
 <!DOCTYPE html>
@@ -33,6 +41,14 @@ if(isset($_POST["id"])){
         x.type = "password";
       }
     }
+    var users = [];
+    function checkCreateUser(e) {
+      var name = document.getElementById("name");
+    	if(users.includes(name.value)) {
+    		e.preventDefault();
+    		document.getElementById("create-user-duplicate").style.display = "block";
+    	}
+    }
     </script>
 </head>
 <body>
@@ -40,6 +56,11 @@ if(isset($_POST["id"])){
 		<?php
 		$page->show_header();
 		$allUsers = $page->run_query();
+		echo "<script>";
+		foreach ($allUsers as $content) {
+			echo "users.push(\"" . $content["username"] . "\");";
+		}
+		echo "</script>";
 		?>
 		<div class="content-wrapper">
 			<div class="content">
@@ -49,7 +70,7 @@ if(isset($_POST["id"])){
 					<div class="row" style="display: flex; padding-bottom: 10px; justify-content: normal;">
             <div class="input col-3" style="margin: 0 10px;">
               <i class="material-icons">person</i>
-              <input style="border: none;" type="text" name="name" placeholder="<?php echo $page->msg("admin.column.name"); ?>" required />
+              <input style="border: none;" type="text" name="name" id="name" placeholder="<?php echo $page->msg("admin.column.name"); ?>" required />
             </div>
             <div class="input col-3" style="display: flex; margin: 0 10px;">
               <i class="material-icons">lock</i>
@@ -67,9 +88,10 @@ if(isset($_POST["id"])){
 							</select>
 						</div>
 	          <div class="col-2">
-							<button class="btn-outline"><div class="text"><?php echo $page->msg("admin.button.create"); ?></div></button>
+							<button class="btn-outline" onclick="checkCreateUser(event)"><div class="text"><?php echo $page->msg("admin.button.create"); ?></div></button>
 						</div>
 					</div>
+					<div class="text" style="padding-bottom: 10px; display: <?php echo ($userCreatingFailed ? "block" : "none"); ?>; color: red;" id="create-user-duplicate"><?php echo $page->msg("admin.duplicate"); ?></div>
 				</form>
 				<div class="container">
 					<table>

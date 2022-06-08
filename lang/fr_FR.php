@@ -77,6 +77,7 @@ class Lang {
         $array["verifications.empty"] = "Aucun vérification effectué pour le moment.";
 
         $array["admin.create_user"] = "Créer un utilisateur";
+        $array["admin.duplicate"] = "Cet utilisateur existe déjà";
         $array["admin.button.create"] = "Créer l'utilisateur";
         $array["admin.column.name"] = "Nom d'utilisateur";
         $array["admin.column.password"] = "Mot de passe";
