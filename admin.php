@@ -47,26 +47,26 @@ if(isset($_POST["id"])){
 					<h2><?php echo $page->msg("admin.create_user"); ?></h2>
 					<br>
 					<div class="row" style="display: flex; padding-bottom: 10px; justify-content: normal;">
-	                    <div class="input col-3" style="margin: 0 10px;">
-	                        <i class="material-icons">person</i>
-	                        <input style="border: none;" type="text" name="name" placeholder="<?php echo $page->msg("admin.column.name"); ?>" required />
-	                    </div>
-	                    <div class="input col-3" style="display: flex; margin: 0 10px;">
-	                        <i class="material-icons">lock</i>
-	                        <input style="border: none; height: fit-content;" type="password" name="password" id="password" placeholder="<?php echo $page->msg("admin.column.password"); ?>" required />
-	                        <i class="material-icons" onclick="togglePasswordVisibility()" style="cursor: pointer;">visibility</i>
-	                    </div>
-	                    <div class="input col-2" style="margin: 0 10px; padding-top: 10px;">
-							<span class="text-white"><?php echo $page->msg("admin.column.is_admin"); ?></span>
-							<input type="checkbox" id="customCheck" name="is_admin" style="width: fit-content;">
+            <div class="input col-3" style="margin: 0 10px;">
+              <i class="material-icons">person</i>
+              <input style="border: none;" type="text" name="name" placeholder="<?php echo $page->msg("admin.column.name"); ?>" required />
+            </div>
+            <div class="input col-3" style="display: flex; margin: 0 10px;">
+              <i class="material-icons">lock</i>
+              <input style="border: none; height: fit-content;" type="password" name="password" id="password" placeholder="<?php echo $page->msg("admin.column.password"); ?>" required />
+              <i class="material-icons" onclick="togglePasswordVisibility()" style="cursor: pointer;">visibility</i>
+            </div>
+            <div class="input col-2" style="margin: 0 10px; padding-top: 10px;">
+						<span class="text-white"><?php echo $page->msg("admin.column.is_admin"); ?></span>
+						<input type="checkbox" id="customCheck" name="is_admin" style="width: fit-content;">
 						</div>
-	                    <div class="input col-2" style="margin: 0 10px;">
+	          <div class="input col-2" style="margin: 0 10px;">
 							<select name="special" class="custom-select custom-select-sm" style="width:150px;">
 								<option value="nothing" selected="selected"><?php echo $page->msg("admin.special.nothing"); ?></option>
 								<option value="un_removable"><?php echo $page->msg("admin.special.un_removable"); ?></option>
 							</select>
 						</div>
-	                    <div class="col-2">
+	          <div class="col-2">
 							<button class="btn-outline"><div class="text"><?php echo $page->msg("admin.button.create"); ?></div></button>
 						</div>
 					</div>
@@ -99,7 +99,7 @@ if(isset($_POST["id"])){
 							}
 							echo "</tr>";
 						}
-                    	$page->show_page_mover();
+            $page->show_page_mover();
 						?>
 					</table>
 				</div>
