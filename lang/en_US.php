@@ -67,6 +67,7 @@ class Lang {
         $array["check.propositions"] = "Here are some possible players that can fit to your request";
 
         $array["minerate.name"] = "Minerate";
+        $array["minerate.ancient_debris"] = "Ancient Debris";
         $array["minerate.diamond_ore"] = "Diamond Ore";
         $array["minerate.gold_ore"] = "Gold Ore";
         $array["minerate.iron_ore"] = "Iron Ore";
