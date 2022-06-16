@@ -73,7 +73,7 @@ class Page {
             $roleSt->execute(array($_SESSION["role"]));
             $roleRows = $roleSt->fetchAll(PDO::FETCH_ASSOC);
             if(count($roleRows) == 0) { // no role specified
-                if($_SESSION["admin"] != 1) { // is NOT admin
+                if(!isset($_SESSION["is_admin"]) || $_SESSION["is_admin"] != 1) { // is NOT admin
                     header("Location: ./error/access-denied.php");
                     exit();
                 }
