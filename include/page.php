@@ -1,6 +1,9 @@
 <?php
 class Page {
 
+    public $migrationsUsers = array();
+    public $migrationsRoles = array();
+
     public function __construct($name, $header = true) {
         $settings = json_decode(file_get_contents("./include/settings.txt"), true);
         $this->settings = $settings;
@@ -36,38 +39,14 @@ class Page {
 
         // Load history before everything
         try {
-            $st = $this->conn->prepare("SELECT version FROM negativity_migrations_history WHERE subsystem = 'positivity_user' ORDER BY version DESC LIMIT 1");
-            $st->execute();
-            $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-            if(count($rows) == 0) { // not found, so we have to create table
-                return header("Location: ./error/no-config.php");
-            } else {
-                // now manage migrations
-                $version = $rows[0]["version"];
-                $migrations = array();//1 => "ALTER TABLE positivity_user ADD COLUMN permissions LONGTEXT AFTER admin;");
-                $nextVersion = $version;
-                foreach ($migrations as $migrationVersion => $migrationRequest) {
-                    if($version >= $migrationVersion)
-                        continue;
-                    try {
-                        $this->conn->prepare($migrationRequest)->execute();
-                    } catch (PDOException $ex) {
-                        // ignoring, this should be because of already migrated things
-                        print_r($ex); // print to be sure
-                    }
-                    if($migrationVersion > $nextVersion)
-                        $nextVersion = $migrationVersion;
-                }
-                if($version != $nextVersion) { // change version into DB
-                    $this->conn->prepare("UPDATE negativity_migrations_history SET version = ? WHERE subsystem = 'positivity_user'")->execute(array($nextVersion));
-                }
-
-                // here we have to add all change according to the result
-                $checkBanSt = $this->conn->prepare("SELECT version FROM negativity_migrations_history WHERE subsystem LIKE 'bans/%' ORDER BY version DESC");
-                $checkBanSt->execute();
-                $checkBansRows = $checkBanSt->fetchAll(PDO::FETCH_ASSOC);
-                $this->has_bans = count($checkBansRows) > 0;
+            foreach (array("positivity_user" => $migrationsUsers, "positivity_roles" => $migrationsRoles) as $subsystem => $migrations) {
+                checkMigrations($subsystem, $migrations);
             }
+            // here we have to add all change according to the result
+            $checkBanSt = $this->conn->prepare("SELECT version FROM negativity_migrations_history WHERE subsystem LIKE 'bans/%' ORDER BY version DESC");
+            $checkBanSt->execute();
+            $checkBansRows = $checkBanSt->fetchAll(PDO::FETCH_ASSOC);
+            $this->has_bans = count($checkBansRows) > 0;
             $st->closeCursor();
         } catch (PDOException $ex) {
             return header("Location: ./error/no-negativity.php");
@@ -86,6 +65,40 @@ class Page {
         }
         $this->uuid_name_cache = array();
 
+    }
+
+    function checkMigrations($subsystem, $migrations) {
+        try {
+            $st = $this->conn->prepare("SELECT version FROM negativity_migrations_history WHERE subsystem = ? ORDER BY version DESC LIMIT 1");
+            $st->execute(array($subsystem));
+            $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+            $has = count($rows) > 0;
+            // now manage migrations
+            $version = $has ? $rows[0]["version"] : -1; // -1 is to be sure to be lower that migrations versions
+            $nextVersion = $version;
+            foreach ($migrations as $migrationVersion => $migrationRequest) {
+                if($version >= $migrationVersion)
+                    continue;
+                try {
+                    $this->conn->prepare($migrationRequest)->execute();
+                } catch (PDOException $ex) {
+                    // ignoring, this should be because of already migrated things
+                    print_r($ex); // print to be sure
+                }
+                if($migrationVersion > $nextVersion)
+                    $nextVersion = $migrationVersion;
+            }
+            if($version != $nextVersion) { // change version into DB
+                if($has)
+                    $this->conn->prepare("UPDATE negativity_migrations_history SET version = ? WHERE subsystem = ?")->execute(array($nextVersion, $subsystem));
+                else
+                    $this->conn->prepare("INSERT INTO negativity_migrations_history(subsystem, version) VALUES(?,?)")->execute(array($subsystem, $nextVersion));
+            }
+            $st->closeCursor();
+        } catch (PDOException $ex) {
+            return header("Location: ./error/no-negativity.php");
+            //die ('Erreur : ' . $ex->getMessage());
+        }
     }
 
     function print_common_head() {
