@@ -13,6 +13,7 @@ class Lang {
 
         $array["account.empty"] = "Aucun compte créé pour le moment.";
         $array["bans.empty"] = "Aucun banissement effectué pour le moment.";
+        $array["admin_roles.empty"] = "Aucun rôle disponible pour le moment.";
         
         $array["connection.name"] = "Connexion";
         $array["connection.form.login"] = "Identifiant";
@@ -28,7 +29,8 @@ class Lang {
         $array["title.index"] = "Home";
         $array["title.bans"] = "Bans";
         $array["title.accounts"] = "Comptes";
-        $array["title.admin"] = "Administration";
+        $array["title.admin_users"] = "Admin Utilisateurs";
+        $array["title.admin_roles"] = "Admin Rôles";
         $array["title.verifications"] = "Vérifications";
         $array["title.search"] = "Rechercher";
 
@@ -43,6 +45,7 @@ class Lang {
 
         $array["column.id"] = "UUID";
         $array["column.name"] = "Nom du joueur";
+        $array["column.role_name"] = "Nom du rôle";
         $array["column.lang"] = "Langue";
         $array["column.verifications"] = "Vérifications";
         $array["column.minerate_full"] = "Tout les blocks minés";
@@ -57,6 +60,24 @@ class Lang {
         $array["column.player_version"] = "Version du joueur";
         $array["column.amount"] = "Quantité";
         $array["column.more_info"] = "Plus d'infos";
+        $array["column.user_name"] = "Nom d'utilisateur";
+        $array["column.password"] = "Mot de passe";
+        $array["column.is_admin"] = "Est admin";
+        $array["column.special"] = "Special";
+        $array["column.options"] = "Option";
+        $array["column.bans_see"] = "Voir les bans";
+        $array["column.bans_edit"] = "Supprimer les bans";
+        $array["column.bans_logs_see"] = "Voir les anciens bans";
+        $array["column.bans_logs_edit"] = "Supprimer les anciens bans";
+        $array["column.accounts_see"] = "Voir les comptes";
+        $array["column.accounts_remove"] = "Supprimer les comptes";
+        $array["column.accounts_clear_alerts"] = "Supprimer les alertes";
+        $array["column.verifications_see"] = "Voir les vérifications";
+        $array["column.verifications_edit"] = "Modifier les vérifications";
+        $array["column.admin_users_see"] = "Voir les utilisateurs";
+        $array["column.admin_users_edit"] = "Modifier les utilisateurs";
+        $array["column.admin_roles_see"] = "Voir les rôles";
+        $array["column.admin_roles_edit"] = "Modifier les rôles";
 
         $array["table.pager.number"] = "Page";
 
@@ -78,13 +99,10 @@ class Lang {
         $array["verifications.empty"] = "Aucun vérification effectué pour le moment.";
 
         $array["admin.create_user"] = "Créer un utilisateur";
+        $array["admin.create_roles"] = "Créer un rôle";
         $array["admin.duplicate"] = "Cet utilisateur existe déjà";
-        $array["admin.button.create"] = "Créer l'utilisateur";
-        $array["admin.column.name"] = "Nom d'utilisateur";
-        $array["admin.column.password"] = "Mot de passe";
-        $array["admin.column.is_admin"] = "Est admin";
-        $array["admin.column.special"] = "Special";
-        $array["admin.column.option"] = "Option";
+        $array["admin.button.create_user"] = "Créer l'utilisateur";
+        $array["admin.button.create_roles"] = "Créer le role";
         $array["admin.special.nothing"] = "Basique";
         $array["admin.special.un_removable"] = "Insupprimable";
 

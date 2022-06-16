@@ -35,17 +35,15 @@ function show($page) {
             foreach ($page->getNavbar() as $key => $value) {
                 if($key == "bans" && !$page->has_bans)
                     continue;
-                echo '<div class="nav-item' . ($page->info == $value ? ' active' : '') . '">
+                $perm = $value->getPermissionPrefix();
+                if($perm == null || $page->hasPermission($perm . "_see")){
+                    echo '<div class="nav-item' . ($page->info == $value ? ' active' : '') . '">
                         <a class="nav-link" href="' . ($value->getLink()) . '.php">' . $page->msg("title." . $key) . '
                             <span class="number">' . ($value->getNumber()) . '</span>
                         </a>
                     </div>';
+                }
             }
-        }
-        if(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]){
-            echo '<div class="nav-item' . ($page->info->getLink() == "admin" ? " active" : "") .'">';
-            echo '<a class="nav-link" href="./admin.php">' . $page->msg("title.admin") . '</a>';
-            echo '</div>';
         }
         ?>
     </div>

@@ -14,6 +14,8 @@ class Page {
         perm_accounts_clear_alerts TINYINT(1) NOT NULL DEFAULT 0,
         perm_verifications_see TINYINT(1) NOT NULL DEFAULT 0,
         perm_verifications_edit TINYINT(1) NOT NULL DEFAULT 0,
+        perm_admin_users_see TINYINT(1) NOT NULL DEFAULT 0,
+        perm_admin_users_edit TINYINT(1) NOT NULL DEFAULT 0,
         perm_admin_roles_see TINYINT(1) NOT NULL DEFAULT 0,
         perm_admin_roles_edit TINYINT(1) NOT NULL DEFAULT 0
     );");
@@ -67,24 +69,20 @@ class Page {
         }
 
         // now check for permissions
+        $this->role = array();
         $perm = $this->info->getPermissionPrefix();
         if($perm != null) {
             $roleSt = $this->conn->prepare("SELECT * FROM positivity_roles WHERE id = ?");
             $roleSt->execute(array($_SESSION["role"]));
             $roleRows = $roleSt->fetchAll(PDO::FETCH_ASSOC);
-            if(count($roleRows) == 0) { // no role specified
-                if(!isset($_SESSION["is_admin"]) || $_SESSION["is_admin"] != 1) { // is NOT admin
-                    header("Location: ./error/access-denied.php");
-                    exit();
-                }
-            } else { // found role
+            if(count($roleRows) > 0) {
                 $this->role = $roleRows[0];
-                if(!$this->hasPermission($perm . "_see")) { // can't see this page
-                    header("Location: ./error/access-denied.php");
-                    exit();
-                }
             }
             $roleSt->closeCursor();
+            if(!$this->hasPermission($perm . "_see")) { // can't see this page
+                header("Location: ./error/access-denied.php");
+                exit();
+            }
         }
 
         if($pageName == "ban" && !$this->has_bans) {
@@ -102,7 +100,7 @@ class Page {
     }
 
     function hasPermission($perm) {
-        return $this->role["perm_" . $perm] == 1;
+        return (isset($this->role["perm_" . $perm]) && $this->role["perm_" . $perm] == 1) || (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1);
     }
 
     function checkMigrations($subsystem, $migrations) {
@@ -218,7 +216,7 @@ class Page {
     }
 
     function getNavbar(){
-        return array("bans" => new BanInfo($this), "accounts" => new AccountInfo($this), "verifications" => new VerificationInfo($this));
+        return array("bans" => new BanInfo($this), "accounts" => new AccountInfo($this), "verifications" => new VerificationInfo($this), "admin_users" => new AdminUsersInfo($this), "admin_roles" => new AdminRolesInfo($this));
     }
 
     function show_header(){
@@ -429,8 +427,10 @@ abstract class Info {
                 return new VerificationCheckInfo($page);
             case "account":
                 return new AccountInfo($page);
-            case "admin":
-                return new AdminInfo($page);
+            case "admin_users":
+                return new AdminUsersInfo($page);
+            case "admin_roles":
+                return new AdminRolesInfo($page);
             case "ban":
                 return new BanInfo($page);
             case "check":
@@ -500,21 +500,55 @@ class AccountInfo extends Info {
     }
 }
 
-class AdminInfo extends Info {
+class AdminUsersInfo extends Info {
 
     function getTableName(){
         return "positivity_user";
     }
 
     function getLink(){
-        return "admin";
+        return "admin_users";
     }
 
     function getInfos($row) {
-        return array("username" => $row["username"],
-            "admin" => $row["admin"],
-            "special" => $row["special"],
-            "options" => $row["options"]);
+        $page = $this->page;
+        return array("user_name" => $row["username"],
+            "is_admin" => ($page->msg($row["admin"] ? "yes" : "no")),
+            "special" => $page->msg("admin.special." . (isset($row["special"]) ? $row["special"] : "nothing")),
+            "options" => ($row["special"] != "un_removable" ? '<form action="./admin_users.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button  class="btn btn-light btn-sm" >Delete</button></form>' : "-"));
+    }
+}
+
+class AdminRolesInfo extends Info {
+
+    function getTableName(){
+        return "positivity_roles";
+    }
+
+    function getLink(){
+        return "admin_roles";
+    }
+
+    function getInfos($row) {
+        return array("role_name" => $row["name"],
+            "bans_see" => $this->getValue($row["perm_bans_see"]),
+            "bans_edit" => $this->getValue($row["perm_bans_edit"]),
+            "bans_logs_see" => $this->getValue($row["perm_bans_logs_see"]),
+            "bans_logs_edit" => $this->getValue($row["perm_bans_logs_edit"]),
+            "accounts_see" => $this->getValue($row["perm_accounts_see"]),
+            "accounts_remove" => $this->getValue($row["perm_accounts_remove"]),
+            "accounts_clear_alerts" => $this->getValue($row["perm_accounts_clear_alerts"]),
+            "verifications_see" => $this->getValue($row["perm_verifications_see"]),
+            "verifications_edit" => $this->getValue($row["perm_verifications_edit"]),
+            "admin_users_see" => $this->getValue($row["perm_admin_users_see"]),
+            "admin_users_edit" => $this->getValue($row["perm_admin_users_edit"]),
+            "admin_roles_see" => $this->getValue($row["perm_admin_roles_see"]),
+            "admin_roles_edit" => $this->getValue($row["perm_admin_roles_edit"])
+        );
+    }
+
+    function getValue($value) {
+        return $this->page->msg($value == 1 ? "yes" : "no");
     }
 }
 

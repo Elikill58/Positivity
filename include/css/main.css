@@ -291,7 +291,7 @@ table {
 }
 table thead th {
   background: rgba(86, 86, 86, 0.5);
-  padding: 20px;
+  padding: 16px 0px;
 }
 table thead th:first-of-type {
   border-top-left-radius: 15px;

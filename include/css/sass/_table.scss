@@ -4,16 +4,16 @@
     grid-template-columns: 1.1fr 0.9fr;
     grid-template-rows: 1fr;
 }
-.row{
+.row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin:10px;
     justify-content: space-between;
 }
-label{
+label {
     text-align: right;
 }
-input{
+input {
     margin-left: auto;
 	width: 85%; 
     padding: 5px;
@@ -142,7 +142,7 @@ table {
     width: 100%;
     thead th {
         background: rgba(86, 86, 86, 0.5);
-        padding: 20px;
+        padding: 16px 0px;
     }
     thead th:first-of-type{
         border-top-left-radius: 15px; 

@@ -1,6 +1,6 @@
 <?php
 require_once './include/page.php';
-$page = new Page("admin");
+$page = new Page("admin_users");
 
 if(!(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"])){
 	header("Location: ./error/access-denied.php");
@@ -64,21 +64,21 @@ if(isset($_POST["id"])){
 		?>
 		<div class="content-wrapper">
 			<div class="content">
-				<form class="container" action="./admin.php" method="POST">
+				<form class="container" action="./admin_users.php" method="POST">
 					<h2><?php echo $page->msg("admin.create_user"); ?></h2>
 					<br>
 					<div class="row" style="display: flex; padding-bottom: 10px; justify-content: normal;">
             <div class="input col-3" style="margin: 0 10px;">
               <i class="material-icons">person</i>
-              <input style="border: none;" type="text" name="name" id="name" placeholder="<?php echo $page->msg("admin.column.name"); ?>" required />
+              <input style="border: none;" type="text" name="name" id="name" placeholder="<?php echo $page->msg("column.user_name"); ?>" required />
             </div>
             <div class="input col-3" style="display: flex; margin: 0 10px;">
               <i class="material-icons">lock</i>
-              <input style="border: none; height: fit-content;" type="password" name="password" id="password" placeholder="<?php echo $page->msg("admin.column.password"); ?>" required />
+              <input style="border: none; height: fit-content;" type="password" name="password" id="password" placeholder="<?php echo $page->msg("column.password"); ?>" required />
               <i class="material-icons" onclick="togglePasswordVisibility()" style="cursor: pointer;">visibility</i>
             </div>
             <div class="input col-2" style="margin: 0 10px; padding-top: 10px;">
-						<span class="text-white"><?php echo $page->msg("admin.column.is_admin"); ?></span>
+						<span class="text-white"><?php echo $page->msg("column.is_admin"); ?></span>
 						<input type="checkbox" id="customCheck" name="is_admin" style="width: fit-content;">
 						</div>
 	          <div class="input col-2" style="margin: 0 10px;">
@@ -88,38 +88,16 @@ if(isset($_POST["id"])){
 							</select>
 						</div>
 	          <div class="col-2">
-							<button class="btn-outline" onclick="checkCreateUser(event)"><div class="text"><?php echo $page->msg("admin.button.create"); ?></div></button>
+							<button class="btn-outline" onclick="checkCreateUser(event)"><div class="text"><?php echo $page->msg("admin.button.create_user"); ?></div></button>
 						</div>
 					</div>
 					<div class="text" style="padding-bottom: 10px; display: <?php echo ($userCreatingFailed ? "block" : "none"); ?>; color: red;" id="create-user-duplicate"><?php echo $page->msg("admin.duplicate"); ?></div>
 				</form>
 				<div class="container">
 					<table>
-						<thead>
-							<tr>
-								<th style="width: 25%;"><?php echo $page->msg("admin.column.name"); ?></th>
-								<th style="width: 25%;"><?php echo $page->msg("admin.column.is_admin"); ?></th>
-								<th style="width: 25%;"><?php echo $page->msg("admin.column.special"); ?></th>
-								<th style="width: 25%;"><?php echo $page->msg("admin.column.option"); ?></th>
-							</tr>
-						</thead>
 						<?php
-						foreach ($allUsers as $content) {
-							echo '<tr>';
-							echo "<td>" . $content["username"] . "</td>";
-							echo "<td>" . $page->msg($content["admin"] ? "yes" : "no") . "</td>";
-							echo "<td>" . $page->msg(isset($content["special"]) ? "admin.special." . $content["special"] : "admin.special.nothing") . "</td>";
-							if($content["special"] != "un_removable"){
-								echo '<td>
-									<form action="./admin.php" method="POST">
-										<input type="hidden" name="id" value="' . $content["id"] . '">
-										<button  class="btn btn-light btn-sm" >Delete</button>
-									</form>
-									</td>';
-							} else {
-								echo '<td>-</td>';
-							}
-							echo "</tr>";
+						foreach ($allUsers as $row) {
+              $page->print_row($row);
 						}
             $page->show_page_mover();
 						?>
