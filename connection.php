@@ -20,6 +20,7 @@ if(isset($_POST["pseudo"]) AND isset($_POST["password"])){
                 $_SESSION = array();
                 $_SESSION["name"] = $pseudo;
                 $_SESSION["is_admin"] = $userContent["admin"];
+                $_SESSION["role"] = $userContent["role"];
                 $isConnect = true;
                 header('Location: ./');
                 exit();

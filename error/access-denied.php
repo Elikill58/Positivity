@@ -8,7 +8,7 @@
     <link href="../include/css/main.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
+<div class="container solo">
     <div class="jumbotron">
         <h2>Don't have permission</h2><br>
 
@@ -18,8 +18,8 @@
             You must to disconnect to the current account, then login as an admin account.
         </div>
         <br>
-        <a href="../" class="btn btn-default">Index</a>
-        <a href="../deconnection.php" class="btn btn-default">Deconnection</a>
+        <a href="../" class="btn btn-default">Index</a><br>
+        <a href="../deconnection.php" class="btn btn-default">Deconnection</a><br>
         <a href="../connection.php" class="btn btn-default">Change account</a>
     </div>
 </div>

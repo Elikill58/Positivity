@@ -66,6 +66,27 @@ class Page {
             //die ('Erreur : ' . $ex->getMessage());
         }
 
+        // now check for permissions
+        $perm = $this->info->getPermissionPrefix();
+        if($perm != null) {
+            $roleSt = $this->conn->prepare("SELECT * FROM positivity_roles WHERE id = ?");
+            $roleSt->execute(array($_SESSION["role"]));
+            $roleRows = $roleSt->fetchAll(PDO::FETCH_ASSOC);
+            if(count($roleRows) == 0) { // no role specified
+                if($_SESSION["admin"] != 1) { // is NOT admin
+                    header("Location: ./error/access-denied.php");
+                    exit();
+                }
+            } else { // found role
+                $this->role = $roleRows[0];
+                if(!$this->hasPermission($perm . "_see")) { // can't see this page
+                    header("Location: ./error/access-denied.php");
+                    exit();
+                }
+            }
+            $roleSt->closeCursor();
+        }
+
         if($pageName == "ban" && !$this->has_bans) {
             header("Location: ./error/feature-disabled.php");
             exit();
@@ -78,6 +99,10 @@ class Page {
         }
         $this->uuid_name_cache = array();
 
+    }
+
+    function hasPermission($perm) {
+        return $this->role["perm_" . $perm] == 1;
     }
 
     function checkMigrations($subsystem, $migrations) {
@@ -419,7 +444,7 @@ abstract class Info {
     }
 
     function getPermissionPrefix() {
-        return getLink();
+        return $this->getLink();
     }
 
     abstract function getTableName();
