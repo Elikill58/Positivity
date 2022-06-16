@@ -1,6 +1,8 @@
 # Positivity
 
-Welcome to the Positivity wiki!
+![Positivity logo by Doncellup - repo github](https://user-images.githubusercontent.com/17381066/174122334-ee180700-a82b-4bd3-a7d7-ff9cadd7edfc.png)
+
+*Favicon & Banner made with ❤️ by [Doncellup](https://normandiemc.fr/)*
 
 If you have a question an issue or anything else that can't be applied to [issues](https://github.com/Elikill58/Positivity/issues), you can come on [discord](https://discord.gg/KHRVTX2).
 
