@@ -1,13 +1,24 @@
 <?php
 class Page {
 
-    public $migrationsUsers = array();
+    public $migrationsUsers = array(1 => "ALTER TABLE positivity_user ADD COLUMN role INT(11) AFTER admin");
     public $migrationsRoles = array(0 => "CREATE TABLE IF NOT EXISTS positivity_roles (
         id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(16) NOT NULL
+        name VARCHAR(16) NOT NULL,
+        perm_bans_see TINYINT(1) NOT NULL DEFAULT 0,
+        perm_bans_edit TINYINT(1) NOT NULL DEFAULT 0,
+        perm_bans_logs_see TINYINT(1) NOT NULL DEFAULT 0,
+        perm_bans_logs_edit TINYINT(1) NOT NULL DEFAULT 0,
+        perm_accounts_see TINYINT(1) NOT NULL DEFAULT 0,
+        perm_accounts_remove TINYINT(1) NOT NULL DEFAULT 0,
+        perm_accounts_clear_alerts TINYINT(1) NOT NULL DEFAULT 0,
+        perm_verifications_see TINYINT(1) NOT NULL DEFAULT 0,
+        perm_verifications_edit TINYINT(1) NOT NULL DEFAULT 0,
+        perm_admin_roles_see TINYINT(1) NOT NULL DEFAULT 0,
+        perm_admin_roles_edit TINYINT(1) NOT NULL DEFAULT 0
     );");
 
-    public function __construct($name, $header = true) {
+    public function __construct($pageName, $header = true) {
         $settings = json_decode(file_get_contents("./include/settings.txt"), true);
         $this->settings = $settings;
         if(!(isset($settings["init"]) && $settings["init"] == "true")){
@@ -15,7 +26,7 @@ class Page {
             die();
         }
         include("./include/connect.php");
-        if(!$isConnect && $name != "connect"){
+        if(!$isConnect && $pageName != "connect"){
             header("Location: ./connection.php");
             die();
         }
@@ -23,7 +34,7 @@ class Page {
         require_once './lang/' . $settings["lang"] . '.php';
         $this->lang = new Lang();
 
-        $this->info = Info::create($this, $name);
+        $this->info = Info::create($this, $pageName);
         if($this->info == null){
             header("Location: ./error/404.php");
             die();
@@ -55,7 +66,7 @@ class Page {
             //die ('Erreur : ' . $ex->getMessage());
         }
 
-        if($name == "ban" && !$this->has_bans) {
+        if($pageName == "ban" && !$this->has_bans) {
             header("Location: ./error/feature-disabled.php");
             exit();
         }
@@ -98,8 +109,7 @@ class Page {
             }
             $st->closeCursor();
         } catch (PDOException $ex) {
-            header("Location: ./error/no-negativity.php");
-            //die ('Erreur : ' . $ex->getMessage());
+            die('Erreur : ' . $ex->getMessage());
         }
     }
 
@@ -408,6 +418,10 @@ abstract class Info {
         return null;
     }
 
+    function getPermissionPrefix() {
+        return getLink();
+    }
+
     abstract function getTableName();
 
     function getNumber(){
@@ -539,6 +553,10 @@ class ConnectInfo extends Info {
         return "positivity_user";
     }
 
+    function getPermissionPrefix() {
+        return null;
+    }
+
     function getLink(){
         return "connection";
     }
@@ -557,8 +575,12 @@ class IndexInfo extends Info {
         return "";
     }
 
+    function getPermissionPrefix() {
+        return null;
+    }
+
     function getLink(){
-        return "checks";
+        return "index";
     }
 
     function getInfos($row) {
