@@ -42,6 +42,26 @@ class Page {
             if(count($rows) == 0) { // not found, so we have to create table
                 return header("Location: ./error/no-config.php");
             } else {
+                // now manage migrations
+                $version = $rows[0]["version"];
+                $migrations = array();//1 => "ALTER TABLE positivity_user ADD COLUMN permissions LONGTEXT AFTER admin;");
+                $nextVersion = $version;
+                foreach ($migrations as $migrationVersion => $migrationRequest) {
+                    if($version >= $migrationVersion)
+                        continue;
+                    try {
+                        $this->conn->prepare($migrationRequest)->execute();
+                    } catch (PDOException $ex) {
+                        // ignoring, this should be because of already migrated things
+                        print_r($ex); // print to be sure
+                    }
+                    if($migrationVersion > $nextVersion)
+                        $nextVersion = $migrationVersion;
+                }
+                if($version != $nextVersion) { // change version into DB
+                    $this->conn->prepare("UPDATE negativity_migrations_history SET version = ? WHERE subsystem = 'positivity_user'")->execute(array($nextVersion));
+                }
+
                 // here we have to add all change according to the result
                 $checkBanSt = $this->conn->prepare("SELECT version FROM negativity_migrations_history WHERE subsystem LIKE 'bans/%' ORDER BY version DESC");
                 $checkBanSt->execute();
