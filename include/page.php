@@ -2,7 +2,10 @@
 class Page {
 
     public $migrationsUsers = array();
-    public $migrationsRoles = array();
+    public $migrationsRoles = array(0 => "CREATE TABLE IF NOT EXISTS positivity_roles (
+        id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(16) NOT NULL
+    );");
 
     public function __construct($name, $header = true) {
         $settings = json_decode(file_get_contents("./include/settings.txt"), true);
@@ -39,15 +42,14 @@ class Page {
 
         // Load history before everything
         try {
-            foreach (array("positivity_user" => $migrationsUsers, "positivity_roles" => $migrationsRoles) as $subsystem => $migrations) {
-                checkMigrations($subsystem, $migrations);
+            foreach (array("positivity_user" => $this->migrationsUsers, "positivity_roles" => $this->migrationsRoles) as $subsystem => $migrations) {
+                $this->checkMigrations($subsystem, $migrations);
             }
             // here we have to add all change according to the result
             $checkBanSt = $this->conn->prepare("SELECT version FROM negativity_migrations_history WHERE subsystem LIKE 'bans/%' ORDER BY version DESC");
             $checkBanSt->execute();
             $checkBansRows = $checkBanSt->fetchAll(PDO::FETCH_ASSOC);
             $this->has_bans = count($checkBansRows) > 0;
-            $st->closeCursor();
         } catch (PDOException $ex) {
             return header("Location: ./error/no-negativity.php");
             //die ('Erreur : ' . $ex->getMessage());
@@ -96,7 +98,7 @@ class Page {
             }
             $st->closeCursor();
         } catch (PDOException $ex) {
-            return header("Location: ./error/no-negativity.php");
+            header("Location: ./error/no-negativity.php");
             //die ('Erreur : ' . $ex->getMessage());
         }
     }
