@@ -49,6 +49,26 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
     }
 }
 
+function showContent($info) {
+    global $page, $uuid, $name;
+    $st = $page->conn->prepare("SELECT * FROM " . $info->getTableName() . " WHERE " . ($info->getTableName() == "negativity_verifications" ? "uuid" : "id") . " = ?;");
+    $st->execute(array($uuid));
+    $allRows = $st->fetchAll(PDO::FETCH_ASSOC);
+    $st->closeCursor();
+
+    $nb = count($allRows);
+    if($nb > 0){
+        echo '<h2>' . str_replace("%nb%", $nb, str_replace("%name%", $name, $page->msg("check." . $info->getLink()))) . '</h2><br>';
+
+        echo '<div class="container"><table>';
+        foreach ($allRows as $row) {
+            $page->print_row($row, $info);
+        }
+        echo '</table></div>';
+    }
+    unset($page->isFirstRow);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -168,7 +188,7 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
                                 <td>0</td>
                                 <?php
                             } else {
-                                foreach (explode(";", $rowAcc["violations_by_cheat"]) as $allCheat) {
+                                foreach ($allViolationsSplitted as $allCheat) {
                                     $tab = explode("=", $allCheat, 2);
                                     foreach ($tab as $cheat) {
                                         if(isset($tab[1]) && !is_numeric($cheat)) {
@@ -177,7 +197,9 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
                                             $tempNb++;
                                             if($tempNb == 2){
                                                 $tempNb = 0;
-                                                echo "</tr><tr>";
+                                                echo "</tr>";
+                                                if(end($allViolationsSplitted) != $allCheat)
+                                                    echo "<tr>";
                                             } else
                                                 echo "<td></td>";
                                         }
@@ -218,56 +240,9 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
                 </div>
                 <?php
 
-                $stBan = $page->conn->prepare("SELECT * FROM negativity_bans_active WHERE id = ?;");
-                $stBan->execute(array($uuid));
-                $allRowBan = $stBan->fetchAll(PDO::FETCH_ASSOC);
-                $stBan->closeCursor();
-
-                $nbBan = count($allRowBan);
-                if($nbBan > 0){
-                    echo '<h2>' . str_replace("%nb%", $nbBan, str_replace("%name%", $name, $page->msg("check.bans"))) . '</h2><br>';
-
-                    echo '<div class="container"><table>';
-                    foreach ($allRowBan as $rowBan) {
-                        $page->print_row($rowBan, new BanInfo($page));
-                    }
-                    echo '</table></div>';
-                }
-                unset($page->isFirstRow);
-
-                $stBanLogs = $page->conn->prepare("SELECT * FROM negativity_bans_log WHERE id = ?;");
-                $stBanLogs->execute(array($uuid));
-                $allRowBanLogs = $stBanLogs->fetchAll(PDO::FETCH_ASSOC);
-                $stBanLogs->closeCursor();
-
-                $nbBanLogs = count($allRowBanLogs);
-                if($nbBanLogs > 0){
-                    echo '<h2>' . str_replace("%nb%", $nbBanLogs, str_replace("%name%", $name, $page->msg("check.bans_logs"))) . '</h2><br>';
-
-                    echo '<div class="container"><table>';
-                    foreach ($allRowBanLogs as $rowBanLogs) {
-                        $page->print_row($rowBanLogs, new BanLogsInfo($page));
-                    }
-                    echo '</table></div>';
-                }
-                unset($page->isFirstRow);
-
-                $stVerif = $page->conn->prepare("SELECT * FROM negativity_verifications WHERE uuid = ?;");
-                $stVerif->execute(array($uuid));
-                $allRowVerif = $stVerif->fetchAll(PDO::FETCH_ASSOC);
-                $stVerif->closeCursor();
-
-                $nbVerif = count($allRowVerif);
-                if($nbVerif > 0){
-                    echo '<h2>' . str_replace("%nb%", $nbVerif, str_replace("%name%", $name, $page->msg("check.verifications"))) . '</h2><br>';
-                    
-                    echo '<div class="container"><table>';
-                    foreach ($allRowVerif as $rowVerif) {
-                        $page->print_row($rowVerif, new VerificationInfo($page));
-                    }
-                    echo '</table></div>';
-                }
-                unset($page->isFirstRow);
+                showContent(new BanInfo($page));
+                showContent(new BanLogsInfo($page));
+                showContent(new VerificationInfo($page));
             }
             $page->show_footer();
             ?>
