@@ -23,9 +23,9 @@ function show($page) {
             </a>
         </div>
         <?php
-            echo '<div class="nav-item' . ($page->info->getLink() == "checks" ? " active" : "") .'">';
-            echo '<a class="nav-link" href="./">' . $page->msg("title.index") . '</a>';
-            echo '</div>';
+        echo '<div class="nav-item' . ($page->info->getLink() == "checks" ? " active" : "") .'">';
+        echo '<a class="nav-link" href="./">' . $page->msg("title.index") . '</a>';
+        echo '</div>';
         ?>
         <!-- <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#negativity-navbar"
                 aria-controls="negativity-navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@ function show($page) {
                     <button class="btn-outline btn-small"><div class="text"><?php echo $page->msg("connection.disconnect"); ?></div></button>
                 </a>
             </div>
-        <?php
+            <?php
         }
         ?>
     </div>

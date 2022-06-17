@@ -63,15 +63,17 @@ class Page {
 
         // now check for permissions
         $this->role = array();
-        $perm = $this->info->getPermissionPrefix();
-        if($perm != null) {
+        if(isset($_SESSION['role'])) {
             $roleSt = $this->conn->prepare("SELECT * FROM positivity_roles WHERE id = ?");
             $roleSt->execute(array($_SESSION["role"]));
             $roleRows = $roleSt->fetchAll(PDO::FETCH_ASSOC);
             if(count($roleRows) > 0) {
                 $this->role = $roleRows[0];
             }
-            $roleSt->closeCursor();
+        }
+        $roleSt->closeCursor();
+        $perm = $this->info->getPermissionPrefix();
+        if($perm != null) {
             if(!$this->hasPermission($perm, "SEE")) { // can't see this page
                 header("Location: ./error/access-denied.php");
                 exit();
@@ -93,7 +95,7 @@ class Page {
     }
 
     function hasPermission($perm, $searching) {
-        return (isset($this->role["perm_" . $perm]) && $this->role["perm_" . $perm] == $searching) || (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1);
+        return (isset($this->role["perm_" . $perm]) && strcasecmp($this->role["perm_" . $perm], $searching) == 0) || (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1);
     }
 
     function checkMigrations($subsystem, $migrations) {
