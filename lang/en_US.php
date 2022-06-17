@@ -58,6 +58,7 @@ class Lang {
         $array["column.reason"] = "Reason";
         $array["column.banned_by"] = "Banned by";
         $array["column.expiration_time"] = "Expiration time";
+        $array["column.revocation_time"] = "Revocation time";
         $array["column.creation_time"] = "Creation time";
         $array["column.cheat_name"] = "Cheat(s)";
         $array["column.started_by"] = "Started by";

@@ -3,7 +3,25 @@ require_once './include/page.php';
 
 $page = new Page("bans");
 
-
+if($page->hasPermission("bans", "EDIT")) {
+    if(isset($_POST["id"])) {
+        $uuid = $_POST['id'];
+        $st = $page->conn->prepare("SELECT * FROM negativity_bans_active WHERE id = ?");
+        $st->execute(array($uuid));
+        $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+        if(count($rows) == 1) { // found line to log
+            $row = $rows[0];
+            $logBan = $page->conn->prepare("INSERT INTO negativity_bans_log (id, reason, banned_by, expiration_time, cheat_name, revoked, execution_time, revocation_time, ip) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?);");
+            $logBan->execute(array($uuid, $row["reason"], $row["banned_by"], $row["expiration_time"], $row["cheat_name"], 1, $row["execution_time"], $row["ip"]));
+            $logBan->closeCursor();
+            // now delete from actual db
+            $unban = $page->conn->prepare("DELETE FROM negativity_bans_active WHERE id = ?");
+            $unban->execute(array($uuid));
+            $unban->closeCursor();
+        }
+        $st->closeCursor();
+    }
+}
 ?>
 
 <!DOCTYPE html>

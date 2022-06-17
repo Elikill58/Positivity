@@ -309,6 +309,26 @@ class Page {
         return $result;
     }
 
+    function is_uuid($uuid) {
+        return strlen($uuid) == 36 && preg_match("/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i", $uuid);
+    }
+
+    function parse_uuid($uuid) {
+        if($this->is_uuid($uuid)) // if valid UUID
+            return $uuid;
+        else if ($this->is_special_name($uuid))
+            return $uuid;
+        $nextUUID = "";
+        $i = 1;
+        foreach (str_split($uuid) as $char) {
+            $nextUUID .= $char;
+            if($i == 8 || $i == 12 || $i == 16 || $i == 20)
+                $nextUUID .= "-";
+            $i++;
+        }
+        return $nextUUID;
+    }
+
     function get_name($uuid, $default_name = null) {
         if($this->is_special_name($uuid))
             return $uuid;
@@ -335,7 +355,9 @@ class Page {
         } else if (strcasecmp($name, "Console") == 0 || strcasecmp($uuid, "Console") == 0){
             return "<p align='center'><img class='avatar noselect' src='./include/img/console.png'/><br class='noselect'>$name</p>";
         } else {
-            $avatar_source = (strlen($uuid) === 36 && $uuid[14] === '3' ? "https://minotar.net/avatar/" . $name . "/25" : "https://crafatar.com/avatars/" . $uuid . "?size=25");
+            if($uuid != null && strlen($uuid) == 32) // UUID without -
+                $uuid = $this->parse_uuid($uuid);
+            $avatar_source = $this->is_uuid($uuid) ? "https://crafatar.com/avatars/" . $uuid . "?size=25" : "https://minotar.net/avatar/" . $name . "/25";
 
             return "<a href='./check.php?uuid=" . str_replace("-", "", $uuid) . "'><p align='center'><img class='avatar noselect' src='" . $avatar_source . "'/><br class='noselect'>" . $name . "</p></a>";
         }
@@ -579,12 +601,17 @@ class BanInfo extends Info {
 
     function getInfos($row) {
         $page = $this->page;
-        return array("name" => $page->get_avatar($page->get_name($row["id"]), $row["id"]),
+        $infos = array("name" => $page->get_avatar($page->get_name($row["id"]), $row["id"]),
                     "reason" => $row["reason"],
-                    "banned_by" => $page->get_avatar($page->get_name($row["banned_by"]), $row["banned_by"]),
+                    "banned_by" => $page->get_avatar($page->get_name($page->parse_uuid($row["banned_by"])), $row["banned_by"]),
                     "expiration_time" => $page->getDateFromMillis($row["expiration_time"]),
                     "cheat_name" => $page->msg($row["cheat_name"], $row["cheat_name"]),
         );
+        if($this->page->hasPermission("admin_roles", "EDIT")) {
+            $btn = '<button class="btn btn-light btn-sm">';
+            $infos = array_merge($infos, array("options" => '<form action="./bans.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '">' . $btn . $this->page->msg("generic.delete") . '</button></form>'));
+        }
+        return $infos;
     }
 }
 
@@ -602,8 +629,8 @@ class BanLogsInfo extends Info {
         $page = $this->page;
         return array("name" => $page->get_avatar($page->get_name($row["id"]), $row["id"]),
                     "reason" => $row["reason"],
-                    "banned_by" => $page->get_avatar($row["banned_by"], $page->get_uuid($row["banned_by"])),
-                    "expiration_time" => $page->getDateFromMillis($row["expiration_time"]),
+                    "banned_by" => $page->get_avatar($page->get_name($page->parse_uuid($row["banned_by"])), $row["banned_by"]),
+                    "revocation_time" => $row["revocation_time"],
                     "cheat_name" => $page->msg($row["cheat_name"], $row["cheat_name"]),
         );
     }

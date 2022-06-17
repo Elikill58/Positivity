@@ -33,17 +33,7 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
         $uuid = $page->get_uuid($name);
 
     if($uuid != null && $name == null){
-        if(!(preg_match("/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i", $uuid))){
-            $nextUUID = "";
-            $i = 1;
-            foreach (str_split($uuid) as $char) {
-                $nextUUID .= $char;
-                if($i == 8 || $i == 12 || $i == 16 || $i == 20)
-                    $nextUUID .= "-";
-                $i++;
-            }
-            $uuid = $nextUUID;
-        }
+        $uuid = $page->parse_uuid($uuid);
 
         $name = $page->get_name($uuid);
     }
