@@ -228,27 +228,29 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
                     echo '<h2>' . str_replace("%nb%", $nbBan, str_replace("%name%", $name, $page->msg("check.bans"))) . '</h2><br>';
 
                     echo '<div class="container"><table>';
-                    $isLocalFirstRow = true;
                     foreach ($allRowBan as $rowBan) {
-                        $showedRowBan = (new BanInfo($page))->getInfos($rowBan);
-                        if($isLocalFirstRow){
-                            echo "<thead><tr>";
-                            foreach ($showedRowBan as $key => $value) {
-                                echo "<th>" . $page->msg("column." . $key) . "</th>";
-                            }
-                            echo "</th></thead><tbody>\n";
-                        }
-                        echo "<tr>";
-                        foreach ($showedRowBan as $key => $value) {
-                            echo "<td>$value</td>";
-                        }
-                        echo "</tr>\n";
-                        $isLocalFirstRow = false;
+                        $page->print_row($rowBan, new BanInfo($page));
                     }
                     echo '</table></div>';
                 }
-                ?>
-                <?php
+                unset($page->isFirstRow);
+
+                $stBanLogs = $page->conn->prepare("SELECT * FROM negativity_bans_log WHERE id = ?;");
+                $stBanLogs->execute(array($uuid));
+                $allRowBanLogs = $stBanLogs->fetchAll(PDO::FETCH_ASSOC);
+                $stBanLogs->closeCursor();
+
+                $nbBanLogs = count($allRowBanLogs);
+                if($nbBanLogs > 0){
+                    echo '<h2>' . str_replace("%nb%", $nbBanLogs, str_replace("%name%", $name, $page->msg("check.bans_logs"))) . '</h2><br>';
+
+                    echo '<div class="container"><table>';
+                    foreach ($allRowBanLogs as $rowBanLogs) {
+                        $page->print_row($rowBanLogs, new BanLogsInfo($page));
+                    }
+                    echo '</table></div>';
+                }
+                unset($page->isFirstRow);
 
                 $stVerif = $page->conn->prepare("SELECT * FROM negativity_verifications WHERE uuid = ?;");
                 $stVerif->execute(array($uuid));
@@ -260,32 +262,12 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
                     echo '<h2>' . str_replace("%nb%", $nbVerif, str_replace("%name%", $name, $page->msg("check.verifications"))) . '</h2><br>';
                     
                     echo '<div class="container"><table>';
-                    $isLocalFirstRow = true;
                     foreach ($allRowVerif as $rowVerif) {
-                        $showedRowVerif = (new VerificationInfo($page))->getInfos($rowVerif);
-                        if($isLocalFirstRow){
-                            echo "<thead><tr>";
-                            foreach ($showedRowVerif as $key => $value) {
-                                if($page->endsWith($key, "_double")){
-                                    if($page->endsWith($key, "_1_double")){
-                                        echo "<th colspan=2>" . $page->msg("column." . str_replace("_1_double", "", $key)) . "</th>";
-                                    } else {
-                                        // ignore because it's empty column
-                                    }
-                                } else
-                                    echo "<th>" . $page->msg("column." . $key) . "</th>";
-                            }
-                            echo "</th></thead><tbody>\n";
-                        }
-                        echo "<tr>";
-                        foreach ($showedRowVerif as $key => $value) {
-                            echo "<td>$value</td>";
-                        }
-                        echo "</tr>\n";
-                        $isLocalFirstRow = false;
+                        $page->print_row($rowVerif, new VerificationInfo($page));
                     }
                     echo '</table></div>';
                 }
+                unset($page->isFirstRow);
             }
             $page->show_footer();
             ?>

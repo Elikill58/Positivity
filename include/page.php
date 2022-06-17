@@ -181,11 +181,13 @@ class Page {
         echo "<br>";
     }
 
-    function print_row($row){
+    function print_row($row, $info = null){
+        if($info == null)
+            $info = $this->info;
         if(!isset($this->isFirstRow)){
             $this->isFirstRow = true;
         }
-        $array = $this->info->getInfos($row);
+        $array = $info->getInfos($row);
         if($this->isFirstRow){
             echo "<thead><tr>";
             foreach ($array as $key => $value) {

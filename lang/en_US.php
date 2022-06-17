@@ -81,6 +81,7 @@ class Lang {
         $array["check.violations"] = "Violations";
         $array["check.minerate"] = "Minerate";
         $array["check.bans"] = "Bans (%nb%)";
+        $array["check.bans_logs"] = "Old bans (%nb%)";
         $array["check.verifications"] = "Verifications (%nb%)";
         $array["check.propositions"] = "Here are some possible players that can fit to your request";
 
