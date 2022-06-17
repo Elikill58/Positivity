@@ -504,11 +504,20 @@ class AdminUsersInfo extends Info {
     }
 
     function getInfos($row) {
+        $roleId = $row["role"];
+        $roleName = "-";
+        if(isset($roleId) && $roleId > 0) {
+            $roleSt = $this->page->conn->prepare("SELECT * FROM positivity_roles WHERE id = ?");
+            $roleSt->execute(array($row["role"]));
+            $roleRow = $roleSt->fetchAll(PDO::FETCH_ASSOC);
+            if(count($roleRow) > 0)
+                $roleName = $roleRow[0]["name"];
+        }
         return array("user_name" => $row["username"],
             "is_admin" => ($this->page->msg($row["admin"] ? "yes" : "no")),
-            "role" => $row["role"],
+            "role_name" => $roleName,
             "special" => $this->page->msg("admin.special." . (isset($row["special"]) ? $row["special"] : "nothing")),
-            "options" => ($row["special"] != "un_removable" ? '<form action="./' . $this->getLink() . '.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn btn-light btn-sm">' . $this->page->msg("generic.delete") . '</button></form>' : "-")
+            "options" => ($row["special"] != "un_removable" ? '<form action="./admin_users.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn btn-light btn-sm">' . $this->page->msg("generic.delete") . '</button></form>' : "-")
         );
     }
 }
