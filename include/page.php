@@ -137,6 +137,7 @@ class Page {
         <meta name="description" content="">
         <link href="./include/css/main.css" rel="stylesheet">
         <link rel="icon" type="image/png" href="./include/img/favicon.png"/>
+        <title>Positivity - <?php echo $this->msg("title." . $this->info->getLink()) ?></title>
         <?php
     }
 

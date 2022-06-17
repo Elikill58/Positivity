@@ -37,7 +37,6 @@ if(isset($_POST["action"])) {
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Positivity - Index</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script>
     function togglePasswordVisibility() {

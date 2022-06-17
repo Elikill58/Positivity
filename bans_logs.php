@@ -8,7 +8,6 @@ $page = new Page("bans_logs");
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Positivity - Bans</title>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -31,7 +30,6 @@ $page = new Page("bans_logs");
                         }
                         $page->show_page_mover();
                     }
-
                 ?>
                 </table>
             </div>

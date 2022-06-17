@@ -2,13 +2,14 @@
 require_once './include/page.php';
 
 $page = new Page("bans");
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Positivity - Bans</title>
 </head>
 <body>
 	<div class="page-wrapper">

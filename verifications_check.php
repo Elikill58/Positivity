@@ -25,7 +25,6 @@ if($uuid != null){
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Positivity - Verifications</title>
 </head>
 <body>
 	<div class="page-wrapper">

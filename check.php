@@ -74,8 +74,8 @@ function showContent($info) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php $page->print_common_head(); ?>
     <title>Positivity - <?php echo ($name == null ? "Not found" : $name); ?></title>
+    <?php $page->print_common_head(); ?>
 </head>
 <body>
 	<div class="page-wrapper">

@@ -1,5 +1,6 @@
 <?php
 require_once './include/page.php';
+
 $page = new Page("account");
 ?>
 
@@ -7,7 +8,6 @@ $page = new Page("account");
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Positivity - Accounts</title>
 </head>
 <body>
 	<div class="page-wrapper">
