@@ -36,7 +36,7 @@ function show($page) {
                 if($key == "bans" && !$page->has_bans)
                     continue;
                 $perm = $value->getPermissionPrefix();
-                if($perm == null || $page->hasPermission($perm . "_see")){
+                if($perm == null || $page->hasPermission($perm, "SEE")){
                     echo '<div class="nav-item' . ($page->info == $value ? ' active' : '') . '">
                         <a class="nav-link" href="' . ($value->getLink()) . '.php">' . $page->msg("title." . $key) . '
                             <span class="number">' . ($value->getNumber()) . '</span>

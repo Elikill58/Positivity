@@ -7,23 +7,30 @@ if(!(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"])){
 	die();
 }
 $roleCreatingFailed = false;
-if(isset($_POST["id"])){
-  $roleDel = $page->conn->prepare("DELETE FROM positivity_roles WHERE id = ?;");
-  $roleDel->execute(array($_POST["id"]));
-  $roleDel->closeCursor();
-} else if(isset($_POST["name"])){
-	$name = $_POST["name"];
-  $st = $page->conn->prepare("SELECT * FROM positivity_roles WHERE name = ?");
-  $st->execute(array($name));
-  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-  if(count($rows) == 0) { // don't exist
-	  $roleCreate = $page->conn->prepare("INSERT INTO positivity_roles (name) VALUES (?);");
-	  $roleCreate->execute(array($name));
-	  $roleCreate->closeCursor();
-  } else {
-  	$roleCreatingFailed = true;
-  }
-  $st->closeCursor();
+if(isset($_POST["action"])) {
+	$action = $_POST["action"];
+	if($action == "delete"){
+	  $roleDel = $page->conn->prepare("DELETE FROM positivity_roles WHERE id = ?;");
+	  $roleDel->execute(array($_POST["id"]));
+	  $roleDel->closeCursor();
+	} else if($action == "create"){
+		$name = $_POST["name"];
+	  $st = $page->conn->prepare("SELECT * FROM positivity_roles WHERE name = ?");
+	  $st->execute(array($name));
+	  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+	  if(count($rows) == 0) { // don't exist
+		  $roleCreate = $page->conn->prepare("INSERT INTO positivity_roles (name) VALUES (?);");
+		  $roleCreate->execute(array($name));
+		  $roleCreate->closeCursor();
+	  } else {
+	  	$roleCreatingFailed = true;
+	  }
+	  $st->closeCursor();
+	} else if($action == "save"){
+	  $roleSave = $page->conn->prepare("UPDATE positivity_roles SET perm_bans = ?, perm_bans_logs = ?, perm_accounts = ?, perm_verifications = ?, perm_admin_users = ?, perm_admin_roles = ? WHERE id = ?;");
+	  $roleSave->execute(array($_POST["bans"], $_POST["bans_logs"], $_POST["accounts"], $_POST["verifications"], $_POST["admin_users"], $_POST["admin_roles"], $_POST["id"]));
+	  $roleSave->closeCursor();
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -73,24 +80,26 @@ if(isset($_POST["id"])){
               <input style="border: none;" type="text" name="name" id="name" placeholder="<?php echo $page->msg("column.role_name"); ?>" required />
             </div>
 	          <div class="col-6">
-							<button class="btn-outline" onclick="checkCreateUser(event)"><div class="text"><?php echo $page->msg("admin.button.create_roles"); ?></div></button>
+							<button class="btn-outline" onclick="checkCreateUser(event)" name="action" value="create"><div class="text"><?php echo $page->msg("admin.button.create_roles"); ?></div></button>
 						</div>
 					</div>
 					<div class="text" style="padding-bottom: 10px; display: <?php echo ($roleCreatingFailed ? "block" : "none"); ?>; color: red;" id="create-role-duplicate"><?php echo $page->msg("admin.duplicate"); ?></div>
 				</form>
 				<div class="container">
-          <table>
-          <?php
-            if(count($allRoles) == 0) {
-                $page->print_no_row();
-            } else {
-              foreach ($allRoles as $row) {
-                $page->print_row($row);
-              }
-              $page->show_page_mover();
-            }
-          ?>
-          </table>
+					<form class="container" action="./admin_roles.php" method="POST">
+	          <table>
+	          <?php
+	            if(count($allRoles) == 0) {
+	                $page->print_no_row();
+	            } else {
+	              foreach ($allRoles as $row) {
+	                $page->print_row($row);
+	              }
+	              $page->show_page_mover();
+	            }
+	          ?>
+	          </table>
+					</form>
 				</div>
 			</div>
 			<?php $page->show_footer(); ?>

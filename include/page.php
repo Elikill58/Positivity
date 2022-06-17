@@ -5,19 +5,12 @@ class Page {
     public $migrationsRoles = array(0 => "CREATE TABLE IF NOT EXISTS positivity_roles (
         id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(16) NOT NULL,
-        perm_bans_see TINYINT(1) NOT NULL DEFAULT 0,
-        perm_bans_edit TINYINT(1) NOT NULL DEFAULT 0,
-        perm_bans_logs_see TINYINT(1) NOT NULL DEFAULT 0,
-        perm_bans_logs_edit TINYINT(1) NOT NULL DEFAULT 0,
-        perm_accounts_see TINYINT(1) NOT NULL DEFAULT 0,
-        perm_accounts_remove TINYINT(1) NOT NULL DEFAULT 0,
-        perm_accounts_clear_alerts TINYINT(1) NOT NULL DEFAULT 0,
-        perm_verifications_see TINYINT(1) NOT NULL DEFAULT 0,
-        perm_verifications_edit TINYINT(1) NOT NULL DEFAULT 0,
-        perm_admin_users_see TINYINT(1) NOT NULL DEFAULT 0,
-        perm_admin_users_edit TINYINT(1) NOT NULL DEFAULT 0,
-        perm_admin_roles_see TINYINT(1) NOT NULL DEFAULT 0,
-        perm_admin_roles_edit TINYINT(1) NOT NULL DEFAULT 0
+        perm_bans VARCHAR(16) NOT NULL DEFAULT 'NONE',
+        perm_bans_logs VARCHAR(16) NOT NULL DEFAULT 'NONE',
+        perm_accounts VARCHAR(16) NOT NULL DEFAULT 'NONE',
+        perm_verifications VARCHAR(16) NOT NULL DEFAULT 'NONE',
+        perm_admin_users VARCHAR(16) NOT NULL DEFAULT 'NONE',
+        perm_admin_roles VARCHAR(16) NOT NULL DEFAULT 'NONE'
     );");
 
     public function __construct($pageName, $header = true) {
@@ -79,7 +72,7 @@ class Page {
                 $this->role = $roleRows[0];
             }
             $roleSt->closeCursor();
-            if(!$this->hasPermission($perm . "_see")) { // can't see this page
+            if(!$this->hasPermission($perm, "SEE")) { // can't see this page
                 header("Location: ./error/access-denied.php");
                 exit();
             }
@@ -99,8 +92,8 @@ class Page {
 
     }
 
-    function hasPermission($perm) {
-        return (isset($this->role["perm_" . $perm]) && $this->role["perm_" . $perm] == 1) || (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1);
+    function hasPermission($perm, $searching) {
+        return (isset($this->role["perm_" . $perm]) && $this->role["perm_" . $perm] == $searching) || (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1);
     }
 
     function checkMigrations($subsystem, $migrations) {
@@ -511,15 +504,17 @@ class AdminUsersInfo extends Info {
     }
 
     function getInfos($row) {
-        $page = $this->page;
         return array("user_name" => $row["username"],
-            "is_admin" => ($page->msg($row["admin"] ? "yes" : "no")),
-            "special" => $page->msg("admin.special." . (isset($row["special"]) ? $row["special"] : "nothing")),
-            "options" => ($row["special"] != "un_removable" ? '<form action="./admin_users.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button  class="btn btn-light btn-sm" >Delete</button></form>' : "-"));
+            "is_admin" => ($this->page->msg($row["admin"] ? "yes" : "no")),
+            "special" => $this->page->msg("admin.special." . (isset($row["special"]) ? $row["special"] : "nothing")),
+            "options" => ($row["special"] != "un_removable" ? '<form action="./' . $this->getLink() . '.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn btn-light btn-sm" >' . $this->page->msg("generic.delete") . '</button></form>' : "-"));
     }
 }
 
 class AdminRolesInfo extends Info {
+
+    public $rolePermGeneral = array("none", "see", "edit");
+    public $rolePermAccounts = array("none", "see", "edit", "clear_alerts");
 
     function getTableName(){
         return "positivity_roles";
@@ -531,24 +526,24 @@ class AdminRolesInfo extends Info {
 
     function getInfos($row) {
         return array("role_name" => $row["name"],
-            "bans_see" => $this->getValue($row["perm_bans_see"]),
-            "bans_edit" => $this->getValue($row["perm_bans_edit"]),
-            "bans_logs_see" => $this->getValue($row["perm_bans_logs_see"]),
-            "bans_logs_edit" => $this->getValue($row["perm_bans_logs_edit"]),
-            "accounts_see" => $this->getValue($row["perm_accounts_see"]),
-            "accounts_remove" => $this->getValue($row["perm_accounts_remove"]),
-            "accounts_clear_alerts" => $this->getValue($row["perm_accounts_clear_alerts"]),
-            "verifications_see" => $this->getValue($row["perm_verifications_see"]),
-            "verifications_edit" => $this->getValue($row["perm_verifications_edit"]),
-            "admin_users_see" => $this->getValue($row["perm_admin_users_see"]),
-            "admin_users_edit" => $this->getValue($row["perm_admin_users_edit"]),
-            "admin_roles_see" => $this->getValue($row["perm_admin_roles_see"]),
-            "admin_roles_edit" => $this->getValue($row["perm_admin_roles_edit"])
+            "bans" => $this->getValue("bans", $row, $this->rolePermGeneral),
+            "bans_logs" => $this->getValue("bans_logs", $row, $this->rolePermGeneral),
+            "accounts" => $this->getValue("accounts", $row, $this->rolePermAccounts),
+            "verifications" => $this->getValue("verifications", $row, $this->rolePermGeneral),
+            "admin_users" => $this->getValue("admin_users", $row, $this->rolePermGeneral),
+            "admin_roles" => $this->getValue("admin_roles", $row, $this->rolePermGeneral),
+            "options" => '<input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn btn-light btn-sm" name="action" value="save">' . $this->page->msg("generic.save") . '</button>
+                        <input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn btn-light btn-sm" name="action" value="delete">' . $this->page->msg("generic.delete") . '</button>'
         );
     }
 
-    function getValue($value) {
-        return $this->page->msg($value == 1 ? "yes" : "no");
+    function getValue($name, $row, $rolePerm) {
+        $content = '<select name="' . $name . '" class="custom-select custom-select-sm" style="width:150px;">';
+        foreach ($rolePerm as $perm) {
+            $content .= '<option value="' . $perm . '" ' . (strcasecmp($row["perm_" . $name], $perm) == 0 ? 'selected="selected"' : '') . '>' . $this->page->msg("role." . $perm) . '</option>';
+        }
+        $content .= "</select>";
+        return $content;
     }
 }
 

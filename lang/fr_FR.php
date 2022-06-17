@@ -42,6 +42,8 @@ class Lang {
         $array["generic.uuid"] = "UUID: %uuid%";
         $array["generic.see_more"] = "Plus d'infos";
         $array["generic.see_all"] = "Voir tout";
+        $array["generic.delete"] = "Supprimer";
+        $array["generic.save"] = "Sauvegarder";
 
         $array["column.id"] = "UUID";
         $array["column.name"] = "Nom du joueur";
@@ -65,19 +67,12 @@ class Lang {
         $array["column.is_admin"] = "Est admin";
         $array["column.special"] = "Special";
         $array["column.options"] = "Option";
-        $array["column.bans_see"] = "Voir les bans";
-        $array["column.bans_edit"] = "Supprimer les bans";
-        $array["column.bans_logs_see"] = "Voir les anciens bans";
-        $array["column.bans_logs_edit"] = "Supprimer les anciens bans";
-        $array["column.accounts_see"] = "Voir les comptes";
-        $array["column.accounts_remove"] = "Supprimer les comptes";
-        $array["column.accounts_clear_alerts"] = "Supprimer les alertes";
-        $array["column.verifications_see"] = "Voir les vérifications";
-        $array["column.verifications_edit"] = "Modifier les vérifications";
-        $array["column.admin_users_see"] = "Voir les utilisateurs";
-        $array["column.admin_users_edit"] = "Modifier les utilisateurs";
-        $array["column.admin_roles_see"] = "Voir les rôles";
-        $array["column.admin_roles_edit"] = "Modifier les rôles";
+        $array["column.bans"] = "Bans";
+        $array["column.bans_logs"] = "Anciens Bans";
+        $array["column.accounts"] = "Comptes";
+        $array["column.verifications"] = "Vérifications";
+        $array["column.admin_users"] = "Admin Utilisateurs";
+        $array["column.admin_roles"] = "Admin Rôles";
 
         $array["table.pager.number"] = "Page";
 
@@ -105,6 +100,11 @@ class Lang {
         $array["admin.button.create_roles"] = "Créer le role";
         $array["admin.special.nothing"] = "Basique";
         $array["admin.special.un_removable"] = "Insupprimable";
+
+        $array["role.none"] = "Aucun";
+        $array["role.see"] = "Voir";
+        $array["role.edit"] = "Modifier";
+        $array["role.clear_alerts"] = "Vider les alertes";
 
         $array["error.not_found.player"] = "Joueur introuvable.";
         $array["error.not_found.verifications"] = "Vérifications introuvable.";

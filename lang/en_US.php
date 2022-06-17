@@ -42,6 +42,8 @@ class Lang {
         $array["generic.uuid"] = "UUID: %uuid%";
         $array["generic.see_more"] = "See more";
         $array["generic.see_all"] = "See all";
+        $array["generic.delete"] = "Delete";
+        $array["generic.save"] = "Save";
 
         $array["column.id"] = "UUID";
         $array["column.name"] = "Player name";
@@ -65,19 +67,12 @@ class Lang {
         $array["column.is_admin"] = "Is admin";
         $array["column.special"] = "Special";
         $array["column.options"] = "Option";
-        $array["column.bans_see"] = "See bans";
-        $array["column.bans_edit"] = "Delete bans";
-        $array["column.bans_logs_see"] = "See old bans";
-        $array["column.bans_logs_edit"] = "Delete old bans";
-        $array["column.accounts_see"] = "See accounts";
-        $array["column.accounts_remove"] = "Delete accounts";
-        $array["column.accounts_clear_alerts"] = "Clear alertes";
-        $array["column.verifications_see"] = "See verifications";
-        $array["column.verifications_edit"] = "Edit verifications";
-        $array["column.admin_users_see"] = "See users";
-        $array["column.admin_users_edit"] = "Edit users";
-        $array["column.admin_roles_see"] = "See roles";
-        $array["column.admin_roles_edit"] = "Edit roles";
+        $array["column.bans"] = "Bans";
+        $array["column.bans_logs"] = "Old Bans";
+        $array["column.accounts"] = "Accounts";
+        $array["column.verifications"] = "Verifications";
+        $array["column.admin_users"] = "Admin Users";
+        $array["column.admin_roles"] = "Admin Roles";
 
         $array["table.pager.number"] = "Page";
 
@@ -105,6 +100,11 @@ class Lang {
         $array["admin.button.create_roles"] = "Create Role";
         $array["admin.special.nothing"] = "Basic";
         $array["admin.special.un_removable"] = "Cannot be removed";
+
+        $array["role.none"] = "None";
+        $array["role.see"] = "See";
+        $array["role.edit"] = "Edit";
+        $array["role.clear_alerts"] = "Clear alerts";
 
         $array["error.not_found.player"] = "Player not found.";
         $array["error.not_found.verifications"] = "Verifications not found.";
