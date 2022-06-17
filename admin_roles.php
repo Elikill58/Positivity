@@ -2,34 +2,32 @@
 require_once './include/page.php';
 $page = new Page("admin_roles");
 
-if(!(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"])){
-	header("Location: ./error/access-denied.php");
-	die();
-}
 $roleCreatingFailed = false;
-if(isset($_POST["action"])) {
-	$action = $_POST["action"];
-	if($action == "delete"){
-	  $roleDel = $page->conn->prepare("DELETE FROM positivity_roles WHERE id = ?;");
-	  $roleDel->execute(array($_POST["id"]));
-	  $roleDel->closeCursor();
-	} else if($action == "create"){
-		$name = $_POST["name"];
-	  $st = $page->conn->prepare("SELECT * FROM positivity_roles WHERE name = ?");
-	  $st->execute(array($name));
-	  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-	  if(count($rows) == 0) { // don't exist
-		  $roleCreate = $page->conn->prepare("INSERT INTO positivity_roles (name) VALUES (?);");
-		  $roleCreate->execute(array($name));
-		  $roleCreate->closeCursor();
-	  } else {
-	  	$roleCreatingFailed = true;
-	  }
-	  $st->closeCursor();
-	} else if($action == "save"){
-	  $roleSave = $page->conn->prepare("UPDATE positivity_roles SET perm_bans = ?, perm_bans_logs = ?, perm_accounts = ?, perm_verifications = ?, perm_admin_users = ?, perm_admin_roles = ? WHERE id = ?;");
-	  $roleSave->execute(array($_POST["bans"], $_POST["bans_logs"], $_POST["accounts"], $_POST["verifications"], $_POST["admin_users"], $_POST["admin_roles"], $_POST["id"]));
-	  $roleSave->closeCursor();
+if($page->hasPermission("admin_roles", "EDIT")) {
+	if(isset($_POST["action"])) {
+		$action = $_POST["action"];
+		if($action == "delete"){
+		  $roleDel = $page->conn->prepare("DELETE FROM positivity_roles WHERE id = ?;");
+		  $roleDel->execute(array($_POST["id"]));
+		  $roleDel->closeCursor();
+		} else if($action == "create"){
+			$name = $_POST["name"];
+		  $st = $page->conn->prepare("SELECT * FROM positivity_roles WHERE name = ?");
+		  $st->execute(array($name));
+		  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+		  if(count($rows) == 0) { // don't exist
+			  $roleCreate = $page->conn->prepare("INSERT INTO positivity_roles (name) VALUES (?);");
+			  $roleCreate->execute(array($name));
+			  $roleCreate->closeCursor();
+		  } else {
+		  	$roleCreatingFailed = true;
+		  }
+		  $st->closeCursor();
+		} else if($action == "save"){
+		  $roleSave = $page->conn->prepare("UPDATE positivity_roles SET perm_bans = ?, perm_bans_logs = ?, perm_accounts = ?, perm_verifications = ?, perm_admin_users = ?, perm_admin_roles = ? WHERE id = ?;");
+		  $roleSave->execute(array($_POST["bans"], $_POST["bans_logs"], $_POST["accounts"], $_POST["verifications"], $_POST["admin_users"], $_POST["admin_roles"], $_POST["id"]));
+		  $roleSave->closeCursor();
+		}
 	}
 }
 ?>

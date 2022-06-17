@@ -2,28 +2,26 @@
 require_once './include/page.php';
 $page = new Page("admin_users");
 
-if(!(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"])){
-	 header("Location: ./error/access-denied.php");
-	 die();
-}
 $userCreatingFailed = false;
-if(isset($_POST["id"])){
-   $userDel = $page->conn->prepare("DELETE FROM positivity_user WHERE id = ?;");
-   $userDel->execute(array($_POST["id"]));
-   $userDel->closeCursor();
-} else if(isset($_POST["name"]) && isset($_POST["special"]) && isset($_POST["password"])){
-	$name = $_POST["name"];
-   $st = $page->conn->prepare("SELECT * FROM positivity_user WHERE username = ?");
-   $st->execute(array($name));
-   $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-   if(count($rows) == 0) { // don't exist
-	   $userCreate = $page->conn->prepare("INSERT INTO positivity_user (username, password, admin, special, role) VALUES (?,?,?,?,?);");
-	   $userCreate->execute(array($name, hash("sha256", $_POST["password"]), (isset($_POST["is_admin"]) && $_POST["is_admin"] ? 1 : 0), $_POST["special"], $_POST["role"]));
-	   $userCreate->closeCursor();
-   } else {
-     	$userCreatingFailed = true;
-   }
-   $st->closeCursor();
+if($page->hasPermission("admin_users", "EDIT")) {
+	if(isset($_POST["id"])){
+	   $userDel = $page->conn->prepare("DELETE FROM positivity_user WHERE id = ?;");
+	   $userDel->execute(array($_POST["id"]));
+	   $userDel->closeCursor();
+	} else if(isset($_POST["name"]) && isset($_POST["special"]) && isset($_POST["password"])){
+		$name = $_POST["name"];
+	   $st = $page->conn->prepare("SELECT * FROM positivity_user WHERE username = ?");
+	   $st->execute(array($name));
+	   $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+	   if(count($rows) == 0) { // don't exist
+		   $userCreate = $page->conn->prepare("INSERT INTO positivity_user (username, password, admin, special, role) VALUES (?,?,?,?,?);");
+		   $userCreate->execute(array($name, hash("sha256", $_POST["password"]), (isset($_POST["is_admin"]) && $_POST["is_admin"] ? 1 : 0), $_POST["special"], $_POST["role"]));
+		   $userCreate->closeCursor();
+	   } else {
+	     	$userCreatingFailed = true;
+	   }
+	   $st->closeCursor();
+	}
 }
 ?>
 <!DOCTYPE html>

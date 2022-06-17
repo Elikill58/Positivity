@@ -515,12 +515,15 @@ class AdminUsersInfo extends Info {
             if(count($roleRow) > 0)
                 $roleName = $roleRow[0]["name"];
         }
-        return array("user_name" => $row["username"],
+        $infos = array("user_name" => $row["username"],
             "is_admin" => ($this->page->msg($row["admin"] ? "yes" : "no")),
             "role_name" => $roleName,
-            "special" => $this->page->msg("admin.special." . (isset($row["special"]) ? $row["special"] : "nothing")),
-            "options" => ($row["special"] != "un_removable" ? '<form action="./admin_users.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn btn-light btn-sm">' . $this->page->msg("generic.delete") . '</button></form>' : "-")
-        );
+            "special" => $this->page->msg("admin.special." . (isset($row["special"]) ? $row["special"] : "nothing")));
+        if($this->page->hasPermission("admin_users", "EDIT")) {
+            $btn = '<button class="btn btn-light btn-sm">';
+            $infos = array_merge($infos, array("options" => $row["special"] != "un_removable" ? '<form action="./admin_users.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '">' . $btn . $this->page->msg("generic.delete") . '</button></form>' : "-"));
+        }
+        return $infos;
     }
 }
 
@@ -538,16 +541,20 @@ class AdminRolesInfo extends Info {
     }
 
     function getInfos($row) {
-        return array("role_name" => $row["name"],
+        $infos = array("role_name" => $row["name"],
             "bans" => $this->getValue("bans", $row, $this->rolePermGeneral),
             "bans_logs" => $this->getValue("bans_logs", $row, $this->rolePermGeneral),
             "accounts" => $this->getValue("accounts", $row, $this->rolePermAccounts),
             "verifications" => $this->getValue("verifications", $row, $this->rolePermGeneral),
             "admin_users" => $this->getValue("admin_users", $row, $this->rolePermGeneral),
-            "admin_roles" => $this->getValue("admin_roles", $row, $this->rolePermGeneral),
-            "options" => '<input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn btn-light btn-sm" name="action" value="save">' . $this->page->msg("generic.save") . '</button>
-                        <input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn btn-light btn-sm" name="action" value="delete">' . $this->page->msg("generic.delete") . '</button>'
+            "admin_roles" => $this->getValue("admin_roles", $row, $this->rolePermGeneral)
         );
+        if($this->page->hasPermission("admin_roles", "EDIT")) {
+            $btn = '<button class="btn btn-light btn-sm" name="action"';
+            $infos = array_merge($infos, array("options" => '<input type="hidden" name="id" value="' . $row["id"] . '">' . $btn . ' value="save">' . $this->page->msg("generic.save") . '</button>
+                        <input type="hidden" name="id" value="' . $row["id"] . '">' . $btn . ' value="delete">' . $this->page->msg("generic.delete") . '</button>'));
+        }
+        return $infos;
     }
 
     function getValue($name, $row, $rolePerm) {
