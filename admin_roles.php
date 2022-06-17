@@ -85,22 +85,20 @@ if(isset($_POST["action"])) {
 					</div>
 					<div class="text" style="padding-bottom: 10px; display: <?php echo ($roleCreatingFailed ? "block" : "none"); ?>; color: red;" id="create-role-duplicate"><?php echo $page->msg("admin.duplicate"); ?></div>
 				</form>
-				<div class="container">
-					<form class="container" action="./admin_roles.php" method="POST">
-	          <table>
-	          <?php
-	            if(count($allRoles) == 0) {
-	                $page->print_no_row();
-	            } else {
-	              foreach ($allRoles as $row) {
-	                $page->print_row($row);
-	              }
-	              $page->show_page_mover();
-	            }
-	          ?>
-	          </table>
-					</form>
-				</div>
+				<form class="container" action="./admin_roles.php" method="POST">
+          <table>
+          <?php
+            if(count($allRoles) == 0) {
+                $page->print_no_row();
+            } else {
+              foreach ($allRoles as $row) {
+                $page->print_row($row);
+              }
+              $page->show_page_mover();
+            }
+          ?>
+          </table>
+				</form>
 			</div>
 			<?php $page->show_footer(); ?>
 		</div>

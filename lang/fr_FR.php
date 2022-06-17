@@ -13,6 +13,7 @@ class Lang {
 
         $array["account.empty"] = "Aucun compte créé pour le moment.";
         $array["bans.empty"] = "Aucun banissement effectué pour le moment.";
+        $array["bans_logs.empty"] = "Aucun ancien banissement pour le moment.";
         $array["admin_roles.empty"] = "Aucun rôle disponible pour le moment.";
         
         $array["connection.name"] = "Connexion";
@@ -28,6 +29,7 @@ class Lang {
 
         $array["title.index"] = "Home";
         $array["title.bans"] = "Bans";
+        $array["title.bans_logs"] = "Ancien bans";
         $array["title.accounts"] = "Comptes";
         $array["title.admin_users"] = "Admin Utilisateurs";
         $array["title.admin_roles"] = "Admin Rôles";
@@ -104,7 +106,7 @@ class Lang {
         $array["role.none"] = "Aucun";
         $array["role.see"] = "Voir";
         $array["role.edit"] = "Modifier";
-        $array["role.clear_alerts"] = "Vider les alertes";
+        $array["role.clear"] = "Vider";
 
         $array["error.not_found.player"] = "Joueur introuvable.";
         $array["error.not_found.verifications"] = "Vérifications introuvable.";

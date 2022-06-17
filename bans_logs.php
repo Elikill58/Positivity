@@ -1,7 +1,7 @@
 <?php
 require_once './include/page.php';
 
-$page = new Page("bans");
+$page = new Page("bans_logs");
 ?>
 
 <!DOCTYPE html>

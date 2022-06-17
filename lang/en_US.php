@@ -13,6 +13,7 @@ class Lang {
 
         $array["account.empty"] = "No account found yet";
         $array["bans.empty"] = "No bans found yet";
+        $array["bans_logs.empty"] = "No old bans found yet";
         $array["admin_roles.empty"] = "No roles found yet";
 
         $array["connection.name"] = "Connection";
@@ -28,6 +29,7 @@ class Lang {
 
         $array["title.index"] = "Home";
         $array["title.bans"] = "Bans";
+        $array["title.bans_logs"] = "Old bans";
         $array["title.accounts"] = "Accounts";
         $array["title.admin_users"] = "Admin Users";
         $array["title.admin_roles"] = "Admin Roles";
@@ -104,7 +106,7 @@ class Lang {
         $array["role.none"] = "None";
         $array["role.see"] = "See";
         $array["role.edit"] = "Edit";
-        $array["role.clear_alerts"] = "Clear alerts";
+        $array["role.clear"] = "Clear";
 
         $array["error.not_found.player"] = "Player not found.";
         $array["error.not_found.verifications"] = "Verifications not found.";

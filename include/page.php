@@ -70,8 +70,8 @@ class Page {
             if(count($roleRows) > 0) {
                 $this->role = $roleRows[0];
             }
+            $roleSt->closeCursor();
         }
-        $roleSt->closeCursor();
         $perm = $this->info->getPermissionPrefix();
         if($perm != null) {
             if(!$this->hasPermission($perm, "SEE")) { // can't see this page
@@ -211,7 +211,7 @@ class Page {
     }
 
     function getNavbar(){
-        return array("bans" => new BanInfo($this), "accounts" => new AccountInfo($this), "verifications" => new VerificationInfo($this), "admin_users" => new AdminUsersInfo($this), "admin_roles" => new AdminRolesInfo($this));
+        return array("bans" => new BanInfo($this), "bans_logs" => new BanLogsInfo($this), "accounts" => new AccountInfo($this), "verifications" => new VerificationInfo($this), "admin_users" => new AdminUsersInfo($this), "admin_roles" => new AdminRolesInfo($this));
     }
 
     function show_header(){
@@ -279,9 +279,13 @@ class Page {
         }
     }
 
+    function is_special_name($name) {
+        return strcasecmp($name, "Negativity") == 0 || strcasecmp($name, "Console") == 0;
+    }
+
     function get_uuid($playerName){
-        if($playerName == "Negativity" || $playerName == "Console")
-            return $uuid;
+        if($this->is_special_name($playerName))
+            return $playerName;
         if ($playerName === null || $playerName === "")
             return null;
 
@@ -304,7 +308,7 @@ class Page {
     }
 
     function get_name($uuid, $default_name = null) {
-        if($uuid == "Negativity" || $uuid == "Console")
+        if($this->is_special_name($uuid))
             return $uuid;
         if ($uuid === null || $uuid === "" || strrpos($uuid, "#", -strlen($uuid)) !== false) {
             return $default_name;
@@ -329,17 +333,9 @@ class Page {
         } else if (strcasecmp($name, "Console") == 0 || strcasecmp($uuid, "Console") == 0){
             return "<p align='center'><img class='avatar noselect' src='./include/img/console.png'/><br class='noselect'>$name</p>";
         } else {
-            $avatar_source = "https://crafatar.com/avatars/{uuid}?size=25";
+            $avatar_source = (strlen($uuid) === 36 && $uuid[14] === '3' ? "https://minotar.net/avatar/" . $name . "/25" : "https://crafatar.com/avatars/" . $uuid . "?size=25");
 
-            if (strlen($uuid) === 36 && $uuid[14] === '3') {
-                $avatar_source = "https://minotar.net/avatar/{name}/25";
-            }
-
-            $uuid = str_replace("-", "", $uuid);
-            $src = str_replace('{name}', $name, str_replace('{uuid}', $uuid, $avatar_source));
-
-            $img = "<img class='avatar noselect' src='$src'/>";
-            return "<a href='./check.php?uuid=$uuid'><p align='center'>{$img}<br class='noselect'>$name</p></a>";
+            return "<a href='./check.php?uuid=" . str_replace("-", "", $uuid) . "'><p align='center'><img class='avatar noselect' src='" . $avatar_source . "'/><br class='noselect'>" . $name . "</p></a>";
         }
     }
 
@@ -426,8 +422,10 @@ abstract class Info {
                 return new AdminUsersInfo($page);
             case "admin_roles":
                 return new AdminRolesInfo($page);
-            case "ban":
+            case "bans":
                 return new BanInfo($page);
+            case "bans_logs":
+                return new BanLogsInfo($page);
             case "check":
                 return new CheckInfo($page);
             case "connect":
@@ -527,7 +525,7 @@ class AdminUsersInfo extends Info {
 class AdminRolesInfo extends Info {
 
     public $rolePermGeneral = array("none", "see", "edit");
-    public $rolePermAccounts = array("none", "see", "edit", "clear_alerts");
+    public $rolePermAccounts = array("none", "see", "edit", "clear");
 
     function getTableName(){
         return "positivity_roles";
@@ -575,6 +573,27 @@ class BanInfo extends Info {
         return array("name" => $page->get_avatar($page->get_name($row["id"]), $row["id"]),
                     "reason" => $row["reason"],
                     "banned_by" => $page->get_avatar($page->get_name($row["banned_by"]), $row["banned_by"]),
+                    "expiration_time" => $page->getDateFromMillis($row["expiration_time"]),
+                    "cheat_name" => $page->msg($row["cheat_name"], $row["cheat_name"]),
+        );
+    }
+}
+
+class BanLogsInfo extends Info {
+
+    function getTableName(){
+        return $this->page->has_bans ? "negativity_bans_log" : "";
+    }
+
+    function getLink(){
+        return "bans_logs";
+    }
+
+    function getInfos($row) {
+        $page = $this->page;
+        return array("name" => $page->get_avatar($page->get_name($row["id"]), $row["id"]),
+                    "reason" => $row["reason"],
+                    "banned_by" => $page->get_avatar($row["banned_by"], $page->get_uuid($row["banned_by"])),
                     "expiration_time" => $page->getDateFromMillis($row["expiration_time"]),
                     "cheat_name" => $page->msg($row["cheat_name"], $row["cheat_name"]),
         );
