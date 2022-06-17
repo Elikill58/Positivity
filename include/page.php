@@ -101,9 +101,9 @@ class Page {
         $role = $this->role["perm_" . $perm];
         if(strcasecmp($role, $searching) == 0) // found exact perm
             return true;
-        if(strcasecmp($role, $alias) == 0) // found alias perm
+        if($alias != null && strcasecmp($role, $alias) == 0) // found alias perm
             return true;
-        return strcasecmp($role, "none") != 0 && strcasecmp($role, "SEE") == 0; // not "no perm" and for role with more permission
+        return strcasecmp($role, "none") != 0 && strcasecmp($searching, "SEE") == 0; // not "no perm" and for role with more permission
     }
 
     function checkMigrations($subsystem, $migrations) {
@@ -645,6 +645,10 @@ class BanLogsInfo extends Info {
 }
 
 class CheckInfo extends Info {
+
+    function getPermissionPrefix() {
+        return "accounts";
+    }
 
     function getTableName(){
         return "";

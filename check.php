@@ -39,6 +39,21 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
     }
 }
 
+if($page->hasPermission("accounts", "EDIT")) {
+    if(isset($_POST['uuid']) && isset($_POST['action'])) {
+        $action = $_POST['action'];
+        if($action == "alerts") {
+            $st = $page->conn->prepare("UPDATE negativity_accounts SET violations_by_cheat = '' WHERE id = ?");
+            $st->execute(array($_POST['uuid']));
+            $st->closeCursor();
+        } else if($action == "minerate") {
+            $st = $page->conn->prepare("UPDATE negativity_accounts SET minerate = '', minerate_full_mined = 0 WHERE id = ?");
+            $st->execute(array($_POST['uuid']));
+            $st->closeCursor();
+        }
+    }
+}
+
 function showContent($info) {
     global $page, $uuid, $name;
     $st = $page->conn->prepare("SELECT * FROM " . $info->getTableName() . " WHERE " . ($info->getTableName() == "negativity_verifications" ? "uuid" : "id") . " = ?;");
@@ -58,6 +73,8 @@ function showContent($info) {
     }
     unset($page->isFirstRow);
 }
+
+$minerateAvailable = array("diamond_ore","gold_ore","iron_ore","coal_ore","ancient_debris");
 
 ?>
 
@@ -116,11 +133,10 @@ function showContent($info) {
         foreach (explode(";", $rowAcc["minerate"]) as $allMinerate) {
             $tab = explode("=", $allMinerate, 2);
             foreach ($tab as $minerate) {
-                if(is_numeric($minerate)) continue;
-                $minerateArray = array_merge($minerateArray, array($page->msg("minerate." . strtolower($minerate)) => $tab[1]));
+                if(is_numeric($minerate) || count($tab) <= 1) continue;
+                $minerateArray = array_merge($minerateArray, array($minerate => $tab[1]));
             }
         }
-        $minerateArray = array_merge($minerateArray, array($page->msg("minerate.all") => $rowAcc["minerate_full_mined"]));
         ?>
 
         <div class="content-wrapper">
@@ -139,7 +155,19 @@ function showContent($info) {
                         <?php echo str_replace("%uuid%", $uuid, $page->msg("generic.uuid")); ?>
                     </div>
                 </div>
-                <h2><?php echo str_replace("%name%", $name, $page->msg("check.violations")); ?></h2>
+                <div>
+                    <?php
+                    echo '<h2>' . str_replace("%name%", $name, $page->msg("check.violations")) . '</h2>';
+                    if($page->hasPermission("accounts", "EDIT")) {
+                        ?>
+                        <form action="./check.php?uuid=<?php echo $uuid . '&name=' . $name; ?>" method="POST" style="display: contents;">
+                            <input type="hidden" name="uuid" value="<?php echo $uuid; ?>">
+                            <button class="btn-outline" name="action" value="alerts"><?php echo $page->msg("generic.clear"); ?></button>
+                        </form>
+                        <?php
+                    }
+                    ?>
+                </div>
                 <div class="container">
                     <table class="table table-striped table-bordered table-condensed text-white">
                         <?php
@@ -202,7 +230,19 @@ function showContent($info) {
                         </tbody>
                     </table>
                 </div>
-                <h2><?php echo str_replace("%name%", $name, $page->msg("check.minerate")); ?></h2>
+                <div>
+                    <?php
+                    echo '<h2>' . str_replace("%name%", $name, $page->msg("check.minerate")) . '</h2>';
+                    if($page->hasPermission("accounts", "EDIT")) {
+                        ?>
+                        <form action="./check.php?uuid=<?php echo $uuid . '&name=' . $name; ?>" method="POST" style="display: contents;">
+                            <input type="hidden" name="uuid" value="<?php echo $uuid; ?>">
+                            <button class="btn-outline" name="action" value="minerate"><?php echo $page->msg("generic.clear"); ?></button>
+                        </form>
+                        <?php
+                    }
+                    ?>
+                </div>
                 <div class="container">
                     <table>
                         <thead>
@@ -212,19 +252,17 @@ function showContent($info) {
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
                             <?php
-                            foreach (explode(";", $rowAcc["minerate"]) as $allMinerate) {
-                                $tab = explode("=", $allMinerate, 2);
-                                foreach ($tab as $minerate) {
-                                    if(is_numeric($minerate)) continue;
-                                    echo "<td>" . $page->msg("minerate." . strtolower($minerate)) . "</td>";
-                                    echo "<td>" . $tab[1] . "</td>";
-                                    echo "</tr><tr>";
-                                }
+                            foreach ($minerateAvailable as $mineKey) {
+                                echo "<td>" . $page->msg("minerate." . strtolower($mineKey)) . "</td>";
+                                echo "<td>" . (isset($minerateArray[$mineKey]) ? $minerateArray[$mineKey] : 0) . "</td>";
+                                echo "</tr><tr>";
                             }
                             echo "<td>" . $page->msg("minerate.all") . "</td>";
                             echo "<td>" . $rowAcc["minerate_full_mined"] . "</td>";
                             ?>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

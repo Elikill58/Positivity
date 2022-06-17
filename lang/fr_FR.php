@@ -45,6 +45,7 @@ class Lang {
         $array["generic.see_more"] = "Plus d'infos";
         $array["generic.see_all"] = "Voir tout";
         $array["generic.delete"] = "Supprimer";
+        $array["generic.clear"] = "Vider";
         $array["generic.save"] = "Sauvegarder";
 
         $array["column.id"] = "UUID";
