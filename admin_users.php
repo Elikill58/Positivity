@@ -3,53 +3,53 @@ require_once './include/page.php';
 $page = new Page("admin_users");
 
 if(!(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"])){
-	header("Location: ./error/access-denied.php");
-	die();
+	 header("Location: ./error/access-denied.php");
+	 die();
 }
 $userCreatingFailed = false;
 if(isset($_POST["id"])){
-  $userDel = $page->conn->prepare("DELETE FROM positivity_user WHERE id = ?;");
-  $userDel->execute(array($_POST["id"]));
-  $userDel->closeCursor();
+   $userDel = $page->conn->prepare("DELETE FROM positivity_user WHERE id = ?;");
+   $userDel->execute(array($_POST["id"]));
+   $userDel->closeCursor();
 } else if(isset($_POST["name"]) && isset($_POST["special"]) && isset($_POST["password"])){
 	$name = $_POST["name"];
-  $st = $page->conn->prepare("SELECT * FROM positivity_user WHERE username = ?");
-  $st->execute(array($name));
-  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-  if(count($rows) == 0) { // don't exist
-	  $userCreate = $page->conn->prepare("INSERT INTO positivity_user (username, password, admin, special) VALUES (?,?,?,?);");
-	  $userCreate->execute(array($name, hash("sha256", $_POST["password"]), (isset($_POST["is_admin"]) && $_POST["is_admin"] ? 1 : 0), $_POST["special"]));
-	  $userCreate->closeCursor();
-  } else {
-  	$userCreatingFailed = true;
-  }
-  $st->closeCursor();
+   $st = $page->conn->prepare("SELECT * FROM positivity_user WHERE username = ?");
+   $st->execute(array($name));
+   $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+   if(count($rows) == 0) { // don't exist
+	   $userCreate = $page->conn->prepare("INSERT INTO positivity_user (username, password, admin, special) VALUES (?,?,?,?);");
+	   $userCreate->execute(array($name, hash("sha256", $_POST["password"]), (isset($_POST["is_admin"]) && $_POST["is_admin"] ? 1 : 0), $_POST["special"]));
+	   $userCreate->closeCursor();
+   } else {
+     	$userCreatingFailed = true;
+   }
+   $st->closeCursor();
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php $page->print_common_head(); ?>
-    <title>Positivity - Index</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script>
-    function togglePasswordVisibility() {
+   <?php $page->print_common_head(); ?>
+   <title>Positivity - Index</title>
+   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+   <script>
+   function togglePasswordVisibility() {
       var x = document.getElementById("password");
       if (x.type === "password") {
-        x.type = "text";
+         x.type = "text";
       } else {
-        x.type = "password";
+         x.type = "password";
       }
-    }
-    var users = [];
-    function checkCreateUser(e) {
+   }
+   var users = [];
+   function checkCreateUser(e) {
       var name = document.getElementById("name");
     	if(users.includes(name.value)) {
-    		e.preventDefault();
+     		e.preventDefault();
     		document.getElementById("create-user-duplicate").style.display = "block";
     	}
-    }
-    </script>
+   }
+   </script>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -78,8 +78,8 @@ if(isset($_POST["id"])){
               <i class="material-icons" onclick="togglePasswordVisibility()" style="cursor: pointer;">visibility</i>
             </div>
             <div class="input col-2" style="margin: 0 10px; padding-top: 10px;">
-						<span class="text-white"><?php echo $page->msg("column.is_admin"); ?></span>
-						<input type="checkbox" id="customCheck" name="is_admin" style="width: fit-content;">
+							<span class="text-white"><?php echo $page->msg("column.is_admin"); ?></span>
+							<input type="checkbox" id="customCheck" name="is_admin" style="width: fit-content;">
 						</div>
 	          <div class="input col-2" style="margin: 0 10px;">
 							<select name="special" class="custom-select custom-select-sm" style="width:150px;">
@@ -97,9 +97,9 @@ if(isset($_POST["id"])){
 					<table>
 						<?php
 						foreach ($allUsers as $row) {
-              $page->print_row($row);
+         		     $page->print_row($row);
 						}
-            $page->show_page_mover();
+            		$page->show_page_mover();
 						?>
 					</table>
 				</div>

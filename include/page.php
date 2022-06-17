@@ -5,12 +5,12 @@ class Page {
     public $migrationsRoles = array(0 => "CREATE TABLE IF NOT EXISTS positivity_roles (
         id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(16) NOT NULL,
-        perm_bans VARCHAR(16) NOT NULL DEFAULT 'NONE',
-        perm_bans_logs VARCHAR(16) NOT NULL DEFAULT 'NONE',
-        perm_accounts VARCHAR(16) NOT NULL DEFAULT 'NONE',
-        perm_verifications VARCHAR(16) NOT NULL DEFAULT 'NONE',
-        perm_admin_users VARCHAR(16) NOT NULL DEFAULT 'NONE',
-        perm_admin_roles VARCHAR(16) NOT NULL DEFAULT 'NONE'
+        perm_bans VARCHAR(16) NOT NULL DEFAULT 'none',
+        perm_bans_logs VARCHAR(16) NOT NULL DEFAULT 'none',
+        perm_accounts VARCHAR(16) NOT NULL DEFAULT 'none',
+        perm_verifications VARCHAR(16) NOT NULL DEFAULT 'none',
+        perm_admin_users VARCHAR(16) NOT NULL DEFAULT 'none',
+        perm_admin_roles VARCHAR(16) NOT NULL DEFAULT 'none'
     );");
 
     public function __construct($pageName, $header = true) {
@@ -506,8 +506,10 @@ class AdminUsersInfo extends Info {
     function getInfos($row) {
         return array("user_name" => $row["username"],
             "is_admin" => ($this->page->msg($row["admin"] ? "yes" : "no")),
+            "role" => $row["role"],
             "special" => $this->page->msg("admin.special." . (isset($row["special"]) ? $row["special"] : "nothing")),
-            "options" => ($row["special"] != "un_removable" ? '<form action="./' . $this->getLink() . '.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn btn-light btn-sm" >' . $this->page->msg("generic.delete") . '</button></form>' : "-"));
+            "options" => ($row["special"] != "un_removable" ? '<form action="./' . $this->getLink() . '.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn btn-light btn-sm">' . $this->page->msg("generic.delete") . '</button></form>' : "-")
+        );
     }
 }
 
