@@ -542,7 +542,7 @@ class AdminUsersInfo extends Info {
             "role_name" => $roleName,
             "special" => $this->page->msg("admin.special." . (isset($row["special"]) ? $row["special"] : "nothing")));
         if($this->page->hasPermission("admin_users", "EDIT")) {
-            $btn = '<button class="btn btn-light btn-sm">';
+            $btn = '<button class="btn-outline">';
             $infos = array_merge($infos, array("options" => $row["special"] != "un_removable" ? '<form action="./admin_users.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '">' . $btn . $this->page->msg("generic.delete") . '</button></form>' : "-"));
         }
         return $infos;
@@ -572,7 +572,7 @@ class AdminRolesInfo extends Info {
             "admin_roles" => $this->getValue("admin_roles", $row, $this->rolePermGeneral)
         );
         if($this->page->hasPermission("admin_roles", "EDIT")) {
-            $btn = '<button class="btn btn-light btn-sm" name="action"';
+            $btn = '<button class="btn-outline" name="action"';
             $infos = array_merge($infos, array("options" => '<input type="hidden" name="id" value="' . $row["id"] . '">' . $btn . ' value="save">' . $this->page->msg("generic.save") . '</button>
                         <input type="hidden" name="id" value="' . $row["id"] . '">' . $btn . ' value="delete">' . $this->page->msg("generic.delete") . '</button>'));
         }
@@ -608,8 +608,7 @@ class BanInfo extends Info {
                     "cheat_name" => $page->msg($row["cheat_name"], $row["cheat_name"]),
         );
         if($this->page->hasPermission("admin_roles", "EDIT")) {
-            $btn = '<button class="btn btn-light btn-sm">';
-            $infos = array_merge($infos, array("options" => '<form action="./bans.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '">' . $btn . $this->page->msg("generic.delete") . '</button></form>'));
+            $infos = array_merge($infos, array("options" => '<form action="./bans.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn-outline">' . $this->page->msg("generic.delete") . '</button></form>'));
         }
         return $infos;
     }
