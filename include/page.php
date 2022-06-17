@@ -80,7 +80,7 @@ class Page {
             }
         }
 
-        if($pageName == "ban" && !$this->has_bans) {
+        if(($pageName == "bans" || $pageName == "bans_logs") && !$this->has_bans) {
             header("Location: ./error/feature-disabled.php");
             exit();
         }
@@ -91,7 +91,6 @@ class Page {
             $sh->closeCursor();
         }
         $this->uuid_name_cache = array();
-
     }
 
     function hasPermission($perm, $searching) {
