@@ -93,8 +93,17 @@ class Page {
         $this->uuid_name_cache = array();
     }
 
-    function hasPermission($perm, $searching) {
-        return (isset($this->role["perm_" . $perm]) && strcasecmp($this->role["perm_" . $perm], $searching) == 0) || (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1);
+    function hasPermission($perm, $searching, $alias = null) {
+        if(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1) // is admin
+            return true;
+        if(!isset($this->role["perm_" . $perm])) // perm not set
+            return false;
+        $role = $this->role["perm_" . $perm];
+        if(strcasecmp($role, $searching) == 0) // found exact perm
+            return true;
+        if(strcasecmp($role, $alias) == 0) // found alias perm
+            return true;
+        return strcasecmp($role, "none") != 0 && strcasecmp($role, "SEE") == 0; // not "no perm" and for role with more permission
     }
 
     function checkMigrations($subsystem, $migrations) {
@@ -436,9 +445,9 @@ abstract class Info {
 
     static function create($page, $type) {
         switch ($type) {
-            case "verification":
+            case "verifications":
                 return new VerificationInfo($page);
-            case "verification_check":
+            case "verifications_check":
                 return new VerificationCheckInfo($page);
             case "account":
                 return new AccountInfo($page);
@@ -722,12 +731,16 @@ class VerificationInfo extends Info {
     function getInfos($row) {
         $page = $this->page;
         $uuid = $row["uuid"];
-        return array("name" => $page->get_avatar($page->get_name($uuid), $uuid),
+        $infos = array("name" => $page->get_avatar($page->get_name($uuid), $uuid),
                     "started_by" => $page->get_avatar($row["startedBy"], $page->get_uuid($row["startedBy"])),
                     "player_version" => $page->parse_version_name($row["player_version"]),
                     "amount" => $this->getVerifNumber($uuid),
                     "more_info_1_double" => '<a href="./verifications_check.php?id=' . $row["id"] . '">' . $page->msg("generic.see_more") . '</a>',
                     "more_info_2_double" => '<a href="./verifications_check.php?uuid=' . str_replace("-", "", $uuid) . '">' . $page->msg("generic.see_all") . '</a>');
+        if($this->page->hasPermission("verifications", "EDIT")) {
+            $infos = array_merge($infos, array("options" => '<form action="./verifications.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn-outline">' . $this->page->msg("generic.delete") . '</button></form>'));
+        }
+        return $infos;
     }
 
     function getVerifNumber($uuid){

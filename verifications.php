@@ -1,7 +1,15 @@
 <?php
 require_once './include/page.php';
 
-$page = new Page("verification");
+$page = new Page("verifications");
+
+if($page->hasPermission("verifications", "EDIT")) {
+    if(isset($_POST["id"])) {
+        $st = $page->conn->prepare("DELETE FROM negativity_verifications WHERE id = ?");
+        $st->execute(array($_POST['id']));
+        $st->closeCursor();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,9 +32,6 @@ $page = new Page("verification");
                             $page->print_no_row();
                         } else {
                             foreach ($rows as $row) {
-                                $player_name = $page->get_name($row["uuid"]);
-                                if ($player_name === null)
-                                    continue;
                                 $page->print_row($row);
                             }
                             $page->show_page_mover();

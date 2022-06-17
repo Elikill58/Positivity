@@ -1,7 +1,7 @@
 <?php
 require_once './include/page.php';
 
-$page = new Page("verification_check");
+$page = new Page("verifications_check");
 
 $id = (isset($_GET["id"]) ? $_GET["id"] : -1);
 $uuid = (isset($_GET["uuid"]) ? $_GET["uuid"] : null);
