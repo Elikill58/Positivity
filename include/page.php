@@ -561,7 +561,6 @@ class AdminUsersInfo extends Info {
 class AdminRolesInfo extends Info {
 
     public $rolePermGeneral = array("none", "see", "edit");
-    public $rolePermAccounts = array("none", "see", "edit", "clear");
 
     function getTableName(){
         return "positivity_roles";
@@ -575,7 +574,7 @@ class AdminRolesInfo extends Info {
         $infos = array("role_name" => $row["name"],
             "bans" => $this->getValue("bans", $row, $this->rolePermGeneral),
             "bans_logs" => $this->getValue("bans_logs", $row, $this->rolePermGeneral),
-            "accounts" => $this->getValue("accounts", $row, $this->rolePermAccounts),
+            "accounts" => $this->getValue("accounts", $row, $this->rolePermGeneral),
             "verifications" => $this->getValue("verifications", $row, $this->rolePermGeneral),
             "admin_users" => $this->getValue("admin_users", $row, $this->rolePermGeneral),
             "admin_roles" => $this->getValue("admin_roles", $row, $this->rolePermGeneral)

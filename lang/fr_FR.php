@@ -109,7 +109,6 @@ class Lang {
         $array["role.none"] = "Aucun";
         $array["role.see"] = "Voir";
         $array["role.edit"] = "Modifier";
-        $array["role.clear"] = "Vider";
 
         $array["error.not_found.player"] = "Joueur introuvable.";
         $array["error.not_found.verifications"] = "Vérifications introuvable.";
