@@ -42,14 +42,52 @@ if($search != null AND ($name == null AND $uuid == null)){ // if search
 if($page->hasPermission("accounts", "EDIT")) {
     if(isset($_POST['uuid']) && isset($_POST['action'])) {
         $action = $_POST['action'];
+        $uuid = $_POST['uuid'];
         if($action == "alerts") {
             $st = $page->conn->prepare("UPDATE negativity_accounts SET violations_by_cheat = '' WHERE id = ?");
-            $st->execute(array($_POST['uuid']));
+            $st->execute(array($uuid));
             $st->closeCursor();
         } else if($action == "minerate") {
             $st = $page->conn->prepare("UPDATE negativity_accounts SET minerate = '', minerate_full_mined = 0 WHERE id = ?");
-            $st->execute(array($_POST['uuid']));
+            $st->execute(array($uuid));
             $st->closeCursor();
+        } else if($action == "delete") {
+            if($page->hasPermission("accounts", "MANAGE")) {
+                $unban = $page->conn->prepare("DELETE FROM negativity_accounts WHERE id = ?;");
+                $unban->execute(array($uuid));
+                $unban->closeCursor();
+                header("Location: ./accounts.php");
+                exit();
+            }
+        } else if($action == "ban") {
+            if($page->hasPermission("bans", "EDIT") && isset($_POST["reason"])) {
+                $st = $page->conn->prepare("SELECT * FROM negativity_bans_active WHERE id = ?");
+                $st->execute(array($uuid));
+                $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+                if(count($rows) == 0) { // if not already banned
+                    $unban = $page->conn->prepare("INSERT INTO negativity_bans_active (id, reason, banned_by, expiration_time, execution_time) VALUES(?,?,?,?,CURRENT_TIMESTAMP);");
+                    $unban->execute(array($uuid, $_POST['reason'], "Console", -1));
+                    $unban->closeCursor();
+                }
+                $st->closeCursor();
+            }
+        } else if($action == "unban") {
+            if($page->hasPermission("bans", "EDIT")) {
+                $st = $page->conn->prepare("SELECT * FROM negativity_bans_active WHERE id = ?");
+                $st->execute(array($uuid));
+                $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+                if(count($rows) == 1) { // found line to log
+                    $row = $rows[0];
+                    $logBan = $page->conn->prepare("INSERT INTO negativity_bans_log (id, reason, banned_by, expiration_time, cheat_name, revoked, execution_time, revocation_time, ip) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?);");
+                    $logBan->execute(array($uuid, $row["reason"], $row["banned_by"], $row["expiration_time"], $row["cheat_name"], 1, $row["execution_time"], $row["ip"]));
+                    $logBan->closeCursor();
+                    // now delete from actual db
+                    $unban = $page->conn->prepare("DELETE FROM negativity_bans_active WHERE id = ?");
+                    $unban->execute(array($uuid));
+                    $unban->closeCursor();
+                }
+                $st->closeCursor();
+            }
         }
     }
 }
@@ -141,19 +179,52 @@ $minerateAvailable = array("diamond_ore","gold_ore","iron_ore","coal_ore","ancie
 
         <div class="content-wrapper">
             <div class="content">
-                <div class="container items">
-                    <div class="item">
-                        <?php echo str_replace("%name%", $name, $page->msg("generic.name")); ?>
-                    </div>
-                    <div class="item">
-                        <?php echo str_replace("%lang%", $rowAcc["language"], $page->msg("generic.lang")); ?>
-                    </div>
-                    <div class="item">
-                        <?php echo str_replace("%time%", $rowAcc["creation_time"], $page->msg("generic.creation_time")); ?>
-                    </div>
-                    <div class="item">
-                        <?php echo str_replace("%uuid%", $uuid, $page->msg("generic.uuid")); ?>
-                    </div>
+                <div class="container">
+                    <table class="table table-striped table-bordered table-condensed text-white">
+                        <thead>
+                            <tr>
+                                <th><?php echo $page->msg("column.name"); ?></th>
+                                <th><?php echo $page->msg("column.lang"); ?></th>
+                                <th><?php echo $page->msg("column.creation_time"); ?></th>
+                                <th><?php echo $page->msg("column.id"); ?></th>
+                                <th><?php echo $page->msg("column.options"); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><?php echo $name; ?></td>
+                                <td><?php echo $rowAcc["language"]; ?></td>
+                                <td><?php echo $rowAcc["creation_time"]; ?></td>
+                                <td><?php echo $uuid; ?></td>
+                                <td>
+                                    <?php
+                                    if($page->has_bans && $page->hasPermission("accounts", "EDIT")) {
+                                        $banned = $page->is_banned($uuid);
+                                        ?>
+                                        <form action="./check.php?uuid=<?php echo $uuid . '&name=' . $name; ?>" method="POST" style="display: contents;">
+                                            <input type="hidden" name="uuid" value="<?php echo $uuid; ?>">
+                                            <?php
+                                            if($banned) {
+                                                echo '<button class="btn-outline" name="action" value="unban">' . $page->msg("generic.unban") . '</button>';
+                                            } else {
+                                                echo '<input type="text" name="reason" required style="width: auto;" placeholder="' . $page->msg("ask.ban.reason") . '">';
+                                                echo '<button class="btn-outline" name="action" value="ban" style="margin-left: 10px;">' . $page->msg("generic.ban") . '</button>';
+                                            }
+                                        echo '</form>';
+                                    }
+                                    if($page->hasPermission("accounts", "MANAGE")) {
+                                        ?>
+                                        <form action="./check.php?uuid=<?php echo $uuid . '&name=' . $name; ?>" method="POST" style="display: contents;">
+                                            <input type="hidden" name="uuid" value="<?php echo $uuid; ?>">
+                                            <button class="btn-outline" name="action" value="delete"><?php echo $page->msg("generic.delete"); ?></button>
+                                        </form>
+                                        <?php
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div>
                     <?php

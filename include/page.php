@@ -437,6 +437,14 @@ class Page {
         }
         return $str . "</span>";
     }
+
+    function is_banned($uuid) {
+        if(!$this->has_bans)
+            return false;
+        $st = $this->conn->prepare("SELECT * FROM negativity_bans_active WHERE id = ?");
+        $st->execute(array($uuid));
+        return count($st->fetchAll(PDO::FETCH_ASSOC)) > 0;
+    }
 }
 
 abstract class Info {

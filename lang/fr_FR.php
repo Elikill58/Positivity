@@ -47,6 +47,10 @@ class Lang {
         $array["generic.delete"] = "Supprimer";
         $array["generic.clear"] = "Vider";
         $array["generic.save"] = "Sauvegarder";
+        $array["generic.ban"] = "Bannir";
+        $array["generic.unban"] = "Débannir";
+
+        $array["ask.ban.reason"] = "Raison du banissement";
 
         $array["column.id"] = "UUID";
         $array["column.name"] = "Nom du joueur";
