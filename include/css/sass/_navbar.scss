@@ -1,14 +1,19 @@
 .sidebar {
-    position: fixed;
-    height: 100%;
+    height: auto;
     width: 10.2rem;
+    min-width: fit-content;
+    max-width: 300px;
     left: 0px;
-    top: 0px;
+    top: 3.4rem;
     overflow: hidden;
     background-color: $card-background;
     font-size: 20px;
     box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
     z-index: 111;
+    animation: animateleft 1s;
+    @keyframes animateleft {
+        from{left:-300px;opacity:0} to{left:0;opacity:1}
+    }
     .nav-item {
         position: relative;
         text-align: left;
@@ -49,10 +54,10 @@
     left: 0px;
     top: 0px;
     overflow: hidden;
+    display: flex;
     background-color: $card-background;
     font-size: 20px;
     display: inline-flex;
-    justify-content: flex-end;
     align-items: center;
     box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
     color: $text-color;
@@ -77,5 +82,8 @@
             }
         }
     }
-
+    .topbar-sub {
+        justify-content: flex-end;
+        display: contents;
+    }
 }

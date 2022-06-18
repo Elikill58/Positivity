@@ -123,7 +123,10 @@ $minerateAvailable = array("diamond_ore","gold_ore","iron_ore","coal_ore","ancie
     <?php $page->print_common_head(); ?>
 </head>
 <body>
-	<div class="page-wrapper">
+    <?php
+    $page->show_topbar();
+    ?>
+    <div class="page-wrapper">
     <?php
     $page->show_header();
 

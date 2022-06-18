@@ -148,6 +148,7 @@ class Page {
         <meta name="description" content="">
         <link href="./include/css/main.css" rel="stylesheet">
         <link rel="icon" type="image/png" href="./include/img/favicon.png"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <title>Positivity - <?php echo $this->msg("title." . $this->info->getLink()) ?></title>
         <?php
     }
@@ -225,6 +226,11 @@ class Page {
 
     function getNavbar(){
         return array("bans" => new BanInfo($this), "bans_logs" => new BanLogsInfo($this), "accounts" => new AccountInfo($this), "verifications" => new VerificationInfo($this), "admin_users" => new AdminUsersInfo($this), "admin_roles" => new AdminRolesInfo($this));
+    }
+
+    function show_topbar(){
+        require_once("./include/header.php");
+        showTopbar($this);
     }
 
     function show_header(){

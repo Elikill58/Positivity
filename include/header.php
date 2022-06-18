@@ -1,35 +1,76 @@
 <?php
 
-function show($page) {
-    /*try {
-        $st = $page->conn->query("SELECT (SELECT COUNT(*) FROM negativity_bans_active)");
-        ($row = $st->fetch(PDO::FETCH_NUM)) or die('Failed to fetch row counts.');
-        $st->closeCursor();
-        $count = array(
-            'bans.php'     => $row[0],
-        );
-    } catch (PDOException $ex) {
-        header("Location: ./error/no-negativity.php");
-        die();
-        // die ('Erreur : ' . $ex->getMessage());
-    }*/
-
+function showTopbar($page) {
     $settings = $page->settings;
     ?>
-    <div class="sidebar">
-        <div class="nav-item">
+    <script>
+    function isMobile() {
+        return localStorage.mobile || window.navigator.maxTouchPoints > 1;
+    }
+
+    function manageSidebar() {
+        let sidebar = document.getElementById("sidebar");
+        let sidebarIcon = document.getElementById("sidebar-icon");
+        if(sidebar.style.display == "none"){
+            sidebar.style.display = "block";
+            sidebarIcon.innerHTML = "close"; // change icon
+        } else {
+            sidebar.style.display = "none";
+            sidebarIcon.innerHTML = "menu"; // change icon
+        }
+    }
+
+    if(isMobile()){
+        setTimeout(manageSidebar, 1);
+    }
+    </script>
+    <div class="topbar">
+        <a class="nav-item" onclick="manageSidebar()">
+            <i class="material-icons" id="sidebar-icon">close</i>
+        </a>
+        <div class="nav-item hide-mobile">
             <a class="logo" href="<?php echo $settings['link']; ?>">
                 <?php echo $settings["server_name"]; ?>
             </a>
         </div>
         <?php
+        if(isset($_SESSION["name"])){
+            ?>
+            <span style="flex: 1;"></span>
+            <div class="topbar-sub">
+                <div class="nav-item">
+                    <form action="./check.php" method="GET">
+                        <div class="search-input">
+                            <input class="form-control" type="text" name="search">
+                            <button class="btn-outline btn-small"><div class="text"><?php echo $page->msg("title.search"); ?></div></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="nav-item hide-mobile">
+                    <span class=""><?php echo str_replace("%name%", $_SESSION["name"], $page->msg("connection.login_as")); ?></span>
+                </div>
+                <div class="nav-item">
+                    <a href="./deconnection.php">
+                        <button class="btn-outline btn-small"><div class="text"><?php echo $page->msg("connection.disconnect"); ?></div></button>
+                    </a>
+                </div>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+<?php
+}
+
+function show($page) {
+    $settings = $page->settings;
+    ?>
+    <div class="sidebar" id="sidebar">
+        <?php
         echo '<div class="nav-item' . ($page->info->getLink() == "checks" ? " active" : "") .'">';
         echo '<a class="nav-link" href="./">' . $page->msg("title.index") . '</a>';
         echo '</div>';
         ?>
-        <!-- <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#negativity-navbar"
-                aria-controls="negativity-navbar" aria-expanded="false" aria-label="Toggle navigation">
-        </button> -->
         <?php
         if(isset($_SESSION["name"])){
             foreach ($page->getNavbar() as $key => $value) {
@@ -44,30 +85,6 @@ function show($page) {
                     </div>';
                 }
             }
-        }
-        ?>
-    </div>
-    <div class="topbar">
-        <?php
-        if(isset($_SESSION["name"])){
-            ?>
-            <div class="nav-item">
-                <form action="./check.php" method="GET">
-                    <div class="search-input">
-                        <input class="form-control" type="text" name="search">
-                        <button class="btn-outline btn-small"><div class="text"><?php echo $page->msg("title.search"); ?></div></button>
-                    </div>
-                </form>
-            </div>
-            <div class="nav-item">
-                <span class=""><?php echo str_replace("%name%", $_SESSION["name"], $page->msg("connection.login_as")); ?></span>
-            </div>
-            <div class="nav-item">
-                <a href="./deconnection.php">
-                    <button class="btn-outline btn-small"><div class="text"><?php echo $page->msg("connection.disconnect"); ?></div></button>
-                </a>
-            </div>
-            <?php
         }
         ?>
     </div>

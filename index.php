@@ -12,10 +12,13 @@ $page = new Page("index");
     <title>Positivity - Index</title>
 </head>
 <body>
+    <?php
+    $page->show_topbar();
+    ?>
 	<div class="page-wrapper">
-		<?php
-		$page->show_header();
-		?>
+        <?php
+        $page->show_header();
+        ?>
 		<div class="content-wrapper">
 			<div class="container">
 				<br/>

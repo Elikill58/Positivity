@@ -52,7 +52,10 @@ footer {
 }
 
 .page-wrapper {
-  min-height: 100%;
+  padding-top: 3.4rem;
+  min-height: calc(100% - 3.4rem);
+  display: flex;
+  height: -webkit-fill-available;
 }
 .page-wrapper .content-wrapper {
   display: grid;
@@ -61,11 +64,9 @@ footer {
   grid-template-rows: 1fr min-content;
   gap: 0px 0px;
   grid-template-areas: "." "footer";
-  position: absolute;
-  width: calc(100% - 10.2rem);
+  width: 100%;
   height: calc(100% - 3.4rem);
   top: 3.4rem;
-  left: 10.2rem;
 }
 .page-wrapper .content-wrapper .container {
   margin: 20px 20px 0 20px;
@@ -104,6 +105,7 @@ a {
   position: relative;
   transition: color 0.1s ease-in;
   overflow: hidden;
+  min-width: fit-content;
 }
 .btn-outline::before {
   content: "";
@@ -141,6 +143,20 @@ a {
   max-width: 25px;
 }
 
+@media all and (min-width: 0px) and (max-width: 480px) {
+  .hide-mobile {
+    display: none;
+  }
+
+  .sidebar .nav-item a, .sidebar .nav-item span.number {
+    font-size: 15px !important;
+  }
+}
+@media all and (min-width: 480px) {
+  .hide-general {
+    display: none;
+  }
+}
 .table-config {
   border-spacing: 10px;
   display: grid;
@@ -334,16 +350,28 @@ table tr:nth-of-type(even) {
 }
 
 .sidebar {
-  position: fixed;
-  height: 100%;
+  height: auto;
   width: 10.2rem;
+  min-width: fit-content;
+  max-width: 300px;
   left: 0px;
-  top: 0px;
+  top: 3.4rem;
   overflow: hidden;
   background-color: #292929;
   font-size: 20px;
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
   z-index: 111;
+  animation: animateleft 1s;
+}
+@keyframes animateleft {
+  from {
+    left: -300px;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    opacity: 1;
+  }
 }
 .sidebar .nav-item {
   position: relative;
@@ -385,10 +413,10 @@ table tr:nth-of-type(even) {
   left: 0px;
   top: 0px;
   overflow: hidden;
+  display: flex;
   background-color: #292929;
   font-size: 20px;
   display: inline-flex;
-  justify-content: flex-end;
   align-items: center;
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5);
   color: #C4C4C4;
@@ -412,6 +440,10 @@ table tr:nth-of-type(even) {
 }
 .topbar .nav-item .search-input input {
   border-radius: 10px 0 0 10px;
+}
+.topbar .topbar-sub {
+  justify-content: flex-end;
+  display: contents;
 }
 
 /*# sourceMappingURL=main.css.map */

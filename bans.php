@@ -30,9 +30,12 @@ if($page->hasPermission("bans", "EDIT")) {
     <?php $page->print_common_head(); ?>
 </head>
 <body>
+    <?php
+    $page->show_topbar();
+    ?>
 	<div class="page-wrapper">
         <?php
-            $page->show_header();
+        $page->show_header();
         ?>
 		<div class="content-wrapper">
 			<div class="container">

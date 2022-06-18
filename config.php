@@ -59,7 +59,6 @@ if(file_exists("./include/settings.txt")) {
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <title>Positivity - Configuration</title>
     <script type="text/javascript">
         function checkDbConnection(argument) {
             var host = document.getElementById("host").value;

@@ -35,7 +35,6 @@ if($page->hasPermission("admin_roles", "EDIT")) {
 <html lang="en">
 <head>
     <?php $page->print_common_head(); ?>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script>
     function togglePasswordVisibility() {
       var x = document.getElementById("password");
@@ -56,9 +55,12 @@ if($page->hasPermission("admin_roles", "EDIT")) {
     </script>
 </head>
 <body>
+  <?php
+  $page->show_topbar();
+  ?>
 	<div class="page-wrapper">
-		<?php
-		$page->show_header();
+    <?php
+    $page->show_header();
 		$allRoles = $page->run_query();
 		echo "<script>";
 		foreach ($allRoles as $content) {

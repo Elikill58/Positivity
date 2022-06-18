@@ -49,9 +49,12 @@ if($page->hasPermission("admin_users", "EDIT")) {
    </script>
 </head>
 <body>
+   <?php
+   $page->show_topbar();
+   ?>
 	<div class="page-wrapper">
-		<?php
-		$page->show_header();
+      <?php
+      $page->show_header();
 		$allUsers = $page->run_query();
 		echo "<script>";
 		foreach ($allUsers as $content) {

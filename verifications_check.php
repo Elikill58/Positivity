@@ -27,8 +27,13 @@ if($uuid != null){
     <?php $page->print_common_head(); ?>
 </head>
 <body>
-	<div class="page-wrapper">
-        <?php $page->show_header(); ?>
+    <?php
+    $page->show_topbar();
+    ?>
+    <div class="page-wrapper">
+        <?php
+        $page->show_header();
+        ?>
 
         <div class="content-wrapper">
         
