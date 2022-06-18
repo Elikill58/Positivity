@@ -70,20 +70,26 @@ if($page->hasPermission("admin_roles", "EDIT")) {
 		?>
 		<div class="content-wrapper">
 			<div class="content">
-				<form class="container" action="./admin_roles.php" method="POST">
-					<h2><?php echo $page->msg("admin.create_roles"); ?></h2>
-					<br>
-					<div class="row" style="display: flex; padding-bottom: 10px; justify-content: normal;">
-            <div class="input col-6" style="margin: 0 10px;">
-              <i class="material-icons">person</i>
-              <input style="border: none;" type="text" name="name" id="name" placeholder="<?php echo $page->msg("column.role_name"); ?>" required />
-            </div>
-	          <div class="col-6">
-							<button class="btn-outline" onclick="checkCreateUser(event)" name="action" value="create"><div class="text"><?php echo $page->msg("admin.button.create_roles"); ?></div></button>
+				<?php
+				if($page->hasPermission("users", "MANAGE")) {
+					?>
+					<form class="container" action="./admin_roles.php" method="POST">
+						<h2><?php echo $page->msg("admin.create_roles"); ?></h2>
+						<br>
+						<div class="row" style="display: flex; padding-bottom: 10px; justify-content: normal;">
+	            <div class="input col-6" style="margin: 0 10px;">
+	              <i class="material-icons">person</i>
+	              <input style="border: none;" type="text" name="name" id="name" placeholder="<?php echo $page->msg("column.role_name"); ?>" required />
+	            </div>
+		          <div class="col-6">
+								<button class="btn-outline" onclick="checkCreateUser(event)" name="action" value="create"><div class="text"><?php echo $page->msg("admin.button.create_roles"); ?></div></button>
+							</div>
 						</div>
-					</div>
-					<div class="text" style="padding-bottom: 10px; display: <?php echo ($roleCreatingFailed ? "block" : "none"); ?>; color: red;" id="create-role-duplicate"><?php echo $page->msg("admin.duplicate"); ?></div>
-				</form>
+						<div class="text" style="padding-bottom: 10px; display: <?php echo ($roleCreatingFailed ? "block" : "none"); ?>; color: red;" id="create-role-duplicate"><?php echo $page->msg("admin.duplicate"); ?></div>
+					</form>
+				<?php
+				}
+				?>
 				<form class="container" action="./admin_roles.php" method="POST">
           <table>
           <?php
