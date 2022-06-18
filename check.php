@@ -198,7 +198,7 @@ $minerateAvailable = array("diamond_ore","gold_ore","iron_ore","coal_ore","ancie
                                 <td><?php echo $uuid; ?></td>
                                 <td>
                                     <?php
-                                    if($page->has_bans && $page->hasPermission("accounts", "EDIT")) {
+                                    if($page->has_bans && $page->hasPermission("bans", "EDIT")) {
                                         $banned = $page->is_banned($uuid);
                                         ?>
                                         <form action="./check.php?uuid=<?php echo $uuid . '&name=' . $name; ?>" method="POST" style="display: contents;">

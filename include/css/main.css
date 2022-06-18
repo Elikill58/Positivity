@@ -137,6 +137,10 @@ a {
   border-radius: 0 10px 10px 0;
 }
 
+.avatar {
+  max-width: 25px;
+}
+
 .table-config {
   border-spacing: 10px;
   display: grid;

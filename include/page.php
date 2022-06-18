@@ -368,7 +368,7 @@ class Page {
         } else {
             if($uuid != null && strlen($uuid) == 32) // UUID without -
                 $uuid = $this->parse_uuid($uuid);
-            $avatar_source = $this->is_uuid($uuid) ? "https://crafatar.com/avatars/" . $uuid . "?size=25" : "https://minotar.net/avatar/" . $name . "/25";
+            $avatar_source = $this->is_uuid($uuid) || $name == null || $name == '' ? "https://crafatar.com/avatars/" . $uuid . "?size=25" : "https://minotar.net/avatar/" . $name . "/25";
 
             return "<a href='./check.php?uuid=" . str_replace("-", "", $uuid) . "'><p align='center'><img class='avatar noselect' src='" . $avatar_source . "'/><br class='noselect'>" . $name . "</p></a>";
         }
@@ -625,7 +625,7 @@ class BanInfo extends Info {
                     "expiration_time" => $page->getDateFromMillis($row["expiration_time"]),
                     "cheat_name" => $page->msg($row["cheat_name"], $row["cheat_name"]),
         );
-        if($this->page->hasPermission("admin_roles", "EDIT")) {
+        if($this->page->hasPermission("bans", "EDIT")) {
             $infos = array_merge($infos, array("options" => '<form action="./bans.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn-outline">' . $this->page->msg("generic.delete") . '</button></form>'));
         }
         return $infos;
