@@ -28,7 +28,6 @@ if($page->hasPermission("admin_users", "EDIT")) {
 <html lang="en">
 <head>
    <?php $page->print_common_head(); ?>
-   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
    <script>
    function togglePasswordVisibility() {
       var x = document.getElementById("password");
