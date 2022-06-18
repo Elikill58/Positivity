@@ -49,6 +49,8 @@ class Lang {
         $array["generic.save"] = "Save";
         $array["generic.ban"] = "Ban";
         $array["generic.unban"] = "Unban";
+        $array["generic.never"] = "Never";
+        $array["generic.expired"] = "Expired";
 
         $array["ask.ban.reason"] = "Reason of ban";
 

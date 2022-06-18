@@ -276,9 +276,9 @@ class Page {
     }
 
     function getDateFromMillis($millis) {
-        $ts = $millis / 1000;
-        $result = strftime("%B %d, %Y, %H:%M", $ts);
-        return $result;
+        if(!isset($millis) || $millis == null || $millis <= 0)
+            return $this->msg("generic.never");
+        return strftime("%B %d, %Y, %H:%M", $millis / 1000);
     }
 
     function msg($key, $defaultMsg = null){
@@ -647,7 +647,7 @@ class BanLogsInfo extends Info {
         return array("name" => $page->get_avatar($page->get_name($row["id"]), $row["id"]),
                     "reason" => $row["reason"],
                     "banned_by" => $page->get_avatar($page->get_name($page->parse_uuid($row["banned_by"])), $row["banned_by"]),
-                    "revocation_time" => $row["revocation_time"],
+                    "revocation_time" => $row["revocation_time"] == null ? $page->msg("generic.expired") : $row["revocation_time"],
                     "cheat_name" => $page->msg($row["cheat_name"], $row["cheat_name"]),
         );
     }
