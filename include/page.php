@@ -12,7 +12,7 @@ class Page {
         perm_admin_users VARCHAR(16) NOT NULL DEFAULT 'none',
         perm_admin_roles VARCHAR(16) NOT NULL DEFAULT 'none'
     );");
-    public $subpermission = array("see" => array(), "edit" => array("see"), "manage" => array("see", "edit"));
+    public $subpermission = array("none" => array(), "see" => array(), "edit" => array("see"), "manage" => array("see", "edit"));
 
     public function __construct($pageName, $header = true) {
         $settings = json_decode(file_get_contents("./include/settings.txt"), true);
@@ -104,8 +104,8 @@ class Page {
             return true;
         if($alias != null && strcasecmp($role, $alias) == 0) // found alias perm
             return true;
-        $subperm = $this->subpermission[strtolower($searching)];
-        return isset($subperm) && array_search($subperm, strtolower($searching)); // not "no perm" and for role with more permission
+        $subperm = $this->subpermission[strtolower($role)];
+        return isset($subperm) && count($subperm) > 0 && in_array(strtolower($searching), $subperm); // not "no perm" and for role with more permission
     }
 
     function checkMigrations($subsystem, $migrations) {
