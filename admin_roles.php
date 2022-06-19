@@ -7,22 +7,26 @@ if($page->hasPermission("admin_roles", "EDIT")) {
 	if(isset($_POST["action"])) {
 		$action = $_POST["action"];
 		if($action == "delete"){
-		  $roleDel = $page->conn->prepare("DELETE FROM positivity_roles WHERE id = ?;");
-		  $roleDel->execute(array($_POST["id"]));
-		  $roleDel->closeCursor();
+			if($page->hasPermission("admin_roles", "MANAGE")) {
+			  $roleDel = $page->conn->prepare("DELETE FROM positivity_roles WHERE id = ?;");
+			  $roleDel->execute(array($_POST["id"]));
+			  $roleDel->closeCursor();
+			}
 		} else if($action == "create"){
-			$name = $_POST["name"];
-		  $st = $page->conn->prepare("SELECT * FROM positivity_roles WHERE name = ?");
-		  $st->execute(array($name));
-		  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-		  if(count($rows) == 0) { // don't exist
-			  $roleCreate = $page->conn->prepare("INSERT INTO positivity_roles (name) VALUES (?);");
-			  $roleCreate->execute(array($name));
-			  $roleCreate->closeCursor();
-		  } else {
-		  	$roleCreatingFailed = true;
-		  }
-		  $st->closeCursor();
+			if($page->hasPermission("admin_roles", "MANAGE")) {
+				$name = $_POST["name"];
+			  $st = $page->conn->prepare("SELECT * FROM positivity_roles WHERE name = ?");
+			  $st->execute(array($name));
+			  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+			  if(count($rows) == 0) { // don't exist
+				  $roleCreate = $page->conn->prepare("INSERT INTO positivity_roles (name) VALUES (?);");
+				  $roleCreate->execute(array($name));
+				  $roleCreate->closeCursor();
+			  } else {
+			  	$roleCreatingFailed = true;
+			  }
+			  $st->closeCursor();
+			}
 		} else if($action == "save"){
 		  $roleSave = $page->conn->prepare("UPDATE positivity_roles SET perm_bans = ?, perm_bans_logs = ?, perm_accounts = ?, perm_verifications = ?, perm_admin_users = ?, perm_admin_roles = ? WHERE id = ?;");
 		  $roleSave->execute(array($_POST["bans"], $_POST["bans_logs"], $_POST["accounts"], $_POST["verifications"], $_POST["admin_users"], $_POST["admin_roles"], $_POST["id"]));
@@ -71,7 +75,7 @@ if($page->hasPermission("admin_roles", "EDIT")) {
 		<div class="content-wrapper">
 			<div class="content">
 				<?php
-				if($page->hasPermission("users", "MANAGE")) {
+				if($page->hasPermission("admin_roles", "MANAGE")) {
 					?>
 					<form class="container" action="./admin_roles.php" method="POST">
 						<h2><?php echo $page->msg("admin.create_roles"); ?></h2>

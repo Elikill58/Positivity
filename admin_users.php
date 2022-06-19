@@ -5,9 +5,11 @@ $page = new Page("admin_users");
 $userCreatingFailed = false;
 if($page->hasPermission("admin_users", "EDIT")) {
 	if(isset($_POST["id"])){
-	   $userDel = $page->conn->prepare("DELETE FROM positivity_user WHERE id = ?;");
-	   $userDel->execute(array($_POST["id"]));
-	   $userDel->closeCursor();
+		if($page->hasPermission("admin_users", "MANAGE")) {
+		   $userDel = $page->conn->prepare("DELETE FROM positivity_user WHERE id = ?;");
+		   $userDel->execute(array($_POST["id"]));
+		   $userDel->closeCursor();
+		}
 	} else if(isset($_POST["name"]) && isset($_POST["special"]) && isset($_POST["password"])){
 		$name = $_POST["name"];
 	   $st = $page->conn->prepare("SELECT * FROM positivity_user WHERE username = ?");
@@ -64,7 +66,7 @@ if($page->hasPermission("admin_users", "EDIT")) {
 		<div class="content-wrapper">
 			<div class="content">
 				<?php
-				if($page->hasPermission("users", "MANAGE")) {
+				if($page->hasPermission("admin_users", "MANAGE")) {
 					?>
 					<form class="container" action="./admin_users.php" method="POST">
 						<h2><?php echo $page->msg("admin.create_user"); ?></h2>
