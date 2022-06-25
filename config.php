@@ -58,7 +58,13 @@ if(file_exists("./include/settings.txt")) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php $page->print_common_head(); ?>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <link href="./include/css/main.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./include/img/favicon.png"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <title>Positivity - Config</title>
     <script type="text/javascript">
         function checkDbConnection(argument) {
             var host = document.getElementById("host").value;
