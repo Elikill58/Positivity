@@ -10,11 +10,15 @@ class Lang {
         $array["index.main"] = "Welcome to %server%'s Negativity web interface.";
         $array["index.sub"] = "Here, all bans, negativity account and verifications are listed";
         $array["index.empty"] = "More use Negativity to fill data.";
+        $array["index.version.pull.try"] = "Try to update to latest";
         $array["index.version.no.title"] = "You are up-to-date !";
         $array["index.version.no.sub"] = "You are using latest Positivity release :)";
+        $array["index.version.snapshot.title"] = "Snapshot available !";
+        $array["index.version.snapshot.snapshot_too"] = "You can try to update to latest modifications.";
+        $array["index.version.snapshot.upgrade"] = "You are using snapshot. Public version: %version%. Actually, you're using %actual_version%";
+        $array["index.version.snapshot.release"] = "You are using snapshot, but a new version is available: %version%.";
         $array["index.version.yes.title"] = "A new update is available";
         $array["index.version.yes.sub"] = "Newer version : %version%. Actually, you're using %actual_version%";
-        $array["index.version.yes.sub_snapshot"] = "You are using snapshot. Public version : %version%. Actually, you're using %actual_version%";
 
         $array["account.empty"] = "No account found yet";
         $array["bans.empty"] = "No bans found yet";
