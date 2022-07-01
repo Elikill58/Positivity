@@ -12,19 +12,20 @@ function endsWith($haystack, $needle) {
 function execPrint($command) {
     $result = array();
     exec($command, $result);
-    print("<pre>");
+    return $result;
+    /*print("<pre>");
     foreach ($result as $line) {
         print($line . "\n");
     }
-    print("</pre>");
+    print("</pre>");*/
 }
 if(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1) {
 	if(isset($_POST["action"])) {
 		$action = $_POST["action"];
 		if($action == "pull") {
 			// Print the exec output inside of a pre element
-			execPrint("git pull");
-			execPrint("git status");
+			$pullResult = execPrint("git pull");
+			//execPrint("git status");
 		}
 	}
 }
@@ -54,6 +55,19 @@ if(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1) {
 					<br/>
 				</div>
 				<?php
+				if(isset($pullResult)) {
+					?>
+					<div class="container" action="./index.php" method="POST">
+						<br>
+						<?php
+					    foreach ($pullResult as $line) {
+					        print("<p>" . $line . "</p>");
+					    }
+						?>
+						<br>
+					</div>
+					<?php
+				}
 				if(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1) {
 					$context = stream_context_create(array('http' => array(
 					        'method' => "GET",
@@ -70,44 +84,44 @@ if(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1) {
 						if($snapshot && $commitSnapshot) { // using snapshot everywhere
 							if($actualVersion == $commitVersion) { // exact same version, with snapshot
 								?>
-								<div class="container">
+								<form class="container" action="./index.php" method="POST">
 									<br/>
 									<h2><?php echo $page->msg("index.version.snapshot.title"); ?></h2>
 									<p><?php echo str_replace("%actual_version%", $actualVersion, str_replace("%version%", $latest->{"tag_name"}, $page->msg("index.version.snapshot.snapshot_too"))); ?></p>
 									<button class="btn-outline" name="action" value="pull"><?php echo $page->msg("index.version.pull.try"); ?></button>
 									<br/>
-								</div>
+								</form>
 								<?php
 							} else { // not exact same version
 								?>
-								<div class="container">
+								<form class="container" action="./index.php" method="POST">
 									<br/>
 									<h2><?php echo $page->msg("index.version.snapshot.title"); ?></h2>
 									<p><?php echo str_replace("%actual_version%", $actualVersion, str_replace("%version%", $latest->{"tag_name"}, $page->msg("index.version.snapshot.upgrade"))); ?></p>
 									<button class="btn-outline" name="action" value="pull"><?php echo $page->msg("index.version.pull.try"); ?></button>
 									<br/>
-								</div>
+								</form>
 								<?php
 							}
 						} else if($snapshot && !$commitSnapshot) { // using snapshot but full release available
 							?>
-							<div class="container">
+							<form class="container" action="./index.php" method="POST">
 								<br/>
 								<h2><?php echo $page->msg("index.version.snapshot.title"); ?></h2>
 								<p><?php echo str_replace("%actual_version%", $actualVersion, str_replace("%version%", $latest->{"tag_name"}, $page->msg("index.version.snapshot.release"))); ?></p>
 								<button class="btn-outline" name="action" value="pull"><?php echo $page->msg("index.version.pull.try"); ?></button>
 								<br/>
-							</div>
+							</form>
 							<?php
 						} else { // not using snapshot
 							?>
-							<div class="container">
+							<form class="container" action="./index.php" method="POST">
 								<br/>
 								<h2><?php echo $page->msg("index.version.snapshot.title"); ?></h2>
 								<p><?php echo str_replace("%actual_version%", $actualVersion, str_replace("%version%", $latest->{"tag_name"}, $page->msg("index.version.snapshot.upgrade"))); ?></p>
 								<button class="btn-outline" name="action" value="pull"><?php echo $page->msg("index.version.pull.try"); ?></button>
 								<br/>
-							</div>
+							</form>
 							<?php
 						}
 					} else {
