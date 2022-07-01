@@ -501,6 +501,14 @@ abstract class Info {
         return $this->getLink();
     }
 
+    function getColumnID() {
+        return "uuid";
+    }
+
+    function isAvailable() {
+        return true;
+    }
+
     abstract function getTableName();
 
     function getNumber(){
@@ -629,6 +637,10 @@ class AdminRolesInfo extends Info {
 
 class BanInfo extends Info {
 
+    function getColumnID() {
+        return "id";
+    }
+
     function getTableName(){
         return $this->page->has_bans ? "negativity_bans_active" : "";
     }
@@ -653,6 +665,10 @@ class BanInfo extends Info {
 }
 
 class BanLogsInfo extends Info {
+
+    function getColumnID() {
+        return "id";
+    }
 
     function getTableName(){
         return $this->page->has_bans ? "negativity_bans_log" : "";

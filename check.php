@@ -51,6 +51,18 @@ if($page->hasPermission("accounts", "EDIT")) {
             $st = $page->conn->prepare("UPDATE negativity_accounts SET minerate = '', minerate_full_mined = 0 WHERE id = ?");
             $st->execute(array($uuid));
             $st->closeCursor();
+        } else if($action == "proofs") {
+            if($page->hasPermission("proofs", "MANAGE")) {
+                $st = $page->conn->prepare("DELETE FROM negativity_proofs WHERE uuid = ?");
+                $st->execute(array($uuid));
+                $st->closeCursor();
+            }
+        } else if($action == "verifications") {
+            if($page->hasPermission("proofs", "MANAGE")) {
+                $st = $page->conn->prepare("DELETE FROM negativity_verifications WHERE uuid = ?");
+                $st->execute(array($uuid));
+                $st->closeCursor();
+            }
         } else if($action == "delete") {
             if($page->hasPermission("accounts", "MANAGE")) {
                 $unban = $page->conn->prepare("DELETE FROM negativity_accounts WHERE id = ?;");
@@ -92,17 +104,27 @@ if($page->hasPermission("accounts", "EDIT")) {
     }
 }
 
-function showContent($info) {
+function showContent($info, $clearButton = false) {
     global $page, $uuid, $name;
-    $st = $page->conn->prepare("SELECT * FROM " . $info->getTableName() . " WHERE " . ($info->getTableName() == "negativity_verifications" ? "uuid" : "id") . " = ?;");
+    $st = $page->conn->prepare("SELECT * FROM " . $info->getTableName() . " WHERE " . $info->getColumnID() . " = ?;");
     $st->execute(array($uuid));
     $allRows = $st->fetchAll(PDO::FETCH_ASSOC);
     $st->closeCursor();
 
     $nb = count($allRows);
     if($nb > 0){
-        echo '<h2>' . str_replace("%nb%", $nb, str_replace("%name%", $name, $page->msg("check." . $info->getLink()))) . '</h2><br>';
-
+        echo '<h2>' . str_replace("%nb%", $nb, str_replace("%name%", $name, $page->msg("check." . $info->getLink()))) . '</h2>';
+        if($clearButton) {
+            if($page->hasPermission($info->getLink(), "MANAGE")) {
+                ?>
+                <form action="./check.php?uuid=<?php echo $uuid . '&name=' . $name; ?>" method="POST" style="display: contents;">
+                    <input type="hidden" name="uuid" value="<?php echo $uuid; ?>">
+                    <button class="btn-outline" name="action" value="<?php echo $info->getLink() ?>"><?php echo $page->msg("generic.clear"); ?></button>
+                </form>
+                <?php
+            }
+        }
+        echo '<br>';
         echo '<div class="container"><table>';
         foreach ($allRows as $row) {
             $page->print_row($row, $info);
@@ -344,7 +366,8 @@ $minerateAvailable = array("diamond_ore","gold_ore","iron_ore","coal_ore","ancie
 
                 showContent(new BanInfo($page));
                 showContent(new BanLogsInfo($page));
-                showContent(new VerificationInfo($page));
+                showContent(new VerificationInfo($page), true);
+                showContent(new ProofsInfo($page), true);
             }
             $page->show_footer();
             ?>
