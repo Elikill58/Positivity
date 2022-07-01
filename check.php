@@ -306,7 +306,7 @@ $minerateAvailable = array("diamond_ore","gold_ore","iron_ore","coal_ore","ancie
                                     $tab = explode("=", $allCheat, 2);
                                     foreach ($tab as $cheat) {
                                         if(isset($tab[1]) && !is_numeric($cheat)) {
-                                            echo "<td>" . $cheat . "</td>";
+                                            echo "<td>" . $page->getCheatName($cheat) . "</td>";
                                             echo "<td>$tab[1]</td>";
                                             $tempNb++;
                                             if($tempNb == 2){

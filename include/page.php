@@ -461,6 +461,52 @@ class Page {
         $st->execute(array($uuid));
         return count($st->fetchAll(PDO::FETCH_ASSOC)) > 0;
     }
+
+    function getCheatName($key) {
+        $cheatPerName = array("aimbot" => "AimBot",
+            "airjump" => "AirJump",
+            "airplace" => "AirPlace",
+            "antiknockback" => "AntiKnockback",
+            "antipotion" => "AntiPotion",
+            "autoclick" => "AutoClick",
+            "autosteal" => "AutoSteal",
+            "blink" => "Blink",
+            "chat" => "Chat",
+            "checkmanager" => "CheckManager",
+            "critical" => "Critical",
+            "elytrafly" => "ElytraFly",
+            "fastbow" => "FastBow",
+            "fasteat" => "FastEat",
+            "fastladder" => "FastLadder",
+            "fastplace" => "FastPlace",
+            "faststairs" => "FastStairs",
+            "fly" => "Fly",
+            "forcefield" => "ForceField",
+            "groundspoof" => "GroundSpoof",
+            "incorrectpacket" => "IncorrectPacket",
+            "inventorymove" => "InventoryMove",
+            "jesus" => "Jesus",
+            "nofall" => "NoFall",
+            "nopitchlimit" => "NoPitchLimit",
+            "noslowdown" => "NoSlowDown",
+            "noweb" => "NoWeb",
+            "nuker" => "Nuker",
+            "phase" => "Phase",
+            "pingspoof" => "PingSpoof",
+            "reach" => "Reach",
+            "regen" => "Regen",
+            "scaffold" => "Scaffold",
+            "sneak" => "Sneak",
+            "speed" => "Speed",
+            "spider" => "Spider",
+            "step" => "Step",
+            "strafe" => "Strafe",
+            "superknockback" => "SuperKnockback",
+            "timer" => "Timer",
+            "xray" => "XRay"
+        );
+        return isset($cheatPerName[$key]) ? $cheatPerName[$key] : $key . "?";
+    }
 }
 
 abstract class Info {
@@ -654,7 +700,7 @@ class BanInfo extends Info {
                     "reason" => $row["reason"],
                     "banned_by" => $page->get_avatar($page->get_name($page->parse_uuid($row["banned_by"])), $row["banned_by"]),
                     "expiration_time" => $page->getDateFromMillis($row["expiration_time"]),
-                    "cheat_name" => $page->msg($row["cheat_name"], $row["cheat_name"]),
+                    "cheat_name" => $page->getCheatName($row["cheat_name"]),
         );
         if($this->page->hasPermission("bans", "EDIT")) {
             $infos = array_merge($infos, array("options" => '<form action="./bans.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn-outline">' . $this->page->msg("generic.delete") . '</button></form>'));
@@ -683,7 +729,7 @@ class BanLogsInfo extends Info {
                     "reason" => $row["reason"],
                     "banned_by" => $page->get_avatar($page->get_name($page->parse_uuid($row["banned_by"])), $row["banned_by"]),
                     "revocation_time" => $row["revocation_time"] == null ? $page->msg("generic.expired") : $row["revocation_time"],
-                    "cheat_name" => $page->msg($row["cheat_name"], $row["cheat_name"]),
+                    "cheat_name" => $page->getCheatName($row["cheat_name"]),
         );
     }
 }
@@ -831,7 +877,7 @@ class ProofsInfo extends Info {
         $page = $this->page;
         $uuid = $row["uuid"];
         $infos = array("name" => $page->get_avatar($page->get_name($uuid), $uuid),
-                    "cheat_name" => $row["cheat_key"],
+                    "cheat_name" => $page->getCheatName($row["cheat_key"]),
                     "check_name" => $row["check_name"],
                     "amount" => $row["amount"],
                     "reliability" => $row["reliability"] . "%",
