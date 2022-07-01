@@ -834,8 +834,8 @@ class ProofsInfo extends Info {
                     "cheat_name" => $row["cheat_key"],
                     "check_name" => $row["check_name"],
                     "amount" => $row["amount"],
-                    "reliability" => $row["reliability"],
-                    "ping" => $row["ping"],
+                    "reliability" => $row["reliability"] . "%",
+                    "ping" => $row["ping"] . "ms",
                     "time" => $row["time"],
                     "player_version" => $page->parse_version_name($row["version"])
         );
