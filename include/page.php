@@ -627,8 +627,7 @@ class AdminRolesInfo extends Info {
     function getValue($name, $row, $rolePerm) {
         $content = '<select name="' . $name . '" class="custom-select custom-select-sm" style="width:150px;">';
         foreach ($rolePerm as $perm) {
-            if(isset($row["perm_" . $name]))
-                $content .= '<option value="' . $perm . '" ' . (strcasecmp($row["perm_" . $name], $perm) == 0 ? 'selected="selected"' : '') . '>' . $this->page->msg("role." . $perm) . '</option>';
+            $content .= '<option value="' . $perm . '" ' . (isset($row["perm_" . $name]) && strcasecmp($row["perm_" . $name], $perm) == 0 ? 'selected="selected"' : '') . '>' . $this->page->msg("role." . $perm) . '</option>';
         }
         $content .= "</select>";
         return $content;
