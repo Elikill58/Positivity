@@ -1,0 +1,48 @@
+<?php
+require_once './include/page.php';
+
+$page = new Page("proofs");
+
+if($page->hasPermission("proofs", "EDIT")) {
+    if(isset($_POST["id"])) {
+        $st = $page->conn->prepare("DELETE FROM negativity_proofs WHERE id = ?");
+        $st->execute(array($_POST['id']));
+        $st->closeCursor();
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <?php $page->print_common_head(); ?>
+</head>
+<body>
+    <?php
+    $page->show_topbar();
+    ?>
+    <div class="page-wrapper">
+        <?php
+        $page->show_header();
+        ?>
+		<div class="content-wrapper">
+			<div class="container">
+                <table>
+                <?php
+                    $rows = $page->run_query();
+                    if(count($rows) == 0) {
+                        $page->print_no_row();
+                    } else {
+                        foreach ($rows as $row) {
+                            $page->print_row($row);
+                        }
+                        $page->show_page_mover();
+                    }
+                ?>
+                </table>
+            </div>
+            <?php $page->show_footer(); ?>
+        </div>
+    </div>
+</body>
+</html>

@@ -40,6 +40,7 @@ class Lang {
         $array["title.bans"] = "Bans";
         $array["title.bans_logs"] = "Old bans";
         $array["title.accounts"] = "Accounts";
+        $array["title.proofs"] = "Proofs";
         $array["title.admin_users"] = "Admin Users";
         $array["title.admin_roles"] = "Admin Roles";
         $array["title.verifications"] = "Verifications";
@@ -80,6 +81,10 @@ class Lang {
         $array["column.started_by"] = "Started by";
         $array["column.player_version"] = "Player Version";
         $array["column.amount"] = "Amount";
+        $array["column.check_name"] = "Check name";
+        $array["column.reliability"] = "Reliability";
+        $array["column.ping"] = "Ping";
+        $array["column.time"] = "Time";
         $array["column.more_info"] = "More infos";
         $array["column.user_name"] = "User name";
         $array["column.password"] = "Password";
@@ -90,6 +95,7 @@ class Lang {
         $array["column.bans_logs"] = "Old Bans";
         $array["column.accounts"] = "Accounts";
         $array["column.verifications"] = "Verifications";
+        $array["column.proofs"] = "Proofs";
         $array["column.admin_users"] = "Admin Users";
         $array["column.admin_roles"] = "Admin Roles";
 

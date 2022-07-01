@@ -76,6 +76,8 @@ function show($page) {
             foreach ($page->getNavbar() as $key => $value) {
                 if($key == "bans" && !$page->has_bans)
                     continue;
+                if($key == "proofs" && !$page->has_proofs)
+                    continue;
                 $perm = $value->getPermissionPrefix();
                 if($perm == null || $page->hasPermission($perm, "SEE")){
                     echo '<div class="nav-item' . ($page->info == $value ? ' active' : '') . '">

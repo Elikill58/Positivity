@@ -9,6 +9,7 @@ class Page {
         perm_bans_logs VARCHAR(16) NOT NULL DEFAULT 'none',
         perm_accounts VARCHAR(16) NOT NULL DEFAULT 'none',
         perm_verifications VARCHAR(16) NOT NULL DEFAULT 'none',
+        perm_proofs VARCHAR(16) NOT NULL DEFAULT 'none',
         perm_admin_users VARCHAR(16) NOT NULL DEFAULT 'none',
         perm_admin_roles VARCHAR(16) NOT NULL DEFAULT 'none'
     );");
@@ -53,10 +54,8 @@ class Page {
                 $this->checkMigrations($subsystem, $migrations);
             }
             // here we have to add all change according to the result
-            $checkBanSt = $this->conn->prepare("SELECT version FROM negativity_migrations_history WHERE subsystem LIKE 'bans/%' ORDER BY version DESC");
-            $checkBanSt->execute();
-            $checkBansRows = $checkBanSt->fetchAll(PDO::FETCH_ASSOC);
-            $this->has_bans = count($checkBansRows) > 0;
+            $this->has_bans = $this->hasTable("bans/%");
+            $this->has_proofs = $this->hasTable("proofs");
         } catch (PDOException $ex) {
             return header("Location: ./error/no-negativity.php");
             //die ('Erreur : ' . $ex->getMessage());
@@ -85,6 +84,10 @@ class Page {
             header("Location: ./error/feature-disabled.php");
             exit();
         }
+        if($pageName == "proofs" && !$this->has_proofs) {
+            header("Location: ./error/feature-disabled.php");
+            exit();
+        }
         // Now load table informations
         if($this->info->getTableName() != ""){
             $sh = $this->conn->prepare("DESCRIBE `" . $this->info->getTableName() . "`");
@@ -92,6 +95,13 @@ class Page {
             $sh->closeCursor();
         }
         $this->uuid_name_cache = array();
+    }
+
+    function hasTable($tableName) {
+        $checkStatement = $this->conn->prepare("SELECT version FROM negativity_migrations_history WHERE subsystem LIKE ? ORDER BY version DESC");
+        $checkStatement->execute(array($tableName));
+        $checkRows = $checkStatement->fetchAll(PDO::FETCH_ASSOC);
+        return count($checkRows) > 0;
     }
 
     function hasPermission($perm, $searching, $alias = null) {
@@ -225,7 +235,7 @@ class Page {
     }
 
     function getNavbar(){
-        return array("bans" => new BanInfo($this), "bans_logs" => new BanLogsInfo($this), "accounts" => new AccountInfo($this), "verifications" => new VerificationInfo($this), "admin_users" => new AdminUsersInfo($this), "admin_roles" => new AdminRolesInfo($this));
+        return array("bans" => new BanInfo($this), "bans_logs" => new BanLogsInfo($this), "accounts" => new AccountInfo($this), "verifications" => new VerificationInfo($this), "proofs" => new ProofsInfo($this), "admin_users" => new AdminUsersInfo($this), "admin_roles" => new AdminRolesInfo($this));
     }
 
     function show_topbar(){
@@ -461,6 +471,8 @@ abstract class Info {
 
     static function create($page, $type) {
         switch ($type) {
+            case "proofs":
+                return new ProofsInfo($page);
             case "verifications":
                 return new VerificationInfo($page);
             case "verifications_check":
@@ -592,6 +604,7 @@ class AdminRolesInfo extends Info {
             "bans_logs" => $this->getValue("bans_logs", $row, $this->rolePermGeneral),
             "accounts" => $this->getValue("accounts", $row, $this->rolePermGeneral),
             "verifications" => $this->getValue("verifications", $row, $this->rolePermGeneral),
+            "proofs" => $this->getValue("proofs", $row, $this->rolePermGeneral),
             "admin_users" => $this->getValue("admin_users", $row, $this->rolePermGeneral),
             "admin_roles" => $this->getValue("admin_roles", $row, $this->rolePermGeneral)
         );
@@ -606,7 +619,8 @@ class AdminRolesInfo extends Info {
     function getValue($name, $row, $rolePerm) {
         $content = '<select name="' . $name . '" class="custom-select custom-select-sm" style="width:150px;">';
         foreach ($rolePerm as $perm) {
-            $content .= '<option value="' . $perm . '" ' . (strcasecmp($row["perm_" . $name], $perm) == 0 ? 'selected="selected"' : '') . '>' . $this->page->msg("role." . $perm) . '</option>';
+            if(isset($row["perm_" . $name]))
+                $content .= '<option value="' . $perm . '" ' . (strcasecmp($row["perm_" . $name], $perm) == 0 ? 'selected="selected"' : '') . '>' . $this->page->msg("role." . $perm) . '</option>';
         }
         $content .= "</select>";
         return $content;
@@ -785,5 +799,34 @@ class VerificationCheckInfo extends Info {
 
     function getInfos($row) {
         return array();
+    }
+}
+
+class ProofsInfo extends Info {
+
+    function getTableName(){
+        return $this->page->has_proofs ? "negativity_proofs" : "";
+    }
+
+    function getLink(){
+        return "proofs";
+    }
+
+    function getInfos($row) {
+        $page = $this->page;
+        $uuid = $row["uuid"];
+        $infos = array("name" => $page->get_avatar($page->get_name($uuid), $uuid),
+                    "cheat_name" => $row["cheat_key"],
+                    "check_name" => $row["check_name"],
+                    "amount" => $row["amount"],
+                    "reliability" => $row["reliability"],
+                    "ping" => $row["ping"],
+                    "time" => $row["time"],
+                    "player_version" => $page->parse_version_name($row["version"])
+        );
+        if($this->page->hasPermission("proofs", "EDIT")) {
+            $infos = array_merge($infos, array("options" => '<form action="./proofs.php" method="POST"><input type="hidden" name="id" value="' . $row["id"] . '"><button class="btn-outline">' . $this->page->msg("generic.delete") . '</button></form>'));
+        }
+        return $infos;
     }
 }
