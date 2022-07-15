@@ -20,10 +20,11 @@ class Lang {
         $array["index.version.yes.title"] = "A new update is available";
         $array["index.version.yes.sub"] = "Newer version : %version%. Actually, you're using %actual_version%";
 
-        $array["account.empty"] = "No account found yet";
+        $array["accounts.empty"] = "No account found yet";
         $array["bans.empty"] = "No bans found yet";
         $array["bans_logs.empty"] = "No old bans found yet";
         $array["admin_roles.empty"] = "No roles found yet";
+        $array["proofs.empty"] = "No proofs found yet.";
 
         $array["connection.name"] = "Connection";
         $array["connection.form.login"] = "Your login";

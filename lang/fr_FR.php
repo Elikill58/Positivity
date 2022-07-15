@@ -20,10 +20,11 @@ class Lang {
         $array["index.version.yes.title"] = "Une nouvelle mise à jour est disponible";
         $array["index.version.yes.sub"] = "Nouvelle version : %version%. Actuellement, vous avez %actual_version%";
 
-        $array["account.empty"] = "Aucun compte créé pour le moment.";
+        $array["accounts.empty"] = "Aucun compte créé pour le moment.";
         $array["bans.empty"] = "Aucun banissement effectué pour le moment.";
         $array["bans_logs.empty"] = "Aucun ancien banissement pour le moment.";
         $array["admin_roles.empty"] = "Aucun rôle disponible pour le moment.";
+        $array["proofs.empty"] = "Aucune preuve n'est disponible pour le moment.";
         
         $array["connection.name"] = "Connexion";
         $array["connection.form.login"] = "Identifiant";
