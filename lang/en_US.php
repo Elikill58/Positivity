@@ -45,6 +45,7 @@ class Lang {
         $array["title.admin_roles"] = "Admin Roles";
         $array["title.verifications"] = "Verifications";
         $array["title.search"] = "Search";
+        $array["title.connection"] = "Connection";
 
         $array["generic.cheat"] = "Cheat";
         $array["generic.amount"] = "Amount";
