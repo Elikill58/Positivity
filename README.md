@@ -8,7 +8,7 @@ If you have a question an issue or anything else that can't be applied to [issue
 
 ## What is it ?
 
-It's a web interface which is used to manage Negativity's informations.
+It's a web interface which is used to manage Negativity's informations. If you are using Azuriom, you should use [the plugin for it](https://market.azuriom.com/resources/84).
 
 It have been made for [Negativity v2](https://www.spigotmc.org/resources/86874/) (premium). No support will be made if you are using this with free version.
 
@@ -16,9 +16,7 @@ It have been made for [Negativity v2](https://www.spigotmc.org/resources/86874/)
 
 You can go [here](https://negativity.fr/positivity) and use `root` / `root` password. Then, you will be able to see everything as admin.
 
-Maybe a day we will propose:
-- A host for all v2-buyers to make us able to manage their informations.
-- Plugin for website such as Azurium.
+Maybe a day we will propose a host for all v2-buyers to make us able to manage their informations.
 
 Tell us if you would like one of them.
 
