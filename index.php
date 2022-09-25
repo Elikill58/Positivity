@@ -76,10 +76,10 @@ if(isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == 1) {
 					));
 					$actualVersion = file_get_contents("./include/version.txt");
 					$snapshot = endsWith($actualVersion, "-SNAPSHOT");
-					$latest = json_decode(file_get_contents("https://api.github.com/repos/Elikill58/Positivity/releases/latest", false, $context));
+					$latest = json_decode(@file_get_contents("https://api.github.com/repos/Elikill58/Positivity/releases/latest", false, $context));
 					$isGit = is_dir("./.git"); // check if using git
 					if($isGit) {
-						$commitVersion = file_get_contents("https://raw.githubusercontent.com/Elikill58/Positivity/master/include/version.txt", false, $context);
+						$commitVersion = @file_get_contents("https://raw.githubusercontent.com/Elikill58/Positivity/master/include/version.txt", false, $context);
 						$commitSnapshot = endsWith($commitVersion, "-SNAPSHOT");
 						if($snapshot && $commitSnapshot) { // using snapshot everywhere
 							if($actualVersion == $commitVersion) { // exact same version, with snapshot
