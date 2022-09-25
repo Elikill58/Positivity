@@ -619,7 +619,8 @@ class AdminUsersInfo extends Info {
     }
 
     function getInfos($row) {
-        $roleId = $row["role"];
+        //Remove php warning when array variable $row has no field
+        @$roleId = $row["role"];
         $roleName = "-";
         if(isset($roleId) && $roleId > 0) {
             $roleSt = $this->page->conn->prepare("SELECT * FROM positivity_roles WHERE id = ?");
